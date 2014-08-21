@@ -88,7 +88,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = weapons.pistol(1000, 0.3, 1),
+		Weapon = weapons.pistol(3, 1000, 0.1, 1, 100),
 
 		Player = true,
 		CameraTarget = true

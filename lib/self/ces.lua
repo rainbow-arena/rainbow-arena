@@ -95,8 +95,7 @@ function Registry:getEntitiesWith(components)
 end
 
 function Registry:destroyEntity(entity)
-	self:emitEvent("EntityDestroyed", entity)
-	self.entities[entity] = nil
+	self.destroyQueue[entity] = entity
 end
 
 function Registry:clearEntities()
@@ -139,6 +138,9 @@ end
 
 function Registry:runSystems(kind, ...)
 	local orderTable = (kind == "draw") and self.drawOrder or self.updateOrder
+
+	self.destroyQueue = {}
+
 	for i, system in ipairs(orderTable) do
 
 		if not self.systems[system] then -- If the system can't be found, it has probably been removed.
@@ -147,6 +149,11 @@ function Registry:runSystems(kind, ...)
 
 		love.graphics.setColor(255, 255, 255)
 		self:runSystem{ name = system, userdata = {self, ...} }
+	end
+
+	for entity in pairs(self.destroyQueue) do
+		self:emitEvent("EntityDestroyed", entity)
+		self.entities[entity] = nil
 	end
 end
 
@@ -162,7 +169,8 @@ local function new()
 			local count = 0
 			for kv in pairs(self) do count = count + 1 end
 			return count
-		end})
+		end}),
+		destroyQueue = {}
 	}, { __index = Registry })
 end
 

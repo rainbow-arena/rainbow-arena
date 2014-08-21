@@ -9,13 +9,14 @@ local tocheck
 
 return {
 	systems = {
+
 		{
 			name = "CalculateAcceleration",
-			requires = {"Acceleration", "InputAcceleration", "RecoilAcceleration"},
+			requires = {"Radius", "Acceleration"},
 			priority = 2,
 			update = function(entity)
-				entity.Acceleration = entity.InputAcceleration + entity.RecoilAcceleration
-				entity.RecoilAcceleration = vector.zero
+				entity.Acceleration = (entity.InputAcceleration or vector.zero) + ((entity.Recoil or vector.zero) / entity.Radius)
+				entity.Recoil = vector.zero
 			end
 		},
 
@@ -43,7 +44,6 @@ return {
 
 				-- TODO: Narrow collision candidates?
 				for other in pairs(tocheck) do
-					print("Test " .. entity.Name .. " against " .. other.Name)
 					if not (entity.CollisionExclude and invert(entity.CollisionExclude)[other]
 						or other.CollisionExclude and invert(other.CollisionExclude)[entity])
 					then
@@ -54,8 +54,6 @@ return {
 						end
 					end
 				end
-
-				print("END TEST")
 
 				if nelem(tocheck) == 0 then
 					tocheck = nil
@@ -133,11 +131,11 @@ return {
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
 				if ent1.EntityCollisionFunction then
-					ent1:EntityCollisionFunction(world, ent2)
+					ent1:EntityCollisionFunction(world, ent2, mtv)
 				end
 
 				if ent2.EntityCollisionFunction then
-					ent2:EntityCollisionFunction(world, ent1)
+					ent2:EntityCollisionFunction(world, ent1, mtv)
 				end
 			end
 		},
