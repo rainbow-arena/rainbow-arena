@@ -170,6 +170,7 @@ return {
 					local ent2_mass = ent2.Radius
 
 					-- We only care about normal velocity - the tangent velocities remain the same.
+					-- Velocity equations: https://en.wikipedia.org/wiki/Elastic_collision
 					local ent1_final_normal_velocity =
 						(ent1_normal_velocity * (ent1_mass - ent2_mass) + 2 * ent2_mass * ent2_normal_velocity)
 						/ (ent1_mass + ent2_mass)
