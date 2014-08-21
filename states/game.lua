@@ -77,18 +77,16 @@ function game:enter(previous, w, h, nbots)
 
 		Radius = PLAYER_RADIUS,
 		Position = find_position(PLAYER_RADIUS),
-		Velocity = vector.new(0, 0),
-		Acceleration = vector.new(0, 0),
-
-		InputAcceleration = vector.new(0, 0),
-		RecoilAcceleration = vector.new(0, 0),
+		Velocity = vector.zero:clone(),
+		Acceleration = vector.zero:clone(),
+		Force = vector.zero:clone(),
 
 		Drag = 5/5, -- drag = 5/t_max
-		MoveAcceleration = 1000 * 5/5, -- acc = v_max * drag
+		MoveForce = PLAYER_RADIUS * (1000 * 5/5), -- acc = v_max * drag
 
 		CollisionPhysics = true,
 
-		Weapon = weapons.pistol(3, 1000, 0.1, 1, 100),
+		Weapon = weapons.pistol(3, 1000, 0.1, 1, 100000),
 
 		Player = true,
 		CameraTarget = true
@@ -102,11 +100,11 @@ function game:enter(previous, w, h, nbots)
 
 			Radius = radius,
 			Position = find_position(radius),
-			Velocity = vector.new(0, 0),
-			Acceleration = vector.new(0, 0),
+			Velocity = vector.zero:clone(),
+			Acceleration = vector.zero:clone(),
+			Force = vector.zero:clone(),
 
 			Drag = 5/5, -- drag = 5/t_max
-			MoveAcceleration = 600 * 5/5, -- acc = v_max * drag
 
 			CollisionPhysics = true
 		}

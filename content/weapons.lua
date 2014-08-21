@@ -6,7 +6,6 @@ return {
 			type = "single",
 			fire = function(self, world, host, pos, dir)
 				local shot_velocity = muzzle_velocity * dir + host.Velocity
-				local shot_recoil = shot_velocity * bullet_size * 50
 
 				-- Fire projectile
 				world:spawnEntity{
@@ -28,14 +27,14 @@ return {
 							target.Health = target.Health - damage
 						end
 
-						target.Recoil = shot_recoil
+						target.RecoilForce = recoil * dir -- TODO: how to calculate recoil from shot velocity?
 
 						world:destroyEntity(self)
 					end
 				}
 
 				-- Recoil
-				host.Recoil = -shot_recoil
+				host.RecoilForce = recoil * -dir
 
 				-- Cooldown
 				self.heat = cooldown

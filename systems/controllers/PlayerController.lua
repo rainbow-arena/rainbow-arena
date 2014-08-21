@@ -1,3 +1,4 @@
+local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
 local clamp = util.math.clamp
@@ -20,22 +21,23 @@ return {
 				local k_left = lkd("left")
 				local k_right = lkd("right")
 
-				local acceleration = player.MoveAcceleration
+				local force = player.MoveForce
+				player.InputForce = player.InputForce or vector.zero:clone()
 
 				if k_left and not k_right then
-					player.InputAcceleration.x = -acceleration
+					player.InputForce.x = -force
 				elseif k_right and not k_left then
-					player.InputAcceleration.x = acceleration
+					player.InputForce.x = force
 				else
-					player.InputAcceleration.x = 0
+					player.InputForce.x = 0
 				end
 
 				if k_up and not k_down then
-					player.InputAcceleration.y = -acceleration
+					player.InputForce.y = -force
 				elseif k_down and not k_up then
-					player.InputAcceleration.y = acceleration
+					player.InputForce.y = force
 				else
-					player.InputAcceleration.y = 0
+					player.InputForce.y = 0
 				end
 
 				---

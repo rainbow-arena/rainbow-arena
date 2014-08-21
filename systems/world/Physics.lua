@@ -9,14 +9,21 @@ local tocheck
 
 return {
 	systems = {
+		{
+			name = "CalculateForce",
+			requires = {"Force"},
+			update = function(entity)
+				entity.Force = (entity.InputForce or vector.zero) + (entity.RecoilForce or vector.zero)
+				entity.RecoilForce = vector.zero
+			end
 
+		},
 		{
 			name = "CalculateAcceleration",
-			requires = {"Radius", "Acceleration"},
+			requires = {"Radius", "Force", "Acceleration"},
 			priority = 2,
 			update = function(entity)
-				entity.Acceleration = (entity.InputAcceleration or vector.zero) + ((entity.Recoil or vector.zero) / entity.Radius)
-				entity.Recoil = vector.zero
+				entity.Acceleration = entity.Force / entity.Radius
 			end
 		},
 
