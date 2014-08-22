@@ -12,6 +12,7 @@ return {
 		{
 			name = "CalculateForce",
 			requires = {"Force"},
+			priority = 3,
 			update = function(entity)
 				entity.Force = (entity.InputForce or vector.zero) + (entity.RecoilForce or vector.zero)
 				entity.RecoilForce = vector.zero
@@ -30,7 +31,7 @@ return {
 		-- https://stackoverflow.com/questions/667034/simple-physics-based-movement
 		-- v_max = acc/drag, time_to_v_max = 5/drag
 		{
-			name = "Physics",
+			name = "Motion",
 			requires = {"Position", "Velocity", "Acceleration"},
 			priority = 1,
 			update = function(entity, world, dt)
