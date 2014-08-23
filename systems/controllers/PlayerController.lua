@@ -21,23 +21,23 @@ return {
 				local k_left = lkd("left")
 				local k_right = lkd("right")
 
-				local force = player.MoveForce
-				player.InputForce = player.InputForce or vector.zero:clone()
+				local accel = player.MoveAcceleration
+				player.InputAcceleration = player.InputAcceleration or vector.new(0, 0)
 
 				if k_left and not k_right then
-					player.InputForce.x = -force
+					player.InputAcceleration.x = -accel
 				elseif k_right and not k_left then
-					player.InputForce.x = force
+					player.InputAcceleration.x = accel
 				else
-					player.InputForce.x = 0
+					player.InputAcceleration.x = 0
 				end
 
 				if k_up and not k_down then
-					player.InputForce.y = -force
+					player.InputAcceleration.y = -accel
 				elseif k_down and not k_up then
-					player.InputForce.y = force
+					player.InputAcceleration.y = accel
 				else
-					player.InputForce.y = 0
+					player.InputAcceleration.y = 0
 				end
 
 				---

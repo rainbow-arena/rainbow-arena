@@ -54,21 +54,11 @@ return {
 			end
 		},
 		{
-			name = "CalculateForce",
-			requires = {"Force"},
-			priority = 3,
-			update = function(entity)
-				entity.Force = (entity.InputForce or vector.zero) + (entity.RecoilForce or vector.zero)
-				entity.RecoilForce = vector.zero
-			end
-
-		},
-		{
 			name = "CalculateAcceleration",
-			requires = {"Radius", "Force", "Acceleration"},
+			requires = {"InputAcceleration"},
 			priority = 2,
 			update = function(entity)
-				entity.Acceleration = entity.Force / entity.Radius
+				entity.Acceleration = (entity.InputAcceleration or vector.zero)
 			end
 		},
 

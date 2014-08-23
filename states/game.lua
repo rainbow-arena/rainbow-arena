@@ -68,10 +68,19 @@ local function find_position(radius, tries)
 	end
 end
 
+-- https://stackoverflow.com/questions/667034/simple-physics-based-movement
+local function calculate_drag_accel(max_speed, accel_time)
+	local drag = 5/accel_time -- drag = 5/t_max
+	local accel = max_speed * drag -- acc = v_max * drag
+	return drag, accel
+end
+
 function game:enter(previous, w, h, nbots)
 	world:clearEntities()
 
 	arena_w, arena_h = w or 1000, h or 1000
+
+	local c_drag, c_accel = calculate_drag_accel(800, 3)
 
 	player = world:spawnEntity{
 		Name = "Player",
@@ -83,8 +92,8 @@ function game:enter(previous, w, h, nbots)
 		Acceleration = vector.zero:clone(),
 		Force = vector.zero:clone(),
 
-		Drag = 5/5, -- drag = 5/t_max
-		MoveForce = PLAYER_RADIUS * (1000 * 5/5), -- acc = v_max * drag
+		Drag = c_drag,
+		MoveAcceleration = c_accel,
 
 		CollisionPhysics = true,
 
@@ -94,9 +103,9 @@ function game:enter(previous, w, h, nbots)
 		CameraTarget = true
 	}
 
-	-- Place bots.
-	for n = 1, nbots or 100 do
-		local radius = love.math.random(10, 30)
+	-- Place test balls.
+	for n = 1, 50 do
+		local radius = 30
 		world:spawnEntity{
 			Name = "Ball " .. n,
 
@@ -106,7 +115,8 @@ function game:enter(previous, w, h, nbots)
 			Acceleration = vector.zero:clone(),
 			Force = vector.zero:clone(),
 
-			Drag = 5/5, -- drag = 5/t_max
+			Drag = c_drag,
+			MoveAcceleration = c_accel,
 
 			CollisionPhysics = true
 		}
