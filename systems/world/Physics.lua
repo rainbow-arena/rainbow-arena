@@ -112,7 +112,7 @@ return {
 					entity.Position.x = radius
 					entity.Velocity.x = -entity.Velocity.x
 
-					world:emitEvent("ArenaCollision", "left")
+					world:emitEvent("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
 				end
 
 				-- Right
@@ -120,7 +120,7 @@ return {
 					entity.Position.x = arena_w - radius
 					entity.Velocity.x = -entity.Velocity.x
 
-					world:emitEvent("ArenaCollision", "right")
+					world:emitEvent("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
 				end
 
 				-- Top
@@ -128,7 +128,7 @@ return {
 					entity.Position.y = radius
 					entity.Velocity.y = -entity.Velocity.y
 
-					world:emitEvent("ArenaCollision", "top")
+					world:emitEvent("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
 				end
 
 				-- Bottom
@@ -136,7 +136,7 @@ return {
 					entity.Position.y = arena_h - radius
 					entity.Velocity.y = -entity.Velocity.y
 
-					world:emitEvent("ArenaCollision", "bottom")
+					world:emitEvent("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "left")
 				end
 			end
 		},
