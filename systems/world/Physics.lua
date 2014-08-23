@@ -44,6 +44,16 @@ end
 return {
 	systems = {
 		{
+			name = "CalculateMass",
+			requires = {"Radius"},
+			priority = 4,
+			update = function(entity)
+				if not entity.Mass then
+					entity.Mass = math.pi * entity.Radius^2
+				end
+			end
+		},
+		{
 			name = "CalculateForce",
 			requires = {"Force"},
 			priority = 3,
@@ -183,9 +193,8 @@ return {
 		{ -- Collision physics.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				if not ent1.CollisionPhysics or not ent2.CollisionPhysics then
-					return
-				end
+				if not ent1.CollisionPhysics or not ent2.CollisionPhysics
+				then return end
 
 				---
 
@@ -199,8 +208,8 @@ return {
 					local ent2_normal_velocity = ent2.Velocity:projectOn(mtv)
 					local ent2_tangent_velocity = ent2.Velocity - ent2_normal_velocity
 
-					local ent1_mass = ent1.Radius
-					local ent2_mass = ent2.Radius
+					local ent1_mass = ent1.Mass
+					local ent2_mass = ent2.Mass
 
 					-- We only care about normal velocity - the tangent velocities remain the same.
 					-- Velocity equations: https://en.wikipedia.org/wiki/Elastic_collision
