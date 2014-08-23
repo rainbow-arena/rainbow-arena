@@ -1,9 +1,12 @@
 --[[
 	Rainbow Arena, a game by LegoSpacy
+]]
 
-	Everything is a circle. With a gun. Destroy all enemies.
-
-	Players and bots start in random locations.
+--[[
+	Stuff to do:
+		Graphics, visual effects (like screenshake)
+		Content: weapons, powerups, etc.
+		Matches: Actual match/level logic
 ]]
 
 local gs = require("lib.hump.gamestate")
