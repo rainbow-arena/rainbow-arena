@@ -2,6 +2,8 @@ local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 local weaputil = require("content.weapons.logic.weaputil")
 
+---
+
 return function(cooldown, projectile_speed, projectile_prototype)
 	return {
 		type = "single",

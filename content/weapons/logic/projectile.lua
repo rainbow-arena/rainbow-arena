@@ -21,6 +21,8 @@ local function collision_eligible(projectile, target)
 	end
 end
 
+---
+
 function projectile.generic(radius, mass, lifetime)
 	if not mass then mass = math.pi * radius^2 end
 
@@ -65,5 +67,7 @@ function projectile.bullet(radius, mass, lifetime, damage)
 		}
 	)
 end
+
+---
 
 return projectile
