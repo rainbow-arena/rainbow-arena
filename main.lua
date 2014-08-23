@@ -4,9 +4,13 @@
 
 --[[
 	Stuff to do:
-		Graphics, visual effects (like screenshake)
+		Graphics: combatants, background, visual effects (like screenshake), etc.
 		Content: weapons, powerups, etc.
 		Matches: Actual match/level logic
+		Sound: PlaySound event with position and source?
+
+		Explosions: Explosion event with position and force,
+			or explosion entity has components that specify force?
 ]]
 
 local gs = require("lib.hump.gamestate")
