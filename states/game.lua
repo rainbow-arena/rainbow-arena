@@ -89,15 +89,15 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = weapons.pistol(3, 1000, 0.1, 1),
+		Weapon = weapons.pistol(3, 700, 0.1, 1),
 
 		Player = true,
 		CameraTarget = true
 	}
 
 	-- Place bots.
-	for n = 1, nbots or 10 do
-		local radius = love.math.random(5, 30)
+	for n = 1, nbots or 100 do
+		local radius = love.math.random(10, 30)
 		world:spawnEntity{
 			Name = "Ball " .. n,
 
