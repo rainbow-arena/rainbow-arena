@@ -88,9 +88,8 @@ function game:enter(previous, w, h, nbots)
 
 		Radius = PLAYER_RADIUS,
 		Position = find_position(PLAYER_RADIUS),
-		Velocity = vector.zero:clone(),
-		Acceleration = vector.zero:clone(),
-		Force = vector.zero:clone(),
+		Velocity = vector.new(0, 0),
+		Acceleration = vector.new(0, 0),
 
 		Drag = c_drag,
 		MoveAcceleration = c_accel,
@@ -125,9 +124,8 @@ function game:enter(previous, w, h, nbots)
 
 			Radius = radius,
 			Position = find_position(radius),
-			Velocity = vector.zero:clone(),
-			Acceleration = vector.zero:clone(),
-			Force = vector.zero:clone(),
+			Velocity = vector.new(0, 0),
+			Acceleration = vector.new(0, 0),
 
 			Drag = c_drag,
 			MoveAcceleration = c_accel,
