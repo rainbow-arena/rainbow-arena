@@ -9,8 +9,6 @@ local screenshake = require("lib.self.screenshake")
 
 local circle = require("logic.circle")
 
-local weapons = require("content.weapons")
-
 local world
 local arena_w, arena_h
 local player
@@ -77,6 +75,7 @@ function game:enter(previous, w, h, nbots)
 
 	player = world:spawnEntity{
 		Name = "Player",
+		Team = "Player",
 
 		Radius = PLAYER_RADIUS,
 		Position = find_position(PLAYER_RADIUS),
@@ -89,7 +88,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = weapons.pistol(0.1, 3, nil, 1000, 1),
+		Weapon = require("content.weapons.pistol")(0.1, 3, nil, 800, 1),
 
 		Player = true,
 		CameraTarget = true

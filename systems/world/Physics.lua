@@ -180,12 +180,12 @@ return {
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				if ent1.EntityCollisionFunction then
-					ent1:EntityCollisionFunction(world, ent2, mtv)
+				if ent1.OnEntityCollision then
+					ent1:OnEntityCollision(world, ent2, mtv)
 				end
 
-				if ent2.EntityCollisionFunction then
-					ent2:EntityCollisionFunction(world, ent1, mtv)
+				if ent2.OnEntityCollision then
+					ent2:OnEntityCollision(world, ent1, mtv)
 				end
 			end
 		},
