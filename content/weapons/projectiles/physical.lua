@@ -6,6 +6,8 @@ local util = require("lib.self.util")
 ---
 
 return function(radius, mass)
+	mass = mass or math.pi * radius^2
+
 	return util.table.join(
 		proj_generic(),
 		{

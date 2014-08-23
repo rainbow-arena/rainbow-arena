@@ -80,7 +80,7 @@ function game:enter(previous, w, h, nbots)
 
 	arena_w, arena_h = w or 1000, h or 1000
 
-	local c_drag, c_accel = calculate_drag_accel(800, 3)
+	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
 	player = world:spawnEntity{
 		Name = "Player",
