@@ -112,12 +112,13 @@ function game:enter(previous, w, h, nbots)
 		Acceleration = vector.new(0, 0),
 
 		Drag = c_drag,
-
+		Mass = 10,
 		CollisionPhysics = true,
 
 		Screenshake = {
 			intensity = 5,
-			falloff = 100
+			falloff = 100,
+			duration = 5
 		}
 	}
 
