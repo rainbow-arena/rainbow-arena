@@ -15,7 +15,7 @@ return {
 					local w = labelfont:getWidth(entity.Name)
 					local h = labelfont:getHeight()
 					love.graphics.setFont(labelfont)
-					love.graphics.print(entity.Name, floor(pos.x) - w/2, floor(pos.y) - h/2)
+					love.graphics.print(entity.Name, floor(pos.x - w/2), floor(pos.y - h/2))
 				end
 			end
 		}
