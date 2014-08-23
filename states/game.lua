@@ -103,8 +103,22 @@ function game:enter(previous, w, h, nbots)
 		CameraTarget = true
 	}
 
+	-- Screenshake test.
+	world:spawnEntity{
+		Name = "Shaker",
+
+		Position = vector.new(0, 0),
+
+		Lifetime = 10,
+
+		Screenshake = {
+			intensity = 5,
+			falloff = 100
+		}
+	}
+
 	-- Place test balls.
-	for n = 1, 50 do
+	for n = 1, 5 do
 		local radius = 30
 		world:spawnEntity{
 			Name = "Ball " .. n,
@@ -125,6 +139,8 @@ end
 
 function game:update(dt)
 	game_speed = util.math.clamp(0.1, game_speed, 7)
+
+	main_camera.screenshake = 0
 
 	local adjdt = dt * game_speed
 	world:runSystems("update", adjdt, main_camera, arena_w, arena_h)
