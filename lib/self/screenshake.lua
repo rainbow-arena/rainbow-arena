@@ -1,9 +1,9 @@
 local screenshake = {}
 
-local floor = math.floor
+local ceil = math.ceil
 
 function screenshake.apply(xamp, yamp)
-	xamp, yamp = floor(xamp), floor(yamp)
+	xamp, yamp = ceil(xamp), ceil(yamp)
 
 	if xamp >= 1 and yamp >= 1 then
 		love.graphics.translate(

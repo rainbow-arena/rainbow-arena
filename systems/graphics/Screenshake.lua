@@ -10,16 +10,26 @@ return {
 			requires = {"Position", "Screenshake"},
 			update = function(source, world, dt, camera)
 				local ss = source.Screenshake
-				assert( ss.intensity and ss.falloff, "Screenshake component missing field(s)" .. (source.Name and (" in entity: " .. source.Name)) )
+				assert( ss.intensity and ss.falloff, "Screenshake component missing field(s)"
+					.. (source.Name and (" in entity: " .. source.Name)) )
 
 				-- Initialise starting time if this is a timed source.
-				if source.Lifetime and not ss.lifetime then
-					source.Screenshake.lifetime = source.Lifetime
+				if not ss.timer and ss.duration then
+					source.Screenshake.timer = ss.duration
+				end
+
+				-- Step screenshake timer.
+				if ss.timer then
+					ss.timer = ss.timer - dt
+					if ss.timer <= 0 then
+						source.Screenshake = nil
+						return
+					end
 				end
 
 				local intensity = ss.intensity
-				if source.Lifetime and ss.lifetime then -- Adjust timed source intensity.
-					intensity = intensity * (source.Lifetime / ss.lifetime)
+				if ss.timer and ss.duration then -- Adjust timed source intensity.
+					intensity = intensity * (ss.timer / ss.duration)
 				end
 
 				local camera_pos = vector.new(camera.x, camera.y)
@@ -31,5 +41,14 @@ return {
 				camera.screenshake = camera.screenshake + final_intensity
 			end
 		}
+	},
+
+	events = {
+		{ -- Screenshake for arena wall collisions.
+			event = "ArenaCollision",
+			func = function(world, entity, pos, side)
+
+			end
+		},
 	}
 }
