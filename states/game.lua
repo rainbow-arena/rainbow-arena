@@ -43,7 +43,7 @@ end
 
 function game:init()
 	world = ces.new()
-	world.screenshake = {x = 0, y = 0}
+	main_camera.screenshake = 0
 	loadSystems("systems")
 end
 
@@ -124,7 +124,7 @@ end
 function game:draw()
 	main_camera:attach()
 
-	screenshake.apply(world.screenshake.x, world.screenshake.y)
+	screenshake.apply(main_camera.screenshake, main_camera.screenshake)
 
 	-- Arena boundaries.
 	love.graphics.line(0,0, 0,arena_h)
