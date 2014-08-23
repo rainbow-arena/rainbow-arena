@@ -8,17 +8,19 @@ local util = require("lib.self.util")
 return function(radius, mass)
 	mass = mass or math.pi * radius^2
 
-	return util.table.join(
+	local proj = util.table.join(
 		proj_generic(),
 		{
 			Radius = radius,
-			Mass = mass,
-
-			OnProjectileCollision = function(self, world, target, mtv)
-				-- Add impact "force".
-				target.Velocity = weaputil.calculate_post_impact_velocity(
-					self.Mass, self.Velocity, target.Mass, target.Velocity)
-			end
+			Mass = mass
 		}
 	)
+
+	table.insert(proj.OnProjectileCollision, function(self, world, target, mtv)
+		-- Add impact "force".
+		target.Velocity = weaputil.calculate_post_impact_velocity(
+			self.Mass, self.Velocity, target.Mass, target.Velocity)
+	end)
+
+	return proj
 end

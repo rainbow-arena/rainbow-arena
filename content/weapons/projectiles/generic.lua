@@ -25,9 +25,12 @@ return function()
 	return {
 		ArenaBounded = 0,
 
+		OnProjectileCollision = {},
 		OnEntityCollision = function(self, world, target, mtv)
 			if self.OnProjectileCollision and collision_eligible(self, target) then
-				self:OnProjectileCollision(world, target, mtv)
+				for _, func in ipairs(self.OnProjectileCollision) do
+					func(self, world, target, mtv)
+				end
 			end
 		end
 	}
