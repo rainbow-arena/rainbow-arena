@@ -10,8 +10,7 @@ return {
 			requires = {"Position", "Screenshake"},
 			update = function(source, world, dt, camera)
 				local ss = source.Screenshake
-				assert( ss.intensity and ss.falloff, "Screenshake component missing field(s)"
-					.. (source.Name and (" in entity: " .. source.Name)) )
+				assert( ss.intensity and ss.falloff, "Screenshake component missing field(s)!")
 
 				-- Initialise starting time if this is a timed source.
 				if not ss.timer and ss.duration then
@@ -47,8 +46,36 @@ return {
 		{ -- Screenshake for arena wall collisions.
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
+				local duration = 0.1
+				local intensity = 5 -- TODO: Use mass and velocity to calculate intensity.
 
+				world:spawnEntity{
+					Position = pos:clone(),
+					Lifetime = duration,
+					Screenshake = {
+						intensity = intensity,
+						falloff = 200,
+						duration = duration
+					}
+				}
 			end
 		},
+		{ -- Screenshake for entity collision.
+			event = "EntityCollision",
+			func = function(world, ent1, ent2, mtv)
+				local duration = 0.1
+				local intensity = 5
+
+				world:spawnEntity{
+					Position = ent2.Position + mtv,
+					Lifetime = duration,
+					Screenshake = {
+						intensity = intensity,
+						falloff = 200,
+						duration = duration
+					}
+				}
+			end
+		}
 	}
 }
