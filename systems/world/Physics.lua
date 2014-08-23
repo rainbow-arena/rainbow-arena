@@ -76,11 +76,11 @@ return {
 		-- v_max = acc/drag, time_to_v_max = 5/drag
 		{
 			name = "Motion",
-			requires = {"Position", "Velocity", "Acceleration"},
+			requires = {"Position", "Velocity"},
 			priority = 1,
 			update = function(entity, world, dt)
 				entity.Position = entity.Position + entity.Velocity*dt
-				entity.Velocity = entity.Velocity + (entity.Acceleration - (entity.Drag or 0) * entity.Velocity)*dt
+				entity.Velocity = entity.Velocity + ((entity.Acceleration or vector.zero) - (entity.Drag or 0) * entity.Velocity)*dt
 			end
 		},
 
