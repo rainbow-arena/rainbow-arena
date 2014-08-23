@@ -188,6 +188,10 @@ return {
 
 				---
 
+				world:emitEvent("PhysicsCollision", ent1, ent2, mtv)
+
+				---
+
 				ent1.Position = ent1.Position + mtv
 
 				if ent2.Velocity then

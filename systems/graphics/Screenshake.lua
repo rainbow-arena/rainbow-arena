@@ -61,7 +61,7 @@ return {
 			end
 		},
 		{ -- Screenshake for entity collision.
-			event = "EntityCollision",
+			event = "PhysicsCollision",
 			func = function(world, ent1, ent2, mtv)
 				local duration = 0.2
 				local intensity = ((ent1.Mass * ent1.Velocity:len()) + (ent2.Mass * ent2.Velocity:len())) / (2 * 10^5)
