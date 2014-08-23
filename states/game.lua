@@ -106,9 +106,14 @@ function game:enter(previous, w, h, nbots)
 	world:spawnEntity{
 		Name = "Shaker",
 
-		Position = vector.new(0, 0),
+		Radius = 40,
+		Position = vector.new(100, 100),
+		Velocity = vector.new(0, 0),
+		Acceleration = vector.new(0, 0),
 
-		Lifetime = 10,
+		Drag = c_drag,
+
+		CollisionPhysics = true,
 
 		Screenshake = {
 			intensity = 5,
