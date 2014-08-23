@@ -23,6 +23,7 @@ return {
 				-- Fire projectile
 				world:spawnEntity{
 					Name = "Bullet",
+					Projectile = true,
 					Team = host.Team,
 
 					Position = pos + (dir * 5),
@@ -34,7 +35,9 @@ return {
 					Lifetime = 5,
 					ArenaBounded = 0,
 
-					CollisionExclude = {host},
+					CollisionExcludeEntities = {host},
+					CollisionExcludeComponents = {"Projectile"},
+
 					EntityCollisionFunction = function(self, world, target, mtv)
 						if target.Health then
 							target.Health = target.Health - damage

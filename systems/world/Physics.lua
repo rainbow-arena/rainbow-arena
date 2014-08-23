@@ -7,6 +7,40 @@ local invert = util.table.invert
 
 local tocheck
 
+local function collision_eligible(ent1, ent2)
+	if ent1.CollisionExcludeEntities then
+		if invert(ent1.CollisionExcludeEntities)[ent2] then
+			return false
+		end
+	end
+
+	if ent2.CollisionExcludeEntities then
+		if invert(ent2.CollisionExcludeEntities)[ent1] then
+			return false
+		end
+	end
+
+	---
+
+	if ent1.CollisionExcludeComponents then
+		for _, comp in ipairs(ent1.CollisionExcludeComponents) do
+			if ent2[comp] then
+				return false
+			end
+		end
+	end
+
+	if ent2.CollisionExcludeComponents then
+		for _, comp in ipairs(ent2.CollisionExcludeComponents) do
+			if ent1[comp] then
+				return false
+			end
+		end
+	end
+
+	return true
+end
+
 return {
 	systems = {
 		{
@@ -52,9 +86,7 @@ return {
 
 				-- TODO: Narrow collision candidates?
 				for other in pairs(tocheck) do
-					if not (entity.CollisionExclude and invert(entity.CollisionExclude)[other]
-						or other.CollisionExclude and invert(other.CollisionExclude)[entity])
-					then
+					if collision_eligible(entity, other) then
 						local col, mtv = check(entity.Position,entity.Radius,
 							other.Position,other.Radius)
 						if col then
