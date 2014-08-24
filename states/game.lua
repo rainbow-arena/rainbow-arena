@@ -86,6 +86,8 @@ function game:enter(previous, w, h, nbots)
 		Name = "Player",
 		Team = "Player",
 
+		Color = {0, 255, 255},
+
 		Radius = PLAYER_RADIUS,
 		Position = find_position(PLAYER_RADIUS),
 		Velocity = vector.new(0, 0),
@@ -107,6 +109,8 @@ function game:enter(previous, w, h, nbots)
 		local radius = 30
 		world:spawnEntity{
 			Name = "Ball " .. n,
+
+			Color = {255, 0, 0},
 
 			Radius = radius,
 			Position = find_position(radius),
