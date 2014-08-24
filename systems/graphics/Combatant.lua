@@ -1,3 +1,7 @@
+local intensity_rate = 1
+local pulse_intensity = 0.75
+local rest_intensity = 0.33
+
 return {
 	systems = {
 		{
@@ -8,12 +12,13 @@ return {
 				local radius = entity.Radius
 				local color = entity.Color
 
-				if entity.ColorIntensity then
-					local v = entity.ColorIntensity
-					love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
-				else
-					love.graphics.setColor(color[1]/3, color[2]/3, color[3]/3)
+				if not entity.ColorIntensity then
+					entity.ColorIntensity = 0.33
 				end
+
+				local v = entity.ColorIntensity
+
+				love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
 				love.graphics.circle("fill", pos.x, pos.y, radius, 20)
 
 				love.graphics.setColor(color)
@@ -25,11 +30,12 @@ return {
 			name = "RestoreCombatantColor",
 			requires = {"ColorIntensity"},
 			update = function(entity, world, dt)
-				local rate = entity.ColorRate or 1
+				local rate = entity.ColorRate or intensity_rate
+				local rest = entity.RestIntensity or rest_intensity
 
-				if entity.ColorIntensity < 0.33 then
+				if entity.ColorIntensity < rest then
 					entity.ColorIntensity = entity.ColorIntensity + rate*dt
-				elseif entity.ColorIntensity > 0.33 then
+				elseif entity.ColorIntensity > rest then
 					entity.ColorIntensity = entity.ColorIntensity - rate*dt
 				end
 			end
@@ -40,20 +46,20 @@ return {
 		{ -- Entity color flashes.
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
-				entity.ColorIntensity = 0.75
+				entity.ColorIntensity = entity.PulseIntensity or pulse_intensity
 			end
 		},
 		{
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				ent1.ColorIntensity = 0.75
-				ent2.ColorIntensity = 0.75
+				ent1.ColorIntensity = ent1.PulseIntensity or pulse_intensity
+				ent2.ColorIntensity = ent2.PulseIntensity or pulse_intensity
 			end
 		},
 		{
 			event = "WeaponFired",
 			func = function(world, entity)
-				entity.ColorIntensity = 0.75
+				entity.ColorIntensity = entity.PulseIntensity or pulse_intensity
 			end
 		},
 	}
