@@ -2,12 +2,11 @@ local check = require("logic.circle").colliding
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
-local nelem = util.table.nelem
 local invert = util.table.invert
 
-local tocheck
-
 local function collision_eligible(ent1, ent2)
+	if ent1 == ent2 then return false end
+
 	if ent1.CollisionExcludeEntities then
 		if invert(ent1.CollisionExcludeEntities)[ent2] then
 			return false
@@ -78,14 +77,8 @@ return {
 			name = "Collision",
 			requires = {"Position", "Velocity", "Radius"},
 			update = function(entity, world, dt)
-				if not tocheck then
-					tocheck = world:getEntitiesWith{"Position", "Radius"}
-				end
-
-				tocheck[entity] = nil
-
 				-- TODO: Narrow collision candidates?
-				for other in pairs(tocheck) do
+				for other in pairs(world:getEntitiesWith{"Position", "Radius"}) do
 					if collision_eligible(entity, other) then
 						local col, mtv = check(entity.Position,entity.Radius,
 							other.Position,other.Radius)
@@ -93,10 +86,6 @@ return {
 							world:emitEvent("EntityCollision", entity, other, mtv)
 						end
 					end
-				end
-
-				if nelem(tocheck) == 0 then
-					tocheck = nil
 				end
 			end,
 		},
