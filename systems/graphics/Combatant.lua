@@ -1,6 +1,12 @@
+local util = require("lib.self.util")
+
+local clamp = util.math.clamp
+
 local intensity_rate = 1
+local max_intensity = 0.9
 local pulse_intensity = 0.75
 local rest_intensity = 0.33
+local max_pulse_speed = 700
 
 return {
 	systems = {
@@ -16,7 +22,7 @@ return {
 					entity.ColorIntensity = 0.33
 				end
 
-				local v = entity.ColorIntensity
+				local v = clamp(0, entity.ColorIntensity, entity.MaxIntensity or max_intensity)
 
 				love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
 				love.graphics.circle("fill", pos.x, pos.y, radius, 20)
@@ -46,14 +52,36 @@ return {
 		{ -- Entity color flashes.
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
-				entity.ColorIntensity = entity.PulseIntensity or pulse_intensity
+				local res = (entity.RestIntensity or rest_intensity)
+					+ (entity.PulseIntensity or pulse_intensity)
+					* (entity.Velocity:len() / max_pulse_speed)
+
+				if entity.ColorIntensity < res then
+					entity.ColorIntensity = res
+				end
 			end
 		},
 		{
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				ent1.ColorIntensity = ent1.PulseIntensity or pulse_intensity
-				ent2.ColorIntensity = ent2.PulseIntensity or pulse_intensity
+				local diff = ent2.Position - ent1.Position
+
+				local v1 = ent1.Velocity:projectOn(diff)
+				local v2 = ent2.Velocity:projectOn(diff)
+
+				local mult = (v1 + v2):len() / (max_pulse_speed)
+
+				local res1 = (ent1.RestIntensity or rest_intensity)
+					+ (ent1.PulseIntensity or pulse_intensity) * mult
+				local res2 = (ent2.RestIntensity or rest_intensity)
+					+ (ent2.PulseIntensity or pulse_intensity) * mult
+
+				if ent1.ColorIntensity < res1 then
+					ent1.ColorIntensity = res1
+				end
+				if ent2.ColorIntensity < res2 then
+					ent2.ColorIntensity = res2
+				end
 			end
 		},
 		{
