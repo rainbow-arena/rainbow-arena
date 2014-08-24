@@ -8,7 +8,7 @@ return {
 		{
 			name = "UpdateScreenshakeSource",
 			requires = {"Position", "Screenshake"},
-			update = function(source, world, dt, camera)
+			update = function(source, world, dt)
 				local ss = source.Screenshake
 				assert( ss.intensity and ss.falloff, "Screenshake component missing field(s)!")
 
@@ -31,13 +31,13 @@ return {
 					intensity = intensity * (ss.timer / ss.duration)
 				end
 
-				local camera_pos = vector.new(camera.x, camera.y)
+				local camera_pos = vector.new(world.camera.x, world.camera.y)
 				local dist_to_source = (source.Position - camera_pos):len()
 
 				-- (Falloff is pixels distance per one intensity level drop.)
 				local final_intensity = clamp(0, intensity - (dist_to_source/ss.falloff), math.huge)
 
-				camera.screenshake = camera.screenshake + final_intensity
+				world.screenshake = world.screenshake + final_intensity
 			end
 		}
 	},

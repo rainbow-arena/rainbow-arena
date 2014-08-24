@@ -10,9 +10,7 @@ local screenshake = require("lib.self.screenshake")
 local circle = require("logic.circle")
 
 local world
-local arena_w, arena_h
 local player
-local main_camera = camera.new()
 
 local game_speed = 1
 
@@ -41,14 +39,17 @@ end
 
 function game:init()
 	world = ces.new()
-	main_camera.screenshake = 0
+
+	world.camera = camera.new()
+	world.screenshake = 0
+
 	loadSystems("systems")
 end
 
 local function generate_position(radius)
 	return vector.new(
-		love.math.random(radius, arena_w - radius),
-		love.math.random(radius, arena_h - radius)
+		love.math.random(radius, world.w - radius),
+		love.math.random(radius, world.h - radius)
 	)
 end
 
@@ -78,7 +79,7 @@ end
 function game:enter(previous, w, h, nbots)
 	world:clearEntities()
 
-	arena_w, arena_h = w or 1000, h or 1000
+	world.w, world.h = w or 1000, h or 1000
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
@@ -128,25 +129,25 @@ end
 function game:update(dt)
 	game_speed = util.math.clamp(0.1, game_speed, 7)
 
-	main_camera.screenshake = 0
+	world.screenshake = 0
 
 	local adjdt = dt * game_speed
-	world:runSystems("update", adjdt, main_camera, arena_w, arena_h)
+	world:runSystems("update", adjdt)
 end
 
 function game:draw()
-	main_camera:attach()
+	world.camera:attach()
 
-	screenshake.apply(main_camera.screenshake, main_camera.screenshake)
+	screenshake.apply(world.screenshake, world.screenshake)
 
 	-- Arena boundaries.
-	love.graphics.line(0,0, 0,arena_h)
-	love.graphics.line(0,arena_h, arena_w,arena_h)
-	love.graphics.line(arena_w,arena_h, arena_w,0)
-	love.graphics.line(arena_w,0, 0,0)
+	love.graphics.line(0,0, 0,world.h)
+	love.graphics.line(0,world.h, world.w,world.h)
+	love.graphics.line(world.w,world.h, world.w,0)
+	love.graphics.line(world.w,0, 0,0)
 
 	world:runSystems("draw", main_camera)
-	main_camera:detach()
+	world.camera:detach()
 
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.print("Speed multiplier: " .. game_speed, 10, 10)

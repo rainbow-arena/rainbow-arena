@@ -8,9 +8,9 @@ return {
 		{
 			name = "PlayerController",
 			requires = {"Position", "Player"},
-			update = function(player, world, dt, camera)
+			update = function(player, world, dt)
 				local mx, my = love.mouse.getPosition()
-				local psx, psy = camera:cameraCoords(player.Position.x, player.Position.y)
+				local psx, psy = world.camera:cameraCoords(player.Position.x, player.Position.y)
 				player.Rotation = math.atan2(my - psy, mx - psx)
 
 				---

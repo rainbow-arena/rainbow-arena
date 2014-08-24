@@ -90,8 +90,9 @@ return {
 		{
 			name = "ArenaCollision",
 			requires = {"Position", "Velocity", "Radius", "CollisionPhysics"},
-			update = function(entity, world, dt, camera, arena_w, arena_h)
+			update = function(entity, world, dt)
 				local pos, radius = entity.Position, entity.Radius
+				local arena_w, arena_h = world.w, world.h
 
 				-- Left
 				if pos.x - radius < 0 then
@@ -141,10 +142,10 @@ return {
 		{
 			name = "DestroyOutsideArena",
 			requires = {"Position", "ArenaBounded"},
-			update = function(entity, world, dt, camera, arena_w, arena_h)
+			update = function(entity, world, dt)
 				local tolerance = entity.ArenaBounded or 0
-				if entity.Position.x < 0 - tolerance or entity.Position.x > arena_w + tolerance
-					or entity.Position.y < 0 - tolerance or entity.Position.y > arena_h + tolerance
+				if entity.Position.x < 0 - tolerance or entity.Position.x > world.w + tolerance
+					or entity.Position.y < 0 - tolerance or entity.Position.y > world.h + tolerance
 				then
 					world:destroyEntity(entity)
 				end

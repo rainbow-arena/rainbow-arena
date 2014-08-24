@@ -4,8 +4,8 @@ return {
 			name = "CameraController",
 			requires = {"Position", "CameraTarget"},
 			priority = -1,
-			update = function(target, dt, world, camera)
-				camera:lookAt(target.Position.x, target.Position.y)
+			update = function(entity, world, dt)
+				world.camera:lookAt(entity.Position.x, entity.Position.y)
 			end
 		}
 	}
