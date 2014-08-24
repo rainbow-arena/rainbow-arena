@@ -3,6 +3,7 @@ local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
 local invert = util.table.invert
+local has = util.table.has
 
 local function collision_eligible(ent1, ent2)
 	if ent1 == ent2 then return false end
@@ -22,18 +23,14 @@ local function collision_eligible(ent1, ent2)
 	---
 
 	if ent1.CollisionExcludeComponents then
-		for _, comp in ipairs(ent1.CollisionExcludeComponents) do
-			if ent2[comp] then
-				return false
-			end
+		if has(ent2, ent1.CollisionExcludeComponents) then
+			return false
 		end
 	end
 
 	if ent2.CollisionExcludeComponents then
-		for _, comp in ipairs(ent2.CollisionExcludeComponents) do
-			if ent1[comp] then
-				return false
-			end
+		if has(ent1, ent2.CollisionExcludeComponents) then
+			return false
 		end
 	end
 
