@@ -23,7 +23,11 @@ end
 
 return function()
 	return {
+		Projectile = true,
+
 		ArenaBounded = 0,
+
+		CollisionExcludeComponents = {"Projectile"},
 
 		OnProjectileCollision = {},
 		OnEntityCollision = function(self, world, target, mtv)

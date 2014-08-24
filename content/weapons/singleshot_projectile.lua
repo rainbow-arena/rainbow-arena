@@ -9,15 +9,10 @@ return function(cooldown, projectile_speed, projectile_prototype)
 		type = "single",
 		fire = function(self, world, host, pos, dir)
 			-- Fire projectile
-			world:spawnEntity(
+			local projectile = world:spawnEntity(
 				util.table.join(
 					projectile_prototype,
 					{
-						Projectile = true,
-
-						CollisionExcludeEntities = {host},
-						CollisionExcludeComponents = {"Projectile"},
-
 						Position = pos + dir,
 						Velocity = projectile_speed * dir + host.Velocity,
 						Team = host.Team
@@ -25,9 +20,16 @@ return function(cooldown, projectile_speed, projectile_prototype)
 				)
 			)
 
+			-- Add host to collision exclusion list.
+			if not projectile.CollisionExcludeEntities then
+				projectile.CollisionExcludeEntities = {host}
+			else
+				table.insert(projectile.CollisionExcludeEntities, host)
+			end
+
 			-- Recoil
-			if projectile_prototype.Mass then
-				host.Velocity = weaputil.calculate_recoil_velocity(projectile_prototype.Mass,
+			if projectile.Mass then
+				host.Velocity = weaputil.calculate_recoil_velocity(projectile.Mass,
 					projectile_speed * dir, host.Mass, host.Velocity)
 			end
 
