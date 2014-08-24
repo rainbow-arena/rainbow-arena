@@ -46,15 +46,15 @@ return {
 		{ -- Screenshake for arena wall collisions.
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
-				local duration = 0.2
-				local intensity = (entity.Mass * entity.Velocity:len()) / (2 * 10^5) -- TODO: Tweak intensity values
+				local duration = 0.1
+				local intensity = 1
 
 				world:spawnEntity{
 					Position = pos:clone(),
 					Lifetime = duration,
 					Screenshake = {
 						intensity = intensity,
-						falloff = 200,
+						falloff = 100,
 						duration = duration
 					}
 				}
@@ -63,15 +63,15 @@ return {
 		{ -- Screenshake for entity collision.
 			event = "PhysicsCollision",
 			func = function(world, ent1, ent2, mtv)
-				local duration = 0.2
-				local intensity = ((ent1.Mass * ent1.Velocity:len()) + (ent2.Mass * ent2.Velocity:len())) / (2 * 10^5)
+				local duration = 0.1
+				local intensity = 1
 
 				world:spawnEntity{
 					Position = ent2.Position + mtv,
 					Lifetime = duration,
 					Screenshake = {
 						intensity = intensity,
-						falloff = 200,
+						falloff = 100,
 						duration = duration
 					}
 				}
