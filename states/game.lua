@@ -3,11 +3,14 @@ local game = {}
 local ces = require("lib.self.ces")
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
+local spatialhash = require("lib.self.spatialhash")
 local util = require("lib.self.util")
 
 local screenshake = require("lib.self.screenshake")
 
 local circle = require("logic.circle")
+
+local aabb = circle.aabb
 
 local world
 local player
@@ -42,6 +45,49 @@ function game:init()
 
 	world.camera = camera.new()
 	world.screenshake = 0
+	world.hash = spatialhash.new()
+
+	---
+
+	local oldspawn = world.spawnEntity
+	function world:spawnEntity(t)
+		local entity = oldspawn(self, t)
+
+		if entity.Position and entity.Radius then
+			self.hash:insert_object(entity, aabb(
+				entity.Radius, entity.Position.x, entity.Position.y))
+		end
+	end
+
+	local olddestroy = world.destroyEntity
+	function world:destroyEntity(entity)
+		olddestroy(self, entity)
+
+		if entity.Position and entity.Radius then
+			self.hash:remove_object(entity, aabb(
+				entity.Radius, entity.Position.x, entity.Position.y))
+		end
+	end
+
+	function world:move_entity_to(entity, x, y)
+		local oldpos = entity.Position
+
+		local newpos
+		if not y then
+			newpos = x
+		else
+			newpos = vector.new(x, y)
+		end
+
+		entity.Position = newpos
+
+		local old_x1,old_y1, old_x2,old_y2 = aabb(entity.Radius, oldpos.x, oldpos.y)
+		local new_x1,new_y1, new_x2,new_y2 = aabb(entity.Radius, newpos.x, newpos.y)
+
+		self.hash:move_object(entity, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
+	end
+
+	---
 
 	loadSystems("systems")
 end

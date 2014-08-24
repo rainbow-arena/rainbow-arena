@@ -20,4 +20,11 @@ function circle.colliding(pos1,r1, pos2,r2)
 	return false
 end
 
+function circle.aabb(r, x, y)
+	x = x or 0
+	y = y or 0
+
+	return x - r, y - r, x + r, y + r
+end
+
 return circle

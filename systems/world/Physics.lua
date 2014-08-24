@@ -1,7 +1,9 @@
-local check = require("logic.circle").colliding
+local circle = require("logic.circle")
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
+local check = circle.colliding
+local aabb = circle.aabb
 local invert = util.table.invert
 local has = util.table.has
 
@@ -65,7 +67,8 @@ return {
 			requires = {"Position", "Velocity"},
 			priority = 1,
 			update = function(entity, world, dt)
-				entity.Position = entity.Position + entity.Velocity*dt
+				world:move_entity_to(entity, entity.Position + entity.Velocity*dt)
+
 				entity.Velocity = entity.Velocity + ((entity.Acceleration or vector.zero) - (entity.Drag or 0) * entity.Velocity)*dt
 			end
 		},
@@ -74,8 +77,9 @@ return {
 			name = "Collision",
 			requires = {"Position", "Velocity", "Radius"},
 			update = function(entity, world, dt)
-				-- TODO: Narrow collision candidates?
-				for other in pairs(world:getEntitiesWith{"Position", "Radius"}) do
+				for other in pairs(world.hash:get_objects_in_range(
+					aabb(entity.Radius, entity.Position.x, entity.Position.y)))
+				do
 					if collision_eligible(entity, other) then
 						local col, mtv = check(entity.Position,entity.Radius,
 							other.Position,other.Radius)
@@ -96,7 +100,7 @@ return {
 
 				-- Left
 				if pos.x - radius < 0 then
-					entity.Position.x = radius
+					world:move_entity_to(entity, radius, entity.Position.y)
 					entity.Velocity.x = -entity.Velocity.x
 
 					world:emitEvent("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
@@ -104,7 +108,7 @@ return {
 
 				-- Right
 				if pos.x + radius > arena_w then
-					entity.Position.x = arena_w - radius
+					world:move_entity_to(entity, arena_w - radius, entity.Position.y)
 					entity.Velocity.x = -entity.Velocity.x
 
 					world:emitEvent("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
@@ -112,7 +116,7 @@ return {
 
 				-- Top
 				if pos.y - radius < 0 then
-					entity.Position.y = radius
+					world:move_entity_to(entity, entity.Position.x, radius)
 					entity.Velocity.y = -entity.Velocity.y
 
 					world:emitEvent("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
@@ -120,7 +124,7 @@ return {
 
 				-- Bottom
 				if pos.y + radius > arena_h then
-					entity.Position.y = arena_h - radius
+					world:move_entity_to(entity, entity.Position.x, arena_h - radius)
 					entity.Velocity.y = -entity.Velocity.y
 
 					world:emitEvent("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "left")
@@ -179,7 +183,7 @@ return {
 
 				---
 
-				ent1.Position = ent1.Position + mtv
+				world:move_entity_to(ent1, ent1.Position + mtv)
 
 				if ent2.Velocity then
 					-- Dynamic vs. Dynamic
