@@ -1,12 +1,14 @@
 local util = require("lib.self.util")
 
 local clamp = util.math.clamp
+local range = util.math.range
 
 local intensity_rate = 1.5
 local max_intensity = 0.8
 local pulse_intensity = 0.75
 local rest_intensity = 0.33
 local max_pulse_speed = 500
+local rest_tolerance = 0.04
 
 local function calculate_single_entity_pulse(entity, velocity)
 	return (entity.RestIntensity or rest_intensity)
@@ -60,7 +62,9 @@ return {
 				local rate = entity.ColorRate or intensity_rate
 				local rest = entity.RestIntensity or rest_intensity
 
-				if entity.ColorIntensity < rest then
+				if range(rest - rest_tolerance, entity.ColorIntensity, rest + rest_tolerance) then
+					entity.ColorIntensity = rest
+				elseif entity.ColorIntensity < rest then
 					entity.ColorIntensity = entity.ColorIntensity + rate*dt
 				elseif entity.ColorIntensity > rest then
 					entity.ColorIntensity = entity.ColorIntensity - rate*dt
