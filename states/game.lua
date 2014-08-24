@@ -57,6 +57,8 @@ function game:init()
 			self.hash:insert_object(entity, aabb(
 				entity.Radius, entity.Position.x, entity.Position.y))
 		end
+
+		return entity
 	end
 
 	local olddestroy = world.destroyEntity
