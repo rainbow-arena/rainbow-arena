@@ -221,6 +221,21 @@ function game:mousepressed(x, y, b)
 		game_speed = game_speed + 0.1
 	end
 
+	if b == "r" then
+		local ax, ay = world.camera:worldCoords(x, y)
+
+		world:spawnEntity{
+			Position = vector.new(ax, ay),
+
+			Lifetime = 0.1,
+			Explosion = {
+				force = 2*10^6,
+				damage = 10,
+				radius = 400
+			}
+		}
+	end
+
 	world:emitEvent("MousePressed", x, y, b)
 end
 
