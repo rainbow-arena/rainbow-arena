@@ -102,28 +102,8 @@ function game:enter(previous, w, h, nbots)
 		CameraTarget = true
 	}
 
-	-- Screenshake test.
-	world:spawnEntity{
-		Name = "Shaker",
-
-		Radius = 40,
-		Position = vector.new(100, 100),
-		Velocity = vector.new(0, 0),
-		Acceleration = vector.new(0, 0),
-
-		Drag = c_drag,
-		Mass = 10,
-		CollisionPhysics = true,
-
-		Screenshake = {
-			intensity = 5,
-			falloff = 100,
-			duration = 5
-		}
-	}
-
 	-- Place test balls.
-	for n = 1, 5 do
+	for n = 1, 50 do
 		local radius = 30
 		world:spawnEntity{
 			Name = "Ball " .. n,
