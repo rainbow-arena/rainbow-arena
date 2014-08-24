@@ -33,7 +33,9 @@ return {
 					-- Fire if applicable.
 					if entity.Weapon.heat == 0 then
 						if (entity.Weapon.type == "single" and not entity.Weapon.fired)
-							or entity.Weapon.type == "repeat" then
+							or entity.Weapon.type == "repeat"
+						then
+							world:emitEvent("WeaponFired", entity, position_vector, direction_vector)
 							entity.Weapon:fire(world, entity, position_vector, direction_vector)
 							entity.Weapon.fired = true
 						end

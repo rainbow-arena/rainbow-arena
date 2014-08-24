@@ -44,11 +44,17 @@ return {
 			end
 		},
 		{
-			event = "PhysicsCollision",
+			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
 				ent1.ColorIntensity = 0.75
 				ent2.ColorIntensity = 0.75
 			end
-		}
+		},
+		{
+			event = "WeaponFired",
+			func = function(world, entity)
+				entity.ColorIntensity = 0.75
+			end
+		},
 	}
 }

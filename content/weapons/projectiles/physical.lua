@@ -5,14 +5,15 @@ local util = require("lib.self.util")
 
 ---
 
-return function(radius, mass)
+return function(radius, mass, color)
 	mass = mass or math.pi * radius^2
 
 	local proj = util.table.join(
 		proj_generic(),
 		{
 			Radius = radius,
-			Mass = mass
+			Mass = mass,
+			Color = color
 		}
 	)
 
