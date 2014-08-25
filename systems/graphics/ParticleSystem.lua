@@ -4,7 +4,7 @@ return {
 			name = "UpdateParticleSystem",
 			requires = {"ParticleSystem"},
 			update = function(entity, world, dt)
-				entity.ParticleSystem:setPosition(entity.Position:unpack())
+				entity.ParticleSystem:moveTo(entity.Position:unpack())
 				entity.ParticleSystem:update(dt)
 			end
 		},
