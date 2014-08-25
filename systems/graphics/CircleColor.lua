@@ -3,16 +3,20 @@ local util = require("lib.self.util")
 local clamp = util.math.clamp
 local range = util.math.range
 
+---
+
 local intensity_rate = 1.5
-local max_intensity = 0.8
-local pulse_intensity = 0.75
-local rest_intensity = 0.33
+local max_intensity = 0.9
+
+local pulse_intensity = 0.6
+local rest_intensity = 0.3
+
 local max_pulse_speed = 500
 
+---
+
 local function calculate_single_entity_pulse(entity, velocity)
-	return (entity.RestIntensity or rest_intensity)
-		+ (entity.PulseIntensity or pulse_intensity)
-		* ((velocity or entity.Velocity:len()) / max_pulse_speed)
+	return (velocity or entity.Velocity:len()) / max_pulse_speed
 end
 
 local function calculate_double_entity_pulse(ent1, ent2)
@@ -29,6 +33,8 @@ local function calculate_double_entity_pulse(ent1, ent2)
 	return res1, res2
 end
 
+---
+
 return {
 	systems = {
 		{
@@ -40,10 +46,10 @@ return {
 				local color = entity.Color
 
 				if not entity.ColorIntensity then
-					entity.ColorIntensity = 0.33
+					entity.ColorIntensity = rest_intensity
 				end
 
-				entity.ColorIntensity = clamp(0, entity.ColorIntensity, entity.MaxIntensity or max_intensity)
+				entity.ColorIntensity = clamp(0, entity.ColorIntensity, max_intensity)
 				local v = entity.ColorIntensity
 
 				love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
@@ -58,8 +64,8 @@ return {
 			name = "RestoreCircleColor",
 			requires = {"ColorIntensity"},
 			update = function(entity, world, dt)
-				local rate = entity.ColorRate or intensity_rate
-				local rest = entity.RestIntensity or rest_intensity
+				local rate = intensity_rate
+				local rest = rest_intensity
 
 				local step = rate*dt
 
@@ -71,6 +77,20 @@ return {
 					entity.ColorIntensity = entity.ColorIntensity - step
 				end
 			end
+		},
+
+		{ -- Pulse the circle. Value is from 0 to 1.
+			name = "PulseCircleColor",
+			requires = {"ColorPulse"},
+			update = function(entity, world, dt)
+				local intensity = rest_intensity + pulse_intensity * entity.ColorPulse
+
+				if entity.ColorIntensity < intensity then
+					entity.ColorIntensity = intensity
+				end
+
+				entity.ColorPulse = nil
+			end
 		}
 	},
 
@@ -78,11 +98,7 @@ return {
 		{
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
-				local res = calculate_single_entity_pulse(entity)
-
-				if entity.ColorIntensity < res then
-					entity.ColorIntensity = res
-				end
+				entity.ColorPulse = calculate_single_entity_pulse(entity)
 			end
 		},
 		{
@@ -90,30 +106,26 @@ return {
 			func = function(world, ent1, ent2, mtv)
 				local res1, res2 = calculate_double_entity_pulse(ent1, ent2)
 
-				if ent1.ColorIntensity < res1 then
-					ent1.ColorIntensity = res1
-				end
-				if ent2.ColorIntensity < res2 then
-					ent2.ColorIntensity = res2
-				end
+				ent1.ColorPulse = res1
+				ent2.ColorPulse = res2
 			end
 		},
 		{
 			event = "ProjectileCollision",
 			func = function(world, projectile, target, mtv)
-				target.ColorIntensity = target.PulseIntensity or pulse_intensity
+				target.ColorPulse = 1
 			end
 		},
 		{
 			event = "WeaponFired",
 			func = function(world, entity)
-				entity.ColorIntensity = entity.PulseIntensity or pulse_intensity
+				entity.ColorPulse = 1
 			end
 		},
 		{
 			event = "ExplosionHit",
 			func = function(world, entity, impact)
-				entity.ColorIntensity = (entity.RestIntensity or rest_intensity) + (entity.PulseIntensity or pulse_intensity) * impact
+				entity.ColorPulse = impact
 			end
 		}
 	}
