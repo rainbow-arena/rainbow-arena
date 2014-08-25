@@ -14,7 +14,7 @@ return {
 				-- Reset "fired" flag.
 				if entity.Weapon.fired and not entity.Firing then
 					if entity.Weapon.fire_end then
-						entity.Weapon:fire_end(world, entity)
+						entity.Weapon:fire_end(entity, world)
 					end
 					entity.Weapon.fired = false
 				end
@@ -25,11 +25,6 @@ return {
 					local position_vector = entity.Position:clone()
 						+ (direction_vector * (entity.Radius))
 
-					-- Called every frame while firing or after fired. Useful for beam weapons.
-					if entity.Weapon.firing then
-						entity.Weapon:firing(world, entity, position_vector, direction_vector, dt)
-					end
-
 					-- Fire if applicable.
 					if entity.Weapon.heat == 0 then
 						if (entity.Weapon.type == "single" and not entity.Weapon.fired)
@@ -39,6 +34,11 @@ return {
 							entity.Weapon:fire(world, entity, position_vector, direction_vector)
 							entity.Weapon.fired = true
 						end
+					end
+
+					-- Called every frame while firing or after fired. Useful for beam weapons.
+					if entity.Weapon.firing then
+						entity.Weapon:firing(entity, world, dt, position_vector, direction_vector)
 					end
 				end
 			end
