@@ -2,18 +2,18 @@ local vector = require("lib.hump.vector")
 
 local img_particle = love.graphics.newImage("graphics/particle.png")
 
-return function(pos, radius, force, damage, color, speed, nparticles, screenshake)
+return function(pos, radius, force, damage, color, duration, nparticles, screenshake)
 	local ps = love.graphics.newParticleSystem(img_particle, 1024)
-	local pradius = radius + 50
+	local pradius = radius + 70
 
 	local exp_r, exp_g, exp_b = unpack(color or {255, 97, 0})
 
-	speed = speed or 500
-	local lifetime = pradius/speed
+	duration = duration or 1
+	speed = speed or pradius/duration
 
 	ps:setPosition(pos:unpack()) -- Where to emit.
 	ps:setEmitterLifetime(0.1) -- How long to emit for.
-	ps:setParticleLifetime(0.1, lifetime) -- How long particles last.
+	ps:setParticleLifetime(0.1, duration) -- How long particles last.
 	ps:setEmissionRate(100) -- Particles emitted per second.
 	ps:setSpeed(10, speed) -- Speed of particles.
 	ps:setSpread(2 * math.pi) -- Spread in all directions.
@@ -23,12 +23,12 @@ return function(pos, radius, force, damage, color, speed, nparticles, screenshak
 	ps:setSizeVariation(1)
 
 	ps:start()
-	ps:emit(nparticles or 512)
+	ps:emit(nparticles or 768)
 
 	return {
 		Position = pos:clone(),
 
-		Lifetime = lifetime,
+		Lifetime = duration,
 
 		ParticleSystem = ps,
 
@@ -42,7 +42,7 @@ return function(pos, radius, force, damage, color, speed, nparticles, screenshak
 		Screenshake = {
 			intensity = screenshake or 3,
 			radius = radius,
-			duration = lifetime/2
+			duration = duration/2
 		}
 	}
 end
