@@ -1,6 +1,5 @@
-local proj_physical = require("content.weapons.projectiles.physical")
+local proj_physical = require("entities.projectiles.physical")
 
-local weaputil = require("content.weapons.logic.weaputil")
 local util = require("lib.self.util")
 
 ---

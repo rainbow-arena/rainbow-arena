@@ -1,6 +1,6 @@
-local proj_generic = require("content.weapons.projectiles.generic")
+local proj_generic = require("entities.projectiles.generic")
 
-local weaputil = require("content.weapons.logic.weaputil")
+local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
 
 ---
@@ -19,7 +19,7 @@ return function(radius, mass, color)
 
 	table.insert(proj.OnProjectileCollision, function(self, world, target, mtv)
 		-- Add impact "force".
-		target.Velocity = weaputil.calculate_post_impact_velocity(
+		target.Velocity = weaponutil.calculate_post_impact_velocity(
 			self.Mass, self.Velocity, target.Mass, target.Velocity)
 	end)
 

@@ -1,6 +1,6 @@
 local vector = require("lib.hump.vector")
+local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
-local weaputil = require("content.weapons.logic.weaputil")
 
 ---
 
@@ -29,7 +29,7 @@ return function(cooldown, projectile_speed, projectile_prototype)
 
 			-- Recoil
 			if projectile.Mass then
-				host.Velocity = weaputil.calculate_recoil_velocity(projectile.Mass,
+				host.Velocity = weaponutil.calculate_recoil_velocity(projectile.Mass,
 					projectile_speed * dir, host.Mass, host.Velocity)
 			end
 

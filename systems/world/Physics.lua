@@ -1,9 +1,9 @@
-local circle = require("logic.circle")
+local circleutil = require("util.circle")
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
-local check = circle.colliding
-local aabb = circle.aabb
+local colliding = circleutil.colliding
+local aabb = circleutil.aabb
 local invert = util.table.invert
 local has = util.table.has
 
@@ -81,7 +81,7 @@ return {
 					aabb(entity.Radius, entity.Position.x, entity.Position.y)))
 				do
 					if collision_eligible(entity, other) then
-						local col, mtv = check(entity.Position,entity.Radius,
+						local col, mtv = colliding(entity.Position,entity.Radius,
 							other.Position,other.Radius)
 						if col then
 							world:emitEvent("EntityCollision", entity, other, mtv)

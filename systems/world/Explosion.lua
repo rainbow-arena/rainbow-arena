@@ -1,6 +1,6 @@
-local circle = require("logic.circle")
+local circleutil = require("util.circle")
 
-local aabb = circle.aabb
+local aabb = circleutil.aabb
 local ceil = math.ceil
 
 return {

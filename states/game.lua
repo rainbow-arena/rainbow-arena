@@ -8,9 +8,10 @@ local util = require("lib.self.util")
 
 local screenshake = require("lib.self.screenshake")
 
-local circle = require("logic.circle")
+local circleutil = require("util.circle")
 
-local aabb = circle.aabb
+local aabb = circleutil.aabb
+local colliding = circleutil.colliding
 
 local world
 local player
@@ -107,7 +108,7 @@ local function find_position(radius, tries)
 
 		local pos = generate_position(radius)
 		for entity in pairs(world:getEntitiesWith{"Position", "Radius"}) do
-			if circle.colliding(pos,radius, entity.Position,entity.Radius) then
+			if colliding(pos,radius, entity.Position,entity.Radius) then
 				ok = false
 				break
 			end
@@ -147,7 +148,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = require("content.weapons.pistol")(0.1, 3, nil, 800, 1),
+		Weapon = require("entities.weapons.pistol")(0.1, 3, nil, 800, 1),
 
 		Player = true,
 		CameraTarget = true
@@ -214,8 +215,6 @@ function game:keyreleased(key)
 	world:emitEvent("KeyReleased", key)
 end
 
-local img_particle = love.graphics.newImage("graphics/particle.png")
-
 function game:mousepressed(x, y, b)
 	if b == "wd" then
 		game_speed = game_speed - 0.1
@@ -224,40 +223,7 @@ function game:mousepressed(x, y, b)
 	end
 
 	if b == "r" then
-		local ax, ay = world.camera:worldCoords(x, y)
 
-		local ps = love.graphics.newParticleSystem(img_particle, 1024)
-
-		local radius = 100
-
-		local sr, sg, sb = 255, 97, 0
-
-		ps:setPosition(ax, ay)
-		ps:setEmitterLifetime(0.1)
-		ps:setParticleLifetime(0.1,3)
-		ps:setEmissionRate(100)
-		ps:setSpeed(10, 100)
-		ps:setSpread(2 * math.pi)
-		ps:setAreaSpread("normal", radius/4, radius/4)
-		ps:setColors(sr, sg, sb, 255, sr, sg, sb, 0)
-		ps:setSizes(1, 0)
-		ps:setSizeVariation(1)
-		ps:start()
-		ps:emit(512)
-
-		local explosion = world:spawnEntity{
-			Position = vector.new(ax, ay),
-
-			Lifetime = 3,
-
-			ParticleSystem = ps,
-
-			Explosion = {
-				force = 2*10^6,
-				damage = 10,
-				radius = radius
-			}
-		}
 	end
 
 	world:emitEvent("MousePressed", x, y, b)
