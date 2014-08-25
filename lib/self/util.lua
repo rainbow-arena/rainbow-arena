@@ -142,5 +142,10 @@ function util.math.sign(n)
 	return n>0 and 1 or n<0 and -1 or 0
 end
 
+-- Maps one value from one range to another range.
+function util.math.map(n, in_min, in_max, out_min, out_max)
+	return (n - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+end
+
 
 return util
