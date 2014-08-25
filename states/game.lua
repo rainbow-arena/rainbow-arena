@@ -155,7 +155,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = require("entities.weapons.minigun")(0.3, 0.05, 2, 3, 800, 1),
+		Weapon = require("entities.weapons.triple_minigun")(0.3, 0.05, 2, 3, 800, 1),
 
 		Player = true,
 		CameraTarget = true
