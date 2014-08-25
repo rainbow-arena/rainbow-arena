@@ -110,5 +110,11 @@ return {
 				entity.ColorIntensity = entity.PulseIntensity or pulse_intensity
 			end
 		},
+		{
+			event = "ExplosionHit",
+			func = function(world, entity, impact)
+				entity.ColorIntensity = (entity.RestIntensity or rest_intensity) + (entity.PulseIntensity or pulse_intensity) * impact
+			end
+		}
 	}
 }

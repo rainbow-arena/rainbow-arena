@@ -3,6 +3,7 @@ local game = {}
 local ces = require("lib.self.ces")
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
+local timer = require("lib.hump.timer")
 local spatialhash = require("lib.self.spatialhash")
 local util = require("lib.self.util")
 
@@ -181,6 +182,7 @@ function game:update(dt)
 	world.screenshake = 0
 
 	local adjdt = dt * game_speed
+	timer.update(adjdt)
 	world:runSystems("update", adjdt)
 end
 
