@@ -2,14 +2,14 @@ local util = require("lib.self.util")
 
 local clamp = util.math.clamp
 local range = util.math.range
+local map = util.math.map
 
 ---
 
-local intensity_rate = 1.5
-local max_intensity = 0.9
+local intensity_decay_rate = 2
 
-local pulse_intensity = 0.6
-local rest_intensity = 0.3
+local min_intensity = 0.3
+local max_intensity = 0.7
 
 local max_pulse_speed = 500
 
@@ -46,11 +46,10 @@ return {
 				local color = entity.Color
 
 				if not entity.ColorIntensity then
-					entity.ColorIntensity = rest_intensity
+					entity.ColorIntensity = 0
 				end
 
-				entity.ColorIntensity = clamp(0, entity.ColorIntensity, max_intensity)
-				local v = entity.ColorIntensity
+				local v = map(entity.ColorIntensity, 0, 1, min_intensity, max_intensity)
 
 				love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
 				love.graphics.circle("fill", pos.x, pos.y, radius, 20)
@@ -64,16 +63,11 @@ return {
 			name = "RestoreCircleColor",
 			requires = {"ColorIntensity"},
 			update = function(entity, world, dt)
-				local rate = intensity_rate
-				local rest = rest_intensity
+				local step = intensity_decay_rate*dt
 
-				local step = rate*dt
-
-				if range(rest - step, entity.ColorIntensity, rest + step) then
-					entity.ColorIntensity = rest
-				elseif entity.ColorIntensity < rest then
-					entity.ColorIntensity = entity.ColorIntensity + step
-				elseif entity.ColorIntensity > rest then
+				if range(-step, entity.ColorIntensity, step) then
+					entity.ColorIntensity = 0
+				elseif entity.ColorIntensity > 0 then
 					entity.ColorIntensity = entity.ColorIntensity - step
 				end
 			end
@@ -83,10 +77,8 @@ return {
 			name = "PulseCircleColor",
 			requires = {"ColorPulse"},
 			update = function(entity, world, dt)
-				local intensity = rest_intensity + pulse_intensity * entity.ColorPulse
-
-				if entity.ColorIntensity < intensity then
-					entity.ColorIntensity = intensity
+				if entity.ColorIntensity < entity.ColorPulse then
+					entity.ColorIntensity = entity.ColorPulse
 				end
 
 				entity.ColorPulse = nil
