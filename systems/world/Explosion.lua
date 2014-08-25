@@ -6,7 +6,7 @@ local ceil = math.ceil
 return {
 	systems = {
 		{
-			name = "UpdateExplosion",
+			name = "DoExplosion",
 			requires = {"Position", "Explosion"},
 			update = function(entity, world, dt)
 				local exp = entity.Explosion
