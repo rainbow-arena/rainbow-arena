@@ -4,11 +4,7 @@ return {
 			name = "UpdateParticleSystem",
 			requires = {"ParticleSystem"},
 			update = function(entity, world, dt)
-				if entity.ParticleSystem:getCount() == 0 then
-					entity.ParticleSystem = nil
-				else
-					entity.ParticleSystem:update(dt)
-				end
+				entity.ParticleSystem:update(dt)
 			end
 		},
 		{
