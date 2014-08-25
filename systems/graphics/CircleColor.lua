@@ -32,7 +32,7 @@ end
 return {
 	systems = {
 		{
-			name = "DrawCombatant",
+			name = "DrawColoredCircle",
 			requires = {"Position", "Radius", "Color"},
 			draw = function(entity)
 				local pos = entity.Position
@@ -55,7 +55,7 @@ return {
 		},
 
 		{
-			name = "RestoreCombatantColor",
+			name = "RestoreCircleColor",
 			requires = {"ColorIntensity"},
 			update = function(entity, world, dt)
 				local rate = entity.ColorRate or intensity_rate
