@@ -16,6 +16,15 @@
 		Add Force and/or Damage events?
 		Standardise projectiles better (including use of events).
 		Events: Figure out entities which don't have required components.
+
+		Weapons to make:
+			Beam laser
+			Sticky bomb launcher
+			Rocket launcher
+			Guided missile launcher
+			Turret deployer
+			Sonic (dubstep) gun
+			Gravity ball launcher
 ]]
 
 local gs = require("lib.hump.gamestate")
