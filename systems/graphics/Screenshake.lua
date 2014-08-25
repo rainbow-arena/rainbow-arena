@@ -10,7 +10,7 @@ return {
 			requires = {"Position", "Screenshake"},
 			update = function(source, world, dt)
 				local ss = source.Screenshake
-				assert( ss.intensity and ss.falloff, "Screenshake component missing field(s)!")
+				assert( ss.intensity and ss.radius, "Screenshake component missing field(s)!")
 
 				-- Initialise starting time if this is a timed source.
 				if not ss.timer and ss.duration then
@@ -34,8 +34,7 @@ return {
 				local camera_pos = vector.new(world.camera.x, world.camera.y)
 				local dist_to_source = (source.Position - camera_pos):len()
 
-				-- (Falloff is pixels distance per one intensity level drop.)
-				local final_intensity = clamp(0, intensity - (dist_to_source/ss.falloff), math.huge)
+				local final_intensity = clamp(0, intensity * ( 1 - (dist_to_source/ss.radius)), math.huge)
 
 				world.screenshake = world.screenshake + final_intensity
 			end
@@ -54,7 +53,7 @@ return {
 					Lifetime = duration,
 					Screenshake = {
 						intensity = intensity,
-						falloff = 100,
+						radius = 100,
 						duration = duration
 					}
 				}
@@ -71,7 +70,7 @@ return {
 					Lifetime = duration,
 					Screenshake = {
 						intensity = intensity,
-						falloff = 100,
+						radius = 100,
 						duration = duration
 					}
 				}

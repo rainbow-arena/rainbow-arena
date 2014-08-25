@@ -2,7 +2,7 @@ local vector = require("lib.hump.vector")
 
 local img_particle = love.graphics.newImage("graphics/particle.png")
 
-return function(pos, radius, force, damage, color, speed, nparticles)
+return function(pos, radius, force, damage, color, speed, nparticles, screenshake)
 	local ps = love.graphics.newParticleSystem(img_particle, 1024)
 	local pradius = radius + 50
 
@@ -37,6 +37,12 @@ return function(pos, radius, force, damage, color, speed, nparticles)
 			speed = speed,
 			force = force,
 			damage = damage,
+		},
+
+		Screenshake = {
+			intensity = screenshake or 3,
+			radius = radius,
+			duration = lifetime/2
 		}
 	}
 end
