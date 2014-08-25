@@ -13,10 +13,7 @@
 			or explosion entity has components that specify force?
 
 	TODO:
-		Add Force and Damage events, etc.
-			Replace projectile force application with this.
-			Replace explosion force application.
-			Reduce code repetition in circle color pulsing.
+		Add Force and/or Damage events?
 		Standardise projectiles better (including use of events).
 		Events: Figure out entities which don't have required components.
 ]]
