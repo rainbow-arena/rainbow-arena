@@ -228,7 +228,7 @@ function game:mousepressed(x, y, b)
 		local pos = vector.new(world.camera:worldCoords(x, y))
 
 		world:spawnEntity(require("entities.explosion")(
-			pos, 400, 10^6))
+			pos, 200, 10^6))
 	end
 
 	world:emitEvent("MousePressed", x, y, b)
