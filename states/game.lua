@@ -214,6 +214,8 @@ function game:keyreleased(key)
 	world:emitEvent("KeyReleased", key)
 end
 
+local img_particle = love.graphics.newImage("graphics/particle.png")
+
 function game:mousepressed(x, y, b)
 	if b == "wd" then
 		game_speed = game_speed - 0.1
@@ -224,14 +226,36 @@ function game:mousepressed(x, y, b)
 	if b == "r" then
 		local ax, ay = world.camera:worldCoords(x, y)
 
-		world:spawnEntity{
+		local ps = love.graphics.newParticleSystem(img_particle, 1024)
+
+		local radius = 400
+
+		local sr, sb, sg = 255, 97, 0
+
+		--ps:setPosition(position:unpack())
+		ps:setEmitterLifetime(0.1)
+		ps:setParticleLifetime(0.1,3)
+		ps:setEmissionRate(100)
+		ps:setSpeed(minspeed or 10, maxspeed or 200)
+		ps:setSpread(2 * math.pi)
+		ps:setAreaSpread("normal", radius/2.5, radius/2.5)
+		ps:setColors(sr, sg, sb, 255, sr, sg, sb, 0)
+		ps:setSizes(1, 0)
+		ps:setSizeVariation(1)
+		ps:start()
+		ps:emit(512)
+
+		local explosion = world:spawnEntity{
 			Position = vector.new(ax, ay),
 
-			Lifetime = 0.1,
+			Lifetime = 5,
+
+			ParticleSystem = ps,
+
 			Explosion = {
 				force = 2*10^6,
 				damage = 10,
-				radius = 400
+				radius = radius
 			}
 		}
 	end

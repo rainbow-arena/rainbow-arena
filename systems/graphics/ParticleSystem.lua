@@ -14,7 +14,7 @@ return {
 		{
 			name = "DrawParticleSystem",
 			requires = {"ParticleSystem"},
-			update = function(entity, world, dt)
+			draw = function(entity, world, dt)
 				love.graphics.draw(entity.ParticleSystem, entity.Position.x, entity.Position.y)
 			end
 		}
