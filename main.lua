@@ -11,6 +11,14 @@
 
 		Explosions: Explosion event with position and force,
 			or explosion entity has components that specify force?
+
+	TODO:
+		Add Force and Damage events, etc.
+			Replace projectile force application with this.
+			Replace explosion force application.
+			Reduce code repetition in circle color pulsing.
+		Standardise projectiles better (including use of events).
+		Events: Figure out entities which don't have required components.
 ]]
 
 local gs = require("lib.hump.gamestate")
