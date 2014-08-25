@@ -15,6 +15,7 @@
 	TODO:
 		Add Force and/or Damage events?
 		Standardise projectiles better (including use of events).
+			Make a better weapon creation system. Component based?
 		Events: Figure out entities which don't have required components.
 
 		Weapons to make:
