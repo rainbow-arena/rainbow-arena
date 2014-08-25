@@ -228,17 +228,17 @@ function game:mousepressed(x, y, b)
 
 		local ps = love.graphics.newParticleSystem(img_particle, 1024)
 
-		local radius = 400
+		local radius = 100
 
-		local sr, sb, sg = 255, 97, 0
+		local sr, sg, sb = 255, 97, 0
 
-		--ps:setPosition(position:unpack())
+		ps:setPosition(ax, ay)
 		ps:setEmitterLifetime(0.1)
 		ps:setParticleLifetime(0.1,3)
 		ps:setEmissionRate(100)
-		ps:setSpeed(minspeed or 10, maxspeed or 200)
+		ps:setSpeed(10, 100)
 		ps:setSpread(2 * math.pi)
-		ps:setAreaSpread("normal", radius/2.5, radius/2.5)
+		ps:setAreaSpread("normal", radius/4, radius/4)
 		ps:setColors(sr, sg, sb, 255, sr, sg, sb, 0)
 		ps:setSizes(1, 0)
 		ps:setSizeVariation(1)
@@ -248,7 +248,7 @@ function game:mousepressed(x, y, b)
 		local explosion = world:spawnEntity{
 			Position = vector.new(ax, ay),
 
-			Lifetime = 5,
+			Lifetime = 3,
 
 			ParticleSystem = ps,
 
