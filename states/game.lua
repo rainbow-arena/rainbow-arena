@@ -93,6 +93,12 @@ function game:init()
 
 	---
 
+	function world:add_screenshake(intensity)
+		self.screenshake = self.screenshake + intensity
+	end
+
+	---
+
 	loadSystems("systems")
 end
 
@@ -149,7 +155,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = require("entities.weapons.pistol")(0.1, 3, nil, 800, 1),
+		Weapon = require("entities.weapons.minigun")(0.3, 0.05, 2, 3, 800, 1),
 
 		Player = true,
 		CameraTarget = true

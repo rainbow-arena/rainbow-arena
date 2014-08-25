@@ -27,6 +27,10 @@ return {
 
 					-- Fire if applicable.
 					if entity.Weapon.heat == 0 then
+						if not entity.Weapon.fired then
+							entity.Weapon:fire_start(world, entity, position_vector, direction_vector)
+						end
+
 						if (entity.Weapon.type == "single" and not entity.Weapon.fired)
 							or entity.Weapon.type == "repeat"
 						then

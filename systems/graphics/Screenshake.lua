@@ -42,7 +42,7 @@ return {
 
 				local final_intensity = clamp(0, intensity * (1 - (dist_to_source/ss.radius)), math.huge)
 
-				world.screenshake = world.screenshake + final_intensity
+				world:add_screenshake(final_intensity)
 			end
 		}
 	},
