@@ -4,9 +4,9 @@ local util = require("lib.self.util")
 
 ---
 
-return function(radius, mass, damage)
+return function(radius, damage, color, mass)
 
-	local proj = proj_physical(radius, mass, {255, 255, 0})
+	local proj = proj_physical(radius, color or {255, 255, 0}, mass)
 
 	table.insert(proj.OnProjectileCollision, function(self, world, target, mtv)
 		-- Damage entities hit by the bullet and destroy the bullet.

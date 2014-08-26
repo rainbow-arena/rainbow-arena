@@ -4,7 +4,7 @@ local util = require("lib.self.util")
 
 ---
 
-return function(projectile_prototype, projectile_speed, cooldown)
+return function(projectile_prototype, projectile_speed, firedelay)
 	return {
 		fire = function(self, world, host, pos, dir)
 			self:do_fire(world, host, pos, dir)
@@ -21,7 +21,7 @@ return function(projectile_prototype, projectile_speed, cooldown)
 			end
 
 			-- Cooldown
-			self.heat = self:get_cooldown()
+			self.firedelay = self:get_firedelay()
 		end,
 
 		---
@@ -63,7 +63,7 @@ return function(projectile_prototype, projectile_speed, cooldown)
 		end,
 
 		get_cooldown = function(self)
-			return cooldown
+			return firedelay
 		end
 	}
 end

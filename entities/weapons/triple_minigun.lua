@@ -1,7 +1,7 @@
 local minigun = require("entities.weapons.minigun")
 
-return function(start_cooldown, end_cooldown, spinup_time, bullet_radius, bullet_speed, bullet_damage, bullet_mass)
-	local triple_minigun = minigun(start_cooldown, end_cooldown, spinup_time, bullet_radius, bullet_speed, bullet_damage, bullet_mass)
+return function(projectile_prototype, projectile_speed, start_cooldown, end_cooldown, spinup_time)
+	local triple_minigun = minigun(projectile_prototype, projectile_speed, start_cooldown, end_cooldown, spinup_time)
 
 	triple_minigun.barrel = -1
 

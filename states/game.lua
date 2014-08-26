@@ -139,6 +139,8 @@ function game:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
+	local bullet = require("entities.projectiles.bullet")(3, 1)
+
 	player = world:spawnEntity{
 		Name = "Player",
 		Team = "Player",
@@ -155,7 +157,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = require("entities.weapons.triple_minigun")(0.3, 0.05, 2, 3, 800, 1),
+		Weapon = require("entities.weapons.triple_minigun")(bullet, 800, 0.3, 0.05, 2),
 
 		Player = true,
 		CameraTarget = true

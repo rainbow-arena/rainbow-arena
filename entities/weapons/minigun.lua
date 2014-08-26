@@ -7,9 +7,8 @@ local proj_weapon = require("entities.weapons.base_projectile")
 
 local ss_cooldown_ratio = 0.2
 
-return function(start_cooldown, end_cooldown, spinup_time, bullet_radius, bullet_speed, bullet_damage, bullet_mass)
-	local minigun = proj_weapon(bullet(bullet_radius, bullet_mass, bullet_damage),
-		bullet_speed)
+return function(projectile_prototype, projectile_speed, start_cooldown, end_cooldown, spinup_time)
+	local minigun = proj_weapon(projectile_prototype, projectile_speed)
 
 	minigun.type = "repeat"
 
