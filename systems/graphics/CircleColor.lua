@@ -101,24 +101,6 @@ return {
 				ent1.ColorPulse = res1
 				ent2.ColorPulse = res2
 			end
-		},
-		{
-			event = "ProjectileCollision",
-			func = function(world, projectile, target, mtv)
-				target.ColorPulse = 1
-			end
-		},
-		{
-			event = "WeaponFired",
-			func = function(world, entity)
-				entity.ColorPulse = 1
-			end
-		},
-		{
-			event = "ExplosionHit",
-			func = function(world, entity, impact)
-				entity.ColorPulse = impact
-			end
 		}
 	}
 }

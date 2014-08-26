@@ -31,7 +31,8 @@ return {
 					if impact > 0 then
 						local dir = dist_vec:normalized()
 						timer.add(delay, function()
-							world:emitEvent("ExplosionHit", affected, impact)
+							-- ColorPulse entity.
+							if affected.Color then affected.ColorPulse = impact end
 
 							if affected.Velocity then
 								-- Apply explosion force.

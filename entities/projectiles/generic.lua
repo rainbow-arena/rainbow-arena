@@ -28,7 +28,7 @@ return function()
 		OnProjectileCollision = {},
 		OnEntityCollision = function(self, world, target, mtv)
 			if collision_eligible(self, target) then
-				world:emitEvent("ProjectileCollision", self, target, mtv)
+				if target.Color then target.ColorPulse = 1 end
 
 				for _, func in ipairs(self.OnProjectileCollision) do
 					func(self, world, target, mtv)

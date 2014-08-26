@@ -7,6 +7,8 @@ local aabb = circleutil.aabb
 local invert = util.table.invert
 local has = util.table.has
 
+---
+
 local function collision_eligible(ent1, ent2)
 	if ent1 == ent2 then return false end
 
@@ -38,6 +40,8 @@ local function collision_eligible(ent1, ent2)
 
 	return true
 end
+
+---
 
 return {
 	systems = {
