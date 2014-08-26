@@ -75,7 +75,7 @@ return {
 
 		{ -- Pulse the circle. Value is from 0 to 1.
 			name = "PulseCircleColor",
-			requires = {"ColorPulse"},
+			requires = {"ColorIntensity", "ColorPulse"},
 			update = function(entity, world, dt)
 				if entity.ColorIntensity < entity.ColorPulse then
 					entity.ColorIntensity = entity.ColorPulse
