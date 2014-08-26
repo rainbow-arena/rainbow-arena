@@ -1,10 +1,6 @@
-local bullet = require("entities.projectiles.bullet")
-local proj_weapon = require("entities.weapons.base_projectile")
+local class = require("lib.hump.class")
 
-return function(projectile_prototype, cooldown)
-	local pistol = proj_weapon(projectile_prototype, bullet_speed, cooldown)
+local proj_weapon = require("entities.weapons.projectile")
 
-	pistol.type = "single"
+local weapon = proj_weapon(maxheat, shot_heat, projectile, projectile_speed, shot_delay)
 
-	return pistol
-end

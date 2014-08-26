@@ -8,6 +8,7 @@ return {
 			update = function(entity, world, dt)
 				local weapon = entity.Weapon
 
+				-- Set default heat and max heat values.
 				if not weapon.heat then weapon.heat = 0 end
 				if not weapon.max_heat then weapon.max_heat = 5 end
 
@@ -23,9 +24,9 @@ return {
 							+ (direction_vector * (entity.Radius))
 
 						-- fire_start: called first when the weapon starts firing.
-						if not weapon.fired then
+						if not weapon._fired then
 							weapon:start(entity, world, position_vector, direction_vector)
-							weapon.fired = true
+							weapon._fired = true
 						end
 
 						-- fire_update: called every frame while firing.
@@ -40,7 +41,7 @@ return {
 						if weapon.cease then
 							weapon:cease(entity, world)
 						end
-						weapon.firing = false
+						weapon._fired = false
 					end
 
 					weapon.heat = weapon.heat - dt

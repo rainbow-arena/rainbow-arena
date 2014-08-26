@@ -1,4 +1,5 @@
-local class = require("hump.class")
+local class = require("lib.hump.class")
+local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
 
 local join = util.table.join
@@ -8,12 +9,20 @@ local weapon = class{__includes = base}
 
 ---
 
-function weapon:init(projectile, projectile_speed, shot_delay)
+function weapon:init(maxheat, shot_heat, kind, projectile, projectile_speed, shot_delay)
+	self.kind = kind or "single"
+	self.shot_heat = shot_heat
 	self.projectile = projectile
 	self.projectile_speed = projectile_speed
 	self.shot_delay = shot_delay
 
 	self.shot_timer = 0
+
+	base.init(self, maxheat)
+end
+
+function weapon:get_shot_heat()
+	return self.shot_heat
 end
 
 function weapon:get_projectile()
@@ -30,7 +39,7 @@ end
 
 ---
 
-function weapon:spawn_projectile(world, pos, dir)
+function weapon:spawn_projectile(world, host, pos, dir)
 	local projectile = world:spawnEntity(
 		util.table.join(
 			self.projectile,
@@ -61,9 +70,11 @@ function weapon:apply_recoil(projectile, host, dir)
 		self:get_projectile_speed() * dir, host.Mass, host.Velocity)
 end
 
-function weapon:fire(world, pos, dir)
-	local p = self:spawn_projectile(world, pos, dir)
+function weapon:fire(world, host, pos, dir)
+	local p = self:spawn_projectile(world, host, pos, dir)
 	self:apply_recoil(p, host, dir)
+	self.shot_timer = self:get_shot_delay()
+	self:add_heat(self:get_shot_heat())
 end
 
 ---
@@ -72,15 +83,20 @@ function weapon:start(world, host, pos, dir)
 
 end
 
-function weapon:update(dt, world, host, pos, dir)
+function weapon:update(dt, host, world, pos, dir)
 	self.shot_timer = self.shot_timer - dt
 	if self.shot_timer < 0 then
 		self.shot_timer = 0
+
+		if (self.kind == "single" and not self.fired) or self.kind ~= "single" then
+			self.fired = true
+			self:fire(world, host, pos, dir)
+		end
 	end
 end
 
 function weapon:cease(world, host)
-
+	self.fired = false
 end
 
 return weapon
