@@ -42,6 +42,7 @@ local function loadSystems(dir)
 	end
 end
 
+-- TODO: Move event bus out of ces.lua and override some ces functions?
 function game:init()
 	world = ces.new()
 
