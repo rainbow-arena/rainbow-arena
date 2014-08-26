@@ -11,6 +11,7 @@
 
 		TODO:
 			Make event bus separate from ces.lua, hijack functions instead
+			Make entity creator files class-based, like weapons
 
 		Weapons to make:
 			Beam laser
