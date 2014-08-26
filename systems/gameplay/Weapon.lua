@@ -32,7 +32,7 @@ return {
 					end
 
 				else -- if not entity.Firing then
-					if weapon.fired then
+					if weapon._fired then
 						-- fire_end: called when the weapon ceases firing.
 						if weapon.cease then
 							weapon:cease(entity, world)

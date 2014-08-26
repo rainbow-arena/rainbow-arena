@@ -23,7 +23,7 @@ end
 
 ---
 
-function weapon:spawn_projectile(world, host, pos, dir)
+function weapon:spawn_projectile(host, world, pos, dir)
 	local projectile = world:spawnEntity(
 		util.table.join(
 			self.projectile,
@@ -45,7 +45,7 @@ function weapon:spawn_projectile(world, host, pos, dir)
 	return projectile
 end
 
-function weapon:apply_recoil(projectile, host, dir)
+function weapon:apply_recoil(host, projectile, dir)
 	if not projectile.Mass then
 		projectile.Mass = math.pi * projectile.Radius^2
 	end
@@ -54,17 +54,19 @@ function weapon:apply_recoil(projectile, host, dir)
 		self.projectile_speed * dir, host.Mass, host.Velocity)
 end
 
-function weapon:fire(world, host, pos, dir)
-	local p = self:spawn_projectile(world, host, pos, dir)
-	self:apply_recoil(p, host, dir)
+function weapon:fire(host, world, pos, dir)
+	local p = self:spawn_projectile(host, world, pos, dir)
+	self:apply_recoil(host, p, dir)
 	self.shot_timer = self.shot_delay
 	self.heat = self.heat + self.shot_heat
+
+	host.ColorPulse = 1
 end
 
 ---
 
-function weapon:start(world, host, pos, dir)
-	w_base.start(self, world, host, pos, dir)
+function weapon:start(host, world, pos, dir)
+	w_base.start(self, host, world, pos, dir)
 end
 
 function weapon:update(dt, host, world, pos, dir)
@@ -74,17 +76,17 @@ function weapon:update(dt, host, world, pos, dir)
 
 		if (self.kind == "single" and not self.fired) or self.kind ~= "single" then
 			self.fired = true
-			self:fire(world, host, pos, dir)
+			self:fire(host, world, pos, dir)
 		end
 	end
 
-	w_base.update(self, world, host, pos, dir)
+	w_base.update(self, host, world, pos, dir)
 end
 
-function weapon:cease(world, host)
+function weapon:cease(host, world)
 	self.fired = false
 
-	w_base.cease(self, world, host)
+	w_base.cease(self, host, world)
 end
 
 return weapon
