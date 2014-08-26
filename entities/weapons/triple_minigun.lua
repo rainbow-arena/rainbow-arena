@@ -1,22 +1,27 @@
-local minigun = require("entities.weapons.minigun")
+local class = require("lib.hump.class")
+local util = require("lib.self.util")
 
-return function(projectile_prototype, projectile_speed, start_cooldown, end_cooldown, spinup_time)
-	local triple_minigun = minigun(projectile_prototype, projectile_speed, start_cooldown, end_cooldown, spinup_time)
+local map = util.math.map
 
-	triple_minigun.barrel = -1
+local w_minigun = require("entities.weapons.minigun")
+local weapon = class{__includes = w_minigun}
 
-	---
+function weapon:init(arg)
+	self.barrel = -1
 
-	function triple_minigun:fire(world, host, pos, dir)
-		pos = pos + dir:perpendicular() * self.barrel * 10
-		self:do_fire(world, host, pos, dir)
-
-		self.barrel = self.barrel + 1
-		if self.barrel > 1 then
-			self.barrel = -1
-		end
-	end
-
-	return triple_minigun
+	w_minigun.init(self, arg)
 end
 
+function weapon:fire(host, world, pos, dir)
+	self.barrel = self.barrel + 1
+	if self.barrel > 1 then
+		self.barrel = -1
+	end
+
+	pos = pos + dir:perpendicular() * self.barrel * 10
+
+	w_minigun.fire(self, host, world, pos, dir)
+end
+
+
+return weapon

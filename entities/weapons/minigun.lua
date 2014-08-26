@@ -6,15 +6,15 @@ local map = util.math.map
 local w_projectile = require("entities.weapons.projectile")
 local weapon = class{__includes = w_projectile}
 
-function weapon:init(maxheat, shot_heat, projectile, projectile_speed,
-	start_shot_delay, final_shot_delay, spinup_time, shake_radius)
+function weapon:init(arg)
+	self.start_shot_delay = arg.start_shot_delay or 0.3
+	self.final_shot_delay = arg.final_shot_delay or 0.02
+	self.spinup_time = arg.spinup_time or 2
+	self.shake_radius = arg.shake_radius or 100
 
-	self.start_shot_delay = start_shot_delay
-	self.final_shot_delay = final_shot_delay
-	self.spinup_time = spinup_time
-	self.shake_radius = self.shake_radius or 100
+	arg.kind = "repeat"
 
-	w_projectile.init(self, maxheat, shot_heat, "repeat", projectile, projectile_speed, start_shot_delay)
+	w_projectile.init(self, arg)
 end
 
 function weapon:start(host, world, pos, dir)

@@ -9,16 +9,16 @@ local weapon = class{__includes = w_base}
 
 ---
 
-function weapon:init(maxheat, shot_heat, kind, projectile, projectile_speed, shot_delay)
-	self.kind = kind or "single"
-	self.shot_heat = shot_heat
-	self.projectile = projectile
-	self.projectile_speed = projectile_speed
-	self.shot_delay = shot_delay
+function weapon:init(arg)
+	self.kind = arg.kind or "single"
+	self.shot_heat = arg.shot_heat or 0.25
+	self.projectile = arg.projectile
+	self.projectile_speed = arg.projectile_speed or 800
+	self.shot_delay = arg.shot_delay or 0.1
 
 	self.shot_timer = 0
 
-	w_base.init(self, maxheat)
+	w_base.init(self, arg)
 end
 
 ---

@@ -141,8 +141,28 @@ function game:enter(previous, w, h, nbots)
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
 	local bullet = require("entities.projectiles.bullet")(3, 1)
-	local pistol = require("entities.weapons.projectile")(10, 0.25, "single", bullet, 800, 0.1)
-	local minigun = require("entities.weapons.minigun")(5, 0.1, bullet, 800, 0.3, 0.05, 2)
+	local pistol = require("entities.weapons.projectile"){
+		max_heat = 4,
+		shot_heat = 0.25,
+
+		kind = "single",
+		projectile = bullet,
+		projectile_speed = 800,
+		shot_delay = 0.1
+	}
+
+	local minigun = require("entities.weapons.triple_minigun"){
+		max_heat = 10,
+		shot_heat = 0.2,
+
+		kind = "single",
+		projectile = bullet,
+		projectile_speed = 800,
+
+		initial_shot_delay = 0.3,
+		final_shot_delay = 0.05,
+		spinup_time = 2
+	}
 
 	player = world:spawnEntity{
 		Name = "Player",

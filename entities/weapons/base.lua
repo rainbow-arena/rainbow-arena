@@ -2,9 +2,10 @@ local class = require("lib.hump.class")
 
 local weapon = class{}
 
-function weapon:init(max_heat)
+function weapon:init(arg)
+	self.max_heat = arg.max_heat or 2
+
 	self.heat = 0
-	self.max_heat = max_heat or 2
 end
 
 function weapon:start(world, host, pos, dir)
