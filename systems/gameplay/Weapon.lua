@@ -8,10 +8,6 @@ return {
 			update = function(entity, world, dt)
 				local weapon = entity.Weapon
 
-				-- Set default heat and max heat values.
-				if not weapon.heat then weapon.heat = 0 end
-				if not weapon.max_heat then weapon.max_heat = 5 end
-
 				if entity.Firing then
 					if weapon.heat >= weapon.max_heat then
 						weapon.overheat = true

@@ -1,53 +1,52 @@
+local class = require("lib.hump.class")
 local util = require("lib.self.util")
 
 local map = util.math.map
 
-local bullet = require("entities.projectiles.bullet")
-local proj_weapon = require("entities.weapons.base_projectile")
+local w_projectile = require("entities.weapons.projectile")
+local weapon = class{__includes = w_projectile}
 
-local ss_cooldown_ratio = 0.2
+function weapon:init(maxheat, shot_heat, kind, projectile, projectile_speed, start_shot_delay, final_shot_delay, spinup_time, shake_radius)
+	self.start_shot_delay = start_shot_delay
+	self.final_shot_delay = final_shot_delay
+	self.spinup_time = spinup_time
+	self.shake_radius = self.shake_radius or 100
 
-return function(projectile_prototype, projectile_speed, start_cooldown, end_cooldown, spinup_time)
-	local minigun = proj_weapon(projectile_prototype, projectile_speed)
-
-	minigun.type = "repeat"
-
-	---
-
-	function minigun:fire_start(world, host, pos, dir)
-		self.cooldown = start_cooldown
-		self.firetime = 0
-
-		self.ss_ent = world:spawnEntity{
-			Position = host.Position:clone(),
-
-			Screenshake = {
-				intensity = 0,
-				radius = 100
-			}
-		}
-	end
-
-	function minigun:firing(host, world, dt, pos, dir)
-		self.firetime = self.firetime + dt
-		if self.firetime > spinup_time then
-			self.firetime = spinup_time
-		end
-
-		self.cooldown = map(self.firetime, 0,spinup_time, start_cooldown,end_cooldown)
-
-		self.ss_ent.Position = host.Position:clone()
-		self.ss_ent.Screenshake.intensity = ss_cooldown_ratio / self.cooldown
-	end
-
-	function minigun:fire_end(host, world)
-		world:destroyEntity(self.ss_ent)
-	end
-
-	function minigun:get_cooldown()
-		return self.cooldown
-	end
-
-	return minigun
+	w_projectile.init(self, maxheat, shot_heat, kind, projectile, projectile_speed, start_shot_delay)
 end
 
+function weapon:start(world, host, pos, dir)
+	self.shot_delay = self.start_shot_delay
+	self.firetime = 0
+
+	self.ss = world:spawnEntity{
+		Position = host.Position:clone(),
+
+		Screenshake = {
+			intensity = 0,
+			radius = self.shake_radius
+		}
+	}
+
+	w_projectile.start(self, world, host, pos, dir)
+end
+
+function weapon:update(dt, world, host, pos, dir)
+	self.firetime = self.firetime + dt
+	if self.firetime > self.spinup_time then
+		self.firetime = self.spinup_time
+	end
+
+	self.shot_delay = map(self.firetime, 0,self.spinup_time, self.start_shot_delay,self.final_shot_delay)
+
+	self.ss.Position = host.Position:clone()
+	self.ss.Screenshake.intensity = 0.2 / self.shot_delay
+
+	w_projectile.update(self, dt, world, host, pos, dir)
+end
+
+function weapon:cease(world, host)
+	world:destroyEntity(self.ss)
+
+	w_projectile.cease(self, world, host)
+end

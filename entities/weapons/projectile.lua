@@ -4,8 +4,8 @@ local util = require("lib.self.util")
 
 local join = util.table.join
 
-local base = require("entities.weapons.base")
-local weapon = class{__includes = base}
+local w_base = require("entities.weapons.base")
+local weapon = class{__includes = w_base}
 
 ---
 
@@ -18,23 +18,7 @@ function weapon:init(maxheat, shot_heat, kind, projectile, projectile_speed, sho
 
 	self.shot_timer = 0
 
-	base.init(self, maxheat)
-end
-
-function weapon:get_shot_heat()
-	return self.shot_heat
-end
-
-function weapon:get_projectile()
-	return self.projectile
-end
-
-function weapon:get_projectile_speed()
-	return self.projectile_speed
-end
-
-function weapon:get_shot_delay()
-	return self.shot_delay
+	w_base.init(self, maxheat)
 end
 
 ---
@@ -45,7 +29,7 @@ function weapon:spawn_projectile(world, host, pos, dir)
 			self.projectile,
 			{
 				Position = pos + dir,
-				Velocity = self:get_projectile_speed() * dir + host.Velocity,
+				Velocity = self.projectile_speed * dir + host.Velocity,
 				Team = host.Team
 			}
 		)
@@ -67,20 +51,20 @@ function weapon:apply_recoil(projectile, host, dir)
 	end
 
 	host.Velocity = weaponutil.calculate_recoil_velocity(projectile.Mass,
-		self:get_projectile_speed() * dir, host.Mass, host.Velocity)
+		self.projectile_speed * dir, host.Mass, host.Velocity)
 end
 
 function weapon:fire(world, host, pos, dir)
 	local p = self:spawn_projectile(world, host, pos, dir)
 	self:apply_recoil(p, host, dir)
-	self.shot_timer = self:get_shot_delay()
-	self:add_heat(self:get_shot_heat())
+	self.shot_timer = self.shot_delay
+	self.heat = self.heat + self.shot_heat
 end
 
 ---
 
 function weapon:start(world, host, pos, dir)
-
+	w_base.start(self, world, host, pos, dir)
 end
 
 function weapon:update(dt, host, world, pos, dir)
@@ -93,10 +77,14 @@ function weapon:update(dt, host, world, pos, dir)
 			self:fire(world, host, pos, dir)
 		end
 	end
+
+	w_base.update(self, world, host, pos, dir)
 end
 
 function weapon:cease(world, host)
 	self.fired = false
+
+	w_base.cease(self, world, host)
 end
 
 return weapon
