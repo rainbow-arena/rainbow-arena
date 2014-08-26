@@ -19,6 +19,9 @@
 		Events: Figure out entities which don't have required components.
 
 		Weapons to make:
+			Pistol
+			Minigun
+			Triple barreled machine gun
 			Beam laser
 			Sticky bomb launcher
 			Rocket launcher
