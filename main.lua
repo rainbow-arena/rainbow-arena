@@ -9,6 +9,9 @@
 		Matches: Actual match/level logic
 		Sound: PlaySound event/component with position and source?
 
+		TODO:
+			Make event bus separate from ces.lua, hijack functions instead
+
 		Weapons to make:
 			Beam laser
 			Sticky bomb launcher
