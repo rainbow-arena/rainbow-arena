@@ -140,7 +140,13 @@ function game:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local bullet = require("entities.projectiles.bullet")(3, 1)
+	local bullet_c = require("entities.projectiles.physical")
+	local bullet = bullet_c()
+
+	for k,v in pairs(bullet_c) do print(k) end
+	print("---")
+	for k,v in pairs(bullet) do print(k) end
+
 	local pistol = require("entities.weapons.projectile"){
 		max_heat = 4,
 		shot_heat = 0.25,

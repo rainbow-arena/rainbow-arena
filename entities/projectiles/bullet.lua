@@ -1,21 +1,17 @@
-local proj_physical = require("entities.projectiles.physical")
-
-local util = require("lib.self.util")
+local class = require("lib.hump.class")
 
 ---
 
-return function(radius, damage, color, mass)
+local e_proj_physical = require("entities.projectiles.physical")
+local e_proj_bullet = class{__includes = e_proj_physical}
 
-	local proj = proj_physical(radius, color or {255, 255, 0}, mass)
+function e_proj_bullet:on_collision(world, target, mtv)
+	if target.Health then
+		target.Health = target.Health - damage
+	end
+	world:destroyEntity(self)
 
-	table.insert(proj.OnProjectileCollision, function(self, world, target, mtv)
-		-- Damage entities hit by the bullet and destroy the bullet.
-		if target.Health then
-			target.Health = target.Health - damage
-		end
-
-		world:destroyEntity(self)
-	end)
-
-	return proj
+	e_proj_physical.on_collision(self, world, target, mtv)
 end
+
+return e_proj_bullet

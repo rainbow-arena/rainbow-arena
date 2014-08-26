@@ -1,4 +1,8 @@
-local util = require("lib.self.util")
+local class = require("lib.hump.class")
+
+---
+
+local e_proj_generic = class{}
 
 -- Only affect the target if: the projectile and the target both
 -- have a Team component and they are on different teams; or
@@ -7,33 +11,31 @@ local function collision_eligible(projectile, target)
 	if projectile.Team and target.Team then
 		if projectile.Team == target.Team then
 			return false
-		else
-			return true
 		end
-	else
-		return true
 	end
+
+	return true
 end
 
 ---
 
-return function()
-	return {
-		Projectile = true,
+function e_proj_generic:init()
+	self.Projectile = true
+	self.ArenaBounded = 0
 
-		ArenaBounded = 0,
+	self.CollisionExcludeComponents = {"Projectile"}
 
-		CollisionExcludeComponents = {"Projectile"},
-
-		OnProjectileCollision = {},
-		OnEntityCollision = function(self, world, target, mtv)
-			if collision_eligible(self, target) then
-				world:emitEvent("ProjectileCollision", self, target, mtv)
-
-				for _, func in ipairs(self.OnProjectileCollision) do
-					func(self, world, target, mtv)
-				end
-			end
+	self.OnEntityCollision = function(self, world, target, mtv)
+		if collision_eligible(self, target) then
+			self:on_collision(world, target, mtv)
 		end
-	}
+	end
 end
+
+function e_proj_generic:on_collision(world, target, mtv)
+
+end
+
+---
+
+return e_proj_generic
