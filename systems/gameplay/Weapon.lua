@@ -6,29 +6,48 @@ return {
 			name = "UpdateWeapon",
 			requires = {"Weapon"},
 			update = function(entity, world, dt)
+				local weapon = entity.Weapon
+
+				if not weapon.heat then weapon.heat = 0 end
+				if not weapon.max_heat then weapon.max_heat = 5 end
+
 				if entity.Firing then
-					local direction_vector = vector.new(
+					if weapon.heat >= weapon.max_heat then
+						weapon.overheat = true
+					end
+
+					if not weapon.overheat then
+						local direction_vector = vector.new(
 							math.cos(entity.Rotation), math.sin(entity.Rotation))
-					local position_vector = entity.Position:clone()
-						+ (direction_vector * (entity.Radius))
+						local position_vector = entity.Position:clone()
+							+ (direction_vector * (entity.Radius))
 
-					-- fire_start: called first when the weapon starts firing.
-					if not entity.Weapon.fired then
-						entity.Weapon:fire_start(entity, world, position_vector, direction_vector)
-						entity.Weapon.firing = true
+						-- fire_start: called first when the weapon starts firing.
+						if not weapon.fired then
+							weapon:start(entity, world, position_vector, direction_vector)
+							weapon.fired = true
+						end
+
+						-- fire_update: called every frame while firing.
+						if weapon.update then
+							weapon:update(dt, entity, world, position_vector, direction_vector)
+						end
 					end
 
-					-- fire_update: called every frame while firing.
-					if entity.Weapon.fire_update then
-						entity.Weapon:fire_update(entity, world, dt, position_vector, direction_vector)
+				else -- if not entity.Firing then
+					if weapon.fired then
+						-- fire_end: called when the weapon ceases firing.
+						if weapon.cease then
+							weapon:cease(entity, world)
+						end
+						weapon.firing = false
 					end
 
-				elseif entity.Weapon.firing then
-					-- fire_end: called when the weapon ceases firing.
-					if entity.Weapon.fire_end then
-						entity.Weapon:fire_end(entity, world)
+					weapon.heat = weapon.heat - dt
+					if weapon.heat < 0 then
+						weapon.overheat = false
+						weapon.heat = 0
 					end
-					entity.Weapon.firing = false
 				end
 			end
 		}
