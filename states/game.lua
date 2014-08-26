@@ -262,10 +262,9 @@ function game:mousepressed(x, y, b)
 	end
 
 	if b == "r" then
-		local pos = vector.new(world.camera:worldCoords(x, y))
-
-		world:spawnEntity(require("entities.explosion")(
-			pos, 200, 10^6))
+		world:spawnEntity(require("entities.explosion"){
+			position = vector.new(world.camera:worldCoords(x, y))
+		})
 	end
 
 	world:emitEvent("MousePressed", x, y, b)

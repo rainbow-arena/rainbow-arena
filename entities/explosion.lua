@@ -8,6 +8,8 @@ local img_particle = love.graphics.newImage("graphics/particle.png")
 local e_explosion = class{}
 
 function e_explosion:init(arg)
+	assert(arg.position, "Explosion init missing fields!")
+
 	local radius = arg.radius or 200
 	local pradius = radius + 70
 	local color = arg.color or {255, 97, 0}
