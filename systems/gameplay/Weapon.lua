@@ -11,6 +11,10 @@ return {
 				if entity.Firing then
 					if weapon.heat >= weapon.max_heat then
 						weapon.overheat = true
+
+						if weapon.cease then
+							weapon:cease(entity, world)
+						end
 					end
 
 					if not weapon.overheat then
