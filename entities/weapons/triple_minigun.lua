@@ -7,12 +7,12 @@ local w_minigun = require("entities.weapons.minigun")
 local weapon = class{__includes = w_minigun}
 
 function weapon:init(arg)
+	self.barrel = -1
+
 	w_minigun.init(self, arg)
 end
 
 function weapon:start(host, world, pos, dir)
-	self.barrel = -1
-
 	w_minigun.start(self, host, world, pos, dir)
 end
 
