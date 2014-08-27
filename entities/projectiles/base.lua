@@ -24,11 +24,11 @@ function e_proj_generic:init()
 	self.ArenaBounded = 0
 
 	self.CollisionExcludeComponents = {"Projectile"}
+end
 
-	self.OnEntityCollision = function(self, world, target, mtv)
-		if collision_eligible(self, target) then
-			self:on_collision(world, target, mtv)
-		end
+function e_proj_generic:OnEntityCollision(self, world, target, mtv)
+	if collision_eligible(self, target) then
+		self:on_collision(world, target, mtv)
 	end
 end
 

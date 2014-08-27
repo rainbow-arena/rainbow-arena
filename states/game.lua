@@ -143,13 +143,9 @@ function game:enter(previous, w, h, nbots)
 	local bullet_c = require("entities.projectiles.physical")
 	local bullet = bullet_c()
 
-	for k,v in pairs(bullet_c) do print(k) end
-	print("---")
-	for k,v in pairs(bullet) do print(k) end
-
 	local pistol = require("entities.weapons.projectile"){
-		max_heat = 4,
-		shot_heat = 0.25,
+		max_heat = 2,
+		shot_heat = 0.1,
 
 		kind = "single",
 		projectile = bullet,
@@ -157,9 +153,10 @@ function game:enter(previous, w, h, nbots)
 		shot_delay = 0.1
 	}
 
-	local minigun = require("entities.weapons.triple_minigun"){
-		max_heat = 10,
-		shot_heat = 0.2,
+	local minigun_c = require("entities.weapons.triple_minigun")
+	local minigun = minigun_c{
+		max_heat = 2,
+		shot_heat = 0.01,
 
 		kind = "single",
 		projectile = bullet,
