@@ -10,8 +10,7 @@
 		Sound: PlaySound event/component with position and source?
 
 		TODO:
-			Make event bus separate from ces.lua, hijack functions instead
-			Make entity creator files class-based, like weapons
+			Make player rotation limited by a turn rate.
 
 		Weapons to make:
 			Beam laser
