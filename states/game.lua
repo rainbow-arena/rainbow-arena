@@ -3,6 +3,7 @@ local game = {}
 local ces = require("lib.self.ces")
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
+local signal = require("lib.hump.signal")
 local timer = require("lib.hump.timer")
 local spatialhash = require("lib.self.spatialhash")
 local util = require("lib.self.util")
@@ -46,8 +47,29 @@ function game:init()
 	world = ces.new()
 
 	world.camera = camera.new()
+	world.signal = signal.new()
 	world.screenshake = 0
 	world.hash = spatialhash.new()
+
+	---
+
+	function world:registerEvent(event, func)
+		self.signal:register(event, func)
+	end
+
+	function world:emitEvent(event, ...)
+		self.signal:emit(event, self, ...)
+	end
+
+	function world:clearEvents()
+		self.signal:clear()
+	end
+
+	local olddestroy = world.destroyEntity
+	function world:destroyEntity(entity)
+		self:emitEvent("EntityDestroyed", entity)
+		olddestroy(self, entity)
+	end
 
 	---
 
@@ -139,10 +161,12 @@ function game:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local bullet = require("entities.projectiles.bullet")(3, 1)
+	local bullet_c = require("entities.projectiles.bullet")
+	local bullet = bullet_c()
+
 	local pistol = require("entities.weapons.projectile"){
-		max_heat = 4,
-		shot_heat = 0.25,
+		max_heat = 2,
+		shot_heat = 0.1,
 
 		kind = "single",
 		projectile = bullet,
@@ -150,9 +174,10 @@ function game:enter(previous, w, h, nbots)
 		shot_delay = 0.1
 	}
 
-	local minigun = require("entities.weapons.triple_minigun"){
-		max_heat = 10,
-		shot_heat = 0.2,
+	local minigun_c = require("entities.weapons.triple_minigun")
+	local minigun = minigun_c{
+		max_heat = 2,
+		shot_heat = 0.01,
 
 		kind = "single",
 		projectile = bullet,
@@ -255,10 +280,9 @@ function game:mousepressed(x, y, b)
 	end
 
 	if b == "r" then
-		local pos = vector.new(world.camera:worldCoords(x, y))
-
-		world:spawnEntity(require("entities.explosion")(
-			pos, 200, 10^6))
+		world:spawnEntity(require("entities.explosion"){
+			position = vector.new(world.camera:worldCoords(x, y))
+		})
 	end
 
 	world:emitEvent("MousePressed", x, y, b)
