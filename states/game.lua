@@ -161,8 +161,7 @@ function game:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local bullet_c = require("entities.projectiles.bullet")
-	local bullet = bullet_c()
+	local bullet = require("entities.projectiles.bullet")()
 
 	local pistol = require("entities.weapons.projectile"){
 		max_heat = 2,
@@ -174,8 +173,7 @@ function game:enter(previous, w, h, nbots)
 		shot_delay = 0.1
 	}
 
-	local minigun_c = require("entities.weapons.triple_minigun")
-	local minigun = minigun_c{
+	local minigun = require("entities.weapons.triple_minigun"){
 		max_heat = 2,
 		shot_heat = 0.01,
 
