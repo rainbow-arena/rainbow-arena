@@ -1,25 +1,10 @@
 -- A Component Entity System.
 -- Registry system based on hump.signal by vrld.
--- Uses hump.signal for an event system.
 
 local Registry = {}
 
-local signal = require("lib.hump.signal")
+
 local util = require("lib.self.util")
-
----
-
-function Registry:registerEvent(event, func)
-	self.signal:register(event, func)
-end
-
-function Registry:emitEvent(event, ...)
-	self.signal:emit(event, self, ...)
-end
-
-function Registry:clearEvents()
-	self.signal:clear()
-end
 
 ---
 
@@ -31,17 +16,11 @@ end
 
 		update = function(entity, world, ...)
 
-		end,
+		end
 		OR
 		draw = function(entity, world, ...)
 
-		end,
-
-		events = {
-			event = function(...)
-
-			end
-		}
+		end
 	}
 ]]
 
@@ -71,7 +50,6 @@ end
 
 function Registry:removeSystem(name)
 	self.systems[name] = nil
-	-- TODO: remove event handlers associated with the system
 end
 
 function Registry:spawnEntity(components)
@@ -152,7 +130,6 @@ function Registry:runSystems(kind, ...)
 	end
 
 	for entity in pairs(self.destroyQueue) do
-		self:emitEvent("EntityDestroyed", entity)
 		self.entities[entity] = nil
 	end
 end
@@ -161,7 +138,6 @@ end
 
 local function new()
 	return setmetatable({
-		signal = signal.new(),
 		systems = {},
 		updateOrder = {},
 		drawOrder = {},

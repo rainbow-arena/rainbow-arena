@@ -3,6 +3,7 @@ local game = {}
 local ces = require("lib.self.ces")
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
+local signal = require("lib.hump.signal")
 local timer = require("lib.hump.timer")
 local spatialhash = require("lib.self.spatialhash")
 local util = require("lib.self.util")
@@ -42,13 +43,33 @@ local function loadSystems(dir)
 	end
 end
 
--- TODO: Move event bus out of ces.lua and override some ces functions?
 function game:init()
 	world = ces.new()
 
 	world.camera = camera.new()
+	world.signal = signal.new()
 	world.screenshake = 0
 	world.hash = spatialhash.new()
+
+	---
+
+	function world:registerEvent(event, func)
+		self.signal:register(event, func)
+	end
+
+	function world:emitEvent(event, ...)
+		self.signal:emit(event, self, ...)
+	end
+
+	function world:clearEvents()
+		self.signal:clear()
+	end
+
+	local olddestroy = world.destroyEntity
+	function world:destroyEntity(entity)
+		self:emitEvent("EntityDestroyed", entity)
+		olddestroy(self, entity)
+	end
 
 	---
 
