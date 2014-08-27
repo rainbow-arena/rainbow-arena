@@ -21,7 +21,7 @@ function weapon:start(host, world, pos, dir)
 	self.shot_delay = self.start_shot_delay
 	self.firetime = 0
 
-	self.ss = world:spawnEntity{
+	self.effect_ent = world:spawnEntity{
 		Position = host.Position:clone(),
 
 		Screenshake = {
@@ -41,14 +41,14 @@ function weapon:update(dt, host, world, pos, dir)
 
 	self.shot_delay = map(self.firetime, 0,self.spinup_time, self.start_shot_delay,self.final_shot_delay)
 
-	self.ss.Position = host.Position:clone()
-	self.ss.Screenshake.intensity = 0.2 / self.shot_delay
+	self.effect_ent.Position = host.Position:clone()
+	self.effect_ent.Screenshake.intensity = 0.2 / self.shot_delay
 
 	w_projectile.update(self, dt, host, world, pos, dir)
 end
 
 function weapon:cease(host, world)
-	world:destroyEntity(self.ss)
+	world:destroyEntity(self.effect_ent)
 
 	w_projectile.cease(self, host, world)
 end

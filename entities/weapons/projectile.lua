@@ -16,8 +16,6 @@ function weapon:init(arg)
 	self.projectile_speed = arg.projectile_speed or 800
 	self.shot_delay = arg.shot_delay or 0.1
 
-	self.shot_timer = 0
-
 	w_base.init(self, arg)
 end
 
@@ -62,6 +60,8 @@ end
 ---
 
 function weapon:start(host, world, pos, dir)
+	self.shot_timer = 0
+
 	w_base.start(self, host, world, pos, dir)
 end
 
