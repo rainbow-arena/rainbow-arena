@@ -161,10 +161,6 @@ return {
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				if ent1.Projectile then
-					print(ent1.on_collision)
-				end
-
 				if ent1.OnEntityCollision then
 					ent1:OnEntityCollision(world, ent2, mtv)
 				end
