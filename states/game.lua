@@ -161,7 +161,7 @@ function game:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local bullet_c = require("entities.projectiles.physical")
+	local bullet_c = require("entities.projectiles.bullet")
 	local bullet = bullet_c()
 
 	local pistol = require("entities.weapons.projectile"){

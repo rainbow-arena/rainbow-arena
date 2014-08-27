@@ -22,6 +22,8 @@ function e_proj_physical:on_collision(world, target, mtv)
 	target.Velocity = weaponutil.calculate_post_impact_velocity(
 		self.Mass, self.Velocity, target.Mass, target.Velocity)
 
+	if target.Color then target.ColorPulse = 1 end
+
 	e_proj_base.on_collision(self, world, target, mtv)
 end
 
