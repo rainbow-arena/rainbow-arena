@@ -8,6 +8,10 @@ local util = require("lib.self.util")
 
 ---
 
+local clone = util.table.clone
+
+---
+
 --[[
 	args = {
 		name = <system name>,
@@ -53,7 +57,7 @@ function Registry:removeSystem(name)
 end
 
 function Registry:spawnEntity(components)
-	local entity = util.table.clone(components) or {}
+	local entity = clone(components) or {}
 	self.entities[entity] = entity
 	return entity
 end

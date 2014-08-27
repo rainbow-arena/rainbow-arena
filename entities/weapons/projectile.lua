@@ -2,7 +2,7 @@ local class = require("lib.hump.class")
 local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
 
-local join = util.table.join
+local clone = util.table.clone
 
 local w_base = require("entities.weapons.base")
 local weapon = class{__includes = w_base}
@@ -24,16 +24,10 @@ end
 ---
 
 function weapon:spawn_projectile(host, world, pos, dir)
-	local projectile = world:spawnEntity(
-		util.table.join(
-			self.projectile,
-			{
-				Position = pos + dir,
-				Velocity = self.projectile_speed * dir + host.Velocity,
-				Team = host.Team
-			}
-		)
-	)
+	local projectile = clone(self.projectile)
+	projectile.Position = pos + dir
+	projectile.Velocity = self.projectile_speed * dir + host.Velocity
+	projectile.Team = host.Team
 
 	-- Add host to collision exclusion list.
 	if not projectile.CollisionExcludeEntities then
@@ -41,6 +35,8 @@ function weapon:spawn_projectile(host, world, pos, dir)
 	else
 		table.insert(projectile.CollisionExcludeEntities, host)
 	end
+
+	world:spawnEntity(projectile)
 
 	return projectile
 end
