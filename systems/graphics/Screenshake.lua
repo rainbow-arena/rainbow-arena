@@ -20,7 +20,7 @@ return {
 
 				-- Initialise starting time if this is a timed source.
 				if not ss.timer and ss.duration then
-					source.Screenshake.timer = ss.duration
+					ss.timer = ss.duration
 				end
 
 				-- Step screenshake timer.
@@ -65,8 +65,6 @@ return {
 		{ -- Screenshake for entity collision.
 			event = "PhysicsCollision",
 			func = function(world, ent1, ent2, mtv)
-				local intensity = 1
-
 				world:spawnEntity{
 					Position = ent2.Position + mtv,
 					Lifetime = 0.1,

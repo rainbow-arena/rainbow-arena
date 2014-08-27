@@ -15,18 +15,13 @@ return {
 				assert(exp.radius and exp.speed and exp.force, "Explosion component missing field(s)!")
 
 				-- Apply force and damage to nearby entities after a delay.
-				local radius = exp.radius
-				local speed = exp.speed
-				local force = exp.force
-				local damage = exp.damage
-
 				for affected in pairs(world.hash:get_objects_in_range(
-					aabb(radius, entity.Position.x, entity.Position.y)))
+					aabb(exp.radius, entity.Position.x, entity.Position.y)))
 				do
 					local dist_vec = (affected.Position - entity.Position)
 					local dist = dist_vec:len()
-					local impact = 1 - (dist/radius)
-					local delay = (dist/speed) / 2 -- Blast propagates twice as fast as particle speed because I said so.
+					local impact = 1 - (dist/exp.radius)
+					local delay = (dist/exp.speed) / 2 -- Blast propagates twice as fast as particle speed because I said so.
 
 					if impact > 0 then
 						local dir = dist_vec:normalized()
@@ -36,12 +31,12 @@ return {
 
 							if affected.Velocity then
 								-- Apply explosion force.
-								affected.Velocity = affected.Velocity + impact * (force / affected.Mass) * dir
+								affected.Velocity = affected.Velocity + impact * (exp.force / affected.Mass) * dir
 							end
 
 							if damage and affected.Health then
 								-- Apply health damage.
-								affected.Health = affected.Health - ceil(impact * damage)
+								affected.Health = affected.Health - ceil(impact * exp.damage)
 							end
 						end)
 					end

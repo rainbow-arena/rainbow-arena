@@ -179,7 +179,7 @@ return {
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
 				if not ent1.CollisionPhysics or not ent2.CollisionPhysics
-				then return end
+					then return end
 
 				---
 

@@ -12,7 +12,7 @@ return {
 	},
 
 	events = {
-		{ -- Placeholder for now. TODO: Fancy death graphics.
+		{
 			event = "EntityDead",
 			func = function(world, entity)
 				world:destroyEntity(entity)
