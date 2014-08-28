@@ -1,7 +1,11 @@
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
+local range = util.math.range
 local clamp = util.math.clamp
+local sign = util.math.sign
+local sin, cos, atan2 = math.sin, math.cos, math.atan2
+local pi = math.pi
 
 return {
 	systems = {
@@ -9,9 +13,14 @@ return {
 			name = "PlayerController",
 			requires = {"Position", "Player"},
 			update = function(player, world, dt)
+				local current_angle = player.Rotation or 0
+
 				local mx, my = love.mouse.getPosition()
 				local psx, psy = world.camera:cameraCoords(player.Position.x, player.Position.y)
-				player.Rotation = math.atan2(my - psy, mx - psx)
+				local target_angle = atan2(my - psy, mx - psx)
+
+				-- TODO: Make rotating limited by RotationSpeed. Some weapons change this while firing.
+				player.Rotation = target_angle
 
 				---
 
@@ -43,6 +52,19 @@ return {
 				---
 
 				player.Firing = love.mouse.isDown("l")
+			end
+		},
+
+		{
+			name = "DebugDrawPlayerRotation",
+			requires = {"Player", "Position", "Rotation"},
+			priority = -100,
+			draw = function(entity)
+				local len = 40
+				local sx, sy = entity.Position:unpack()
+				local ex, ey = sx + len*cos(entity.Rotation), sy + len*sin(entity.Rotation)
+				love.graphics.setColor(255, 255, 255)
+				love.graphics.line(sx,sy, ex,ey)
 			end
 		}
 	},
