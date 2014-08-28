@@ -198,7 +198,7 @@ function game:enter(previous, w, h, nbots)
 		Acceleration = vector.new(0, 0),
 
 		Rotation = 0,
-		RotationSpeed = 2 * math.pi,
+		RotationSpeed = 2,
 
 		Drag = c_drag,
 		MoveAcceleration = c_accel,
