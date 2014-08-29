@@ -47,4 +47,6 @@ function e_explosion:init(arg)
 	}
 end
 
+---
+
 return e_explosion
