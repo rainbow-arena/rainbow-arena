@@ -27,7 +27,11 @@ local function loadSystems(dir)
 		if love.filesystem.isDirectory(dir .. "/" .. item) then
 			loadSystems(dir .. "/" .. item)
 		else
-			local t = dofile(dir .. "/" .. item)
+			local t = love.filesystem.load(dir .. "/" .. item)()
+
+			if type(t) ~= "table" then
+				error(("System file \"%s\" doesn't return a table!"):format(dir .."/" .. item))
+			end
 
 			if t.systems then
 				for _, system in ipairs(t.systems) do
