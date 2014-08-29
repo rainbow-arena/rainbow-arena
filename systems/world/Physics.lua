@@ -43,6 +43,12 @@ end
 
 ---
 
+-- Used to make sure each entity pair that collides only gets their collision
+-- callbacks called once.
+local colback_called = {}
+
+---
+
 return {
 	systems = {
 		{
@@ -81,6 +87,8 @@ return {
 			name = "Collision",
 			requires = {"Position", "Velocity", "Radius"},
 			update = function(entity, world, dt)
+				colback_called = {}
+
 				for other in pairs(world.hash:get_objects_in_range(
 					aabb(entity.Radius, entity.Position.x, entity.Position.y)))
 				do
@@ -165,13 +173,27 @@ return {
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				if ent1.OnEntityCollision then
+				if not colback_called[ent1] then
+					colback_called[ent1] = {}
+				end
+
+				if not colback_called[ent1][ent2] and ent1.OnEntityCollision then
 					ent1:OnEntityCollision(world, ent2, mtv)
 				end
 
-				if ent2.OnEntityCollision then
+				colback_called[ent1][ent2] = ent2
+
+				---
+
+				if not colback_called[ent2] then
+					colback_called[ent2] = {}
+				end
+
+				if not colback_called[ent2][ent1] and ent2.OnEntityCollision then
 					ent2:OnEntityCollision(world, ent1, mtv)
 				end
+
+				colback_called[ent2][ent1] = ent1
 			end
 		},
 
