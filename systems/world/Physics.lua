@@ -181,7 +181,7 @@ return {
 					ent1:OnEntityCollision(world, ent2, mtv)
 				end
 
-				colback_called[ent1][ent2] = ent2
+				colback_called[ent1][ent2] = true
 
 				---
 
@@ -193,7 +193,7 @@ return {
 					ent2:OnEntityCollision(world, ent1, mtv)
 				end
 
-				colback_called[ent2][ent1] = ent1
+				colback_called[ent2][ent1] = true
 			end
 		},
 
