@@ -23,21 +23,21 @@ return {
 						local position_vector = entity.Position:clone()
 							+ (direction_vector * (entity.Radius))
 
-						-- fire_start: called first when the weapon starts firing.
+						-- start: called first when the weapon starts firing.
 						if not weapon._fired then
 							weapon:start(entity, world, position_vector, direction_vector)
 							weapon._fired = true
 						end
 
-						-- fire_update: called every frame while firing.
-						if weapon.update then
-							weapon:update(dt, entity, world, position_vector, direction_vector)
+						-- firing: called every frame while firing.
+						if weapon.firing then
+							weapon:firing(dt, entity, world, position_vector, direction_vector)
 						end
 					end
 
 				else -- if not entity.Firing then
 					if weapon._fired then
-						-- fire_end: called when the weapon ceases firing.
+						-- cease: called when the weapon ceases firing.
 						if weapon.cease then
 							weapon:cease(entity, world)
 						end
@@ -49,6 +49,11 @@ return {
 						weapon.overheat = false
 						weapon.heat = 0
 					end
+				end
+
+				-- updateL called every frame.
+				if weapon.update then
+					weapon:update(dt, entity, world)
 				end
 			end
 		}

@@ -174,7 +174,7 @@ function game:enter(previous, w, h, nbots)
 		kind = "single",
 		projectile = bullet,
 		projectile_speed = 800,
-		shot_delay = 0.1
+		shot_delay = 0.5
 	}
 
 	local minigun = require("entities.weapons.triple_minigun"){

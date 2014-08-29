@@ -33,7 +33,7 @@ function weapon:start(host, world, pos, dir)
 	w_projectile.start(self, host, world, pos, dir)
 end
 
-function weapon:update(dt, host, world, pos, dir)
+function weapon:firing(dt, host, world, pos, dir)
 	self.firetime = self.firetime + dt
 	if self.firetime > self.spinup_time then
 		self.firetime = self.spinup_time
@@ -44,7 +44,7 @@ function weapon:update(dt, host, world, pos, dir)
 	self.effect_ent.Position = host.Position:clone()
 	self.effect_ent.Screenshake.intensity = 0.2 / self.shot_delay
 
-	w_projectile.update(self, dt, host, world, pos, dir)
+	w_projectile.firing(self, dt, host, world, pos, dir)
 end
 
 function weapon:cease(host, world)

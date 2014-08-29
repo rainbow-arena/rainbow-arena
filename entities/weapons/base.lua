@@ -12,11 +12,15 @@ function weapon:start(world, host, pos, dir)
 
 end
 
-function weapon:update(dt, world, host, pos, dir)
+function weapon:firing(dt, world, host, pos, dir)
 
 end
 
 function weapon:cease(world, host)
+
+end
+
+function weapon:update(dt, world, host)
 
 end
 

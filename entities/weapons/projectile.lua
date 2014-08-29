@@ -16,6 +16,8 @@ function weapon:init(arg)
 	self.projectile_speed = arg.projectile_speed or 800
 	self.shot_delay = arg.shot_delay or 0.1
 
+	self.shot_timer = 0
+
 	w_base.init(self, arg)
 end
 
@@ -60,16 +62,11 @@ end
 ---
 
 function weapon:start(host, world, pos, dir)
-	self.shot_timer = 0
-
 	w_base.start(self, host, world, pos, dir)
 end
 
-function weapon:update(dt, host, world, pos, dir)
-	self.shot_timer = self.shot_timer - dt
-	if self.shot_timer < 0 then
-		self.shot_timer = 0
-
+function weapon:firing(dt, host, world, pos, dir)
+	if self.shot_timer == 0 then
 		if (self.kind == "single" and not self.fired) or self.kind ~= "single" then
 			self.fired = true
 			self:fire(host, world, pos, dir)
@@ -83,6 +80,13 @@ function weapon:cease(host, world)
 	self.fired = false
 
 	w_base.cease(self, host, world)
+end
+
+function weapon:update(dt, host, world)
+	self.shot_timer = self.shot_timer - dt
+	if self.shot_timer < 0 then
+		self.shot_timer = 0
+	end
 end
 
 return weapon
