@@ -287,7 +287,7 @@ function game:mousepressed(x, y, b)
 	if b == "r" then
 		world:spawnEntity(require("entities.explosion"){
 			position = vector.new(world.camera:worldCoords(x, y)),
-			force = 10^9
+			force = 2*10^6
 		})
 	end
 
