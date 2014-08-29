@@ -18,8 +18,6 @@ local colliding = circleutil.colliding
 local world
 local player
 
-local game_speed = 1
-
 local PLAYER_RADIUS = 30
 
 local function loadSystems(dir)
@@ -54,6 +52,8 @@ function game:init()
 	world.signal = signal.new()
 	world.screenshake = 0
 	world.hash = spatialhash.new()
+	world.speed = 1
+	world.speed = 1
 
 	---
 
@@ -237,11 +237,11 @@ function game:enter(previous, w, h, nbots)
 end
 
 function game:update(dt)
-	game_speed = util.math.clamp(0.1, game_speed, 7)
+	world.speed = util.math.clamp(0.1, world.speed, 7)
 
 	world.screenshake = 0
 
-	local adjdt = dt * game_speed
+	local adjdt = dt * world.speed
 	timer.update(adjdt)
 	world:runSystems("update", adjdt)
 end
@@ -261,7 +261,7 @@ function game:draw()
 	world.camera:detach()
 
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.print("Speed multiplier: " .. game_speed, 10, 10)
+	love.graphics.print("Speed multiplier: " .. world.speed, 10, 10)
 	love.graphics.print(
 		"Entities: " .. util.table.nelem(world.entities),
 		10, 10 + love.graphics.getFont():getHeight()
@@ -279,9 +279,9 @@ end
 
 function game:mousepressed(x, y, b)
 	if b == "wd" then
-		game_speed = game_speed - 0.1
+		world.speed = world.speed - 0.1
 	elseif b == "wu" then
-		game_speed = game_speed + 0.1
+		world.speed = world.speed + 0.1
 	end
 
 	if b == "r" then
