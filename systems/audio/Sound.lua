@@ -1,6 +1,8 @@
 local timer = require("lib.hump.timer")
 local util = require("lib.self.util")
 
+local soundutil = require("util.sound")
+
 ---
 
 local clamp = util.math.clamp
@@ -28,6 +30,10 @@ return {
 
 				ss.source:setPosition(source.Position.x, source.Position.y, 0)
 
+				if source.Velocity then
+					ss.source:setVelocity(source.Velocity.x, source.Velocity.y, 0)
+				end
+
 				local pitch = world.speed
 				if ss.pitch then
 					pitch = pitch * ss.pitch
@@ -52,8 +58,7 @@ return {
 			func = function(world, entity, pos, side)
 				local source = love.audio.newSource(collision_sound)
 				source:setVolume( clamp(0, entity.Velocity:len() / volume_threshold_speed, 1) )
-				source:setPosition(pos.x, pos.y, 0)
-				source:play()
+				soundutil.play(source, pos)
 			end
 		},
 		{ -- Sound for entity collision.
@@ -63,8 +68,7 @@ return {
 					local source = love.audio.newSource(collision_sound)
 					local pos = ent2.Position + mtv
 					source:setVolume( clamp(0, (ent1.Velocity + ent2.Velocity):len() / volume_threshold_speed, 1) )
-					source:setPosition(pos.x, pos.y, 0)
-					source:play()
+					soundutil.play(source, pos)
 
 					can_spawn_col_sound = false
 					timer.add(sound_spawn_delay, function()
