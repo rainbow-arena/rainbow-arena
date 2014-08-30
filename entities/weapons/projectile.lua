@@ -3,6 +3,8 @@ local timer = require("lib.hump.timer")
 local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
 
+local soundutil = require("util.sound")
+
 ---
 
 local clone = util.table.clone
@@ -20,6 +22,8 @@ function w_projectile:init(arg)
 	self.projectile = arg.projectile
 	self.projectile_speed = arg.projectile_speed or 800
 	self.shot_delay = arg.shot_delay or 0.1
+
+	self.shot_sound = arg.shot_sound
 
 	-- For burst fire
 	self.burst_shots = arg.burst_shots or 3
@@ -64,6 +68,10 @@ function w_projectile:fire(host, world, pos, dir)
 	self:apply_recoil(host, p, dir)
 	self.shot_timer = self.shot_delay
 	self.heat = self.heat + self.shot_heat
+
+	if self.shot_sound then
+		sound.play_file(self.shot_sound, pos)
+	end
 
 	host.ColorPulse = 1
 end

@@ -5,4 +5,8 @@ function sound.play(source, pos)
 	source:play()
 end
 
+function sound.play_file(file, pos)
+	sound.play(love.audio.newSource(file), pos)
+end
+
 return sound
