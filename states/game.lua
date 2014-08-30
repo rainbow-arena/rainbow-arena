@@ -53,7 +53,11 @@ function game:init()
 	world.screenshake = 0
 	world.hash = spatialhash.new()
 	world.speed = 1
-	world.speed = 1
+
+	---
+
+	love.audio.setOrientation(0,0,-1, 0,1,0)
+	love.audio.setDistanceModel("linear")
 
 	---
 
@@ -241,8 +245,11 @@ function game:update(dt)
 
 	world.screenshake = 0
 
+	love.audio.setPosition(world.camera.x, world.camera.y, 0)
+
 	local adjdt = dt * world.speed
 	timer.update(adjdt)
+
 	world:runSystems("update", adjdt)
 end
 
@@ -285,7 +292,7 @@ function game:mousepressed(x, y, b)
 	end
 
 	if b == "r" then
-		world:spawnEntity(require("entities.explosion"){
+		world:spawnEntity(require("entities.effects.explosion"){
 			position = vector.new(world.camera:worldCoords(x, y)),
 			force = 2*10^6
 		})
