@@ -1,9 +1,13 @@
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
+---
+
 local range = util.math.range
 local clamp = util.math.clamp
 local sin, cos, atan2 = math.sin, math.cos, math.atan2
+
+---
 
 return {
 	systems = {

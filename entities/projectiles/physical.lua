@@ -7,6 +7,8 @@ local weaponutil = require("util.weapon")
 local e_proj_base = require("entities.projectiles.base")
 local e_proj_physical = class{__includes = e_proj_base}
 
+---
+
 function e_proj_physical:init(arg)
 	arg = arg or {}
 
@@ -26,5 +28,7 @@ function e_proj_physical:on_collision(world, target, mtv)
 
 	e_proj_base.on_collision(self, world, target, mtv)
 end
+
+---
 
 return e_proj_physical

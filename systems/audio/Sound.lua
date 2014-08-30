@@ -1,6 +1,8 @@
 local timer = require("lib.hump.timer")
 local util = require("lib.self.util")
 
+---
+
 local clamp = util.math.clamp
 
 ---
@@ -32,7 +34,9 @@ return {
 				end
 				ss.source:setPitch(pitch)
 
-				ss.source:setVolume(ss.volume or 0.4)
+				if ss.volume then
+					ss.source:setVolume(ss.volume)
+				end
 
 				if not ss.playing then
 					ss.source:play()

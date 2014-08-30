@@ -1,6 +1,8 @@
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
+---
+
 local clamp = util.math.clamp
 
 ---
@@ -42,7 +44,7 @@ return {
 
 				local final_intensity = clamp(0, intensity * (1 - (dist_to_source/ss.radius)), math.huge)
 
-				world:add_screenshake(final_intensity)
+				world.screenshake = world.screenshake + final_intensity
 			end
 		}
 	},

@@ -2,14 +2,18 @@ local class = require("lib.hump.class")
 local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
 
-local clone = util.table.clone
+---
 
-local w_base = require("entities.weapons.base")
-local weapon = class{__includes = w_base}
+local clone = util.table.clone
 
 ---
 
-function weapon:init(arg)
+local w_base = require("entities.weapons.base")
+local w_projectile = class{__includes = w_base}
+
+---
+
+function w_projectile:init(arg)
 	self.kind = arg.kind or "single"
 	self.shot_heat = arg.shot_heat or 0.25
 	self.projectile = arg.projectile
@@ -23,7 +27,7 @@ end
 
 ---
 
-function weapon:spawn_projectile(host, world, pos, dir)
+function w_projectile:spawn_projectile(host, world, pos, dir)
 	local projectile = clone(self.projectile)
 	projectile.Position = pos + dir
 	projectile.Velocity = self.projectile_speed * dir + host.Velocity
@@ -41,7 +45,7 @@ function weapon:spawn_projectile(host, world, pos, dir)
 	return projectile
 end
 
-function weapon:apply_recoil(host, projectile, dir)
+function w_projectile:apply_recoil(host, projectile, dir)
 	if not projectile.Mass then
 		projectile.Mass = math.pi * projectile.Radius^2
 	end
@@ -50,7 +54,7 @@ function weapon:apply_recoil(host, projectile, dir)
 		self.projectile_speed * dir, host.Mass, host.Velocity)
 end
 
-function weapon:fire(host, world, pos, dir)
+function w_projectile:fire(host, world, pos, dir)
 	local p = self:spawn_projectile(host, world, pos, dir)
 	self:apply_recoil(host, p, dir)
 	self.shot_timer = self.shot_delay
@@ -61,11 +65,11 @@ end
 
 ---
 
-function weapon:start(host, world, pos, dir)
+function w_projectile:start(host, world, pos, dir)
 	w_base.start(self, host, world, pos, dir)
 end
 
-function weapon:firing(dt, host, world, pos, dir)
+function w_projectile:firing(dt, host, world, pos, dir)
 	if self.shot_timer == 0 then
 		if (self.kind == "single" and not self.fired) or self.kind ~= "single" then
 			self.fired = true
@@ -76,17 +80,19 @@ function weapon:firing(dt, host, world, pos, dir)
 	w_base.update(self, host, world, pos, dir)
 end
 
-function weapon:cease(host, world)
+function w_projectile:cease(host, world)
 	self.fired = false
 
 	w_base.cease(self, host, world)
 end
 
-function weapon:update(dt, host, world)
+function w_projectile:update(dt, host, world)
 	self.shot_timer = self.shot_timer - dt
 	if self.shot_timer < 0 then
 		self.shot_timer = 0
 	end
 end
 
-return weapon
+---
+
+return w_projectile

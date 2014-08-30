@@ -4,6 +4,8 @@ local class = require("lib.hump.class")
 
 local e_proj_base = class{}
 
+---
+
 -- Only affect the target if: the projectile and the target both
 -- have a Team component and they are on different teams; or
 -- one or both do not have a team component.
