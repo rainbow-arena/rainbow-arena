@@ -196,7 +196,9 @@ function game:enter(previous, w, h, nbots)
 
 		initial_shot_delay = 0.3,
 		final_shot_delay = 0.05,
-		spinup_time = 2
+		spinup_time = 2,
+
+		shot_shake_duration = 0.3
 	}
 
 	player = world:spawnEntity{

@@ -92,7 +92,7 @@ function w_projectile:firing(dt, host, world, pos, dir)
 		end
 	end
 
-	w_base.update(self, host, world, pos, dir)
+	w_base.firing(self, dt, host, world, pos, dir)
 end
 
 function w_projectile:cease(host, world)
@@ -106,6 +106,8 @@ function w_projectile:update(dt, host, world)
 	if self.shot_timer < 0 then
 		self.shot_timer = 0
 	end
+
+	w_base.update(self, dt, host, world)
 end
 
 ---
