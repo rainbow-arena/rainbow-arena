@@ -30,10 +30,6 @@ return {
 
 				ss.source:setPosition(source.Position.x, source.Position.y, 0)
 
-				if source.Velocity then
-					ss.source:setVelocity(source.Velocity.x, source.Velocity.y, 0)
-				end
-
 				local pitch = world.speed
 				if ss.pitch then
 					pitch = pitch * ss.pitch
