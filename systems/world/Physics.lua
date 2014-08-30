@@ -159,7 +159,7 @@ return {
 			name = "DestroyOutsideArena",
 			requires = {"Position", "ArenaBounded"},
 			update = function(entity, world, dt)
-				local tolerance = entity.ArenaBounded or 0
+				local tolerance = tonumber(entity.ArenaBounded) or -entity.Radius or 0
 				if entity.Position.x < 0 - tolerance or entity.Position.x > world.w + tolerance
 					or entity.Position.y < 0 - tolerance or entity.Position.y > world.h + tolerance
 				then
