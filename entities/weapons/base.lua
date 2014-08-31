@@ -23,22 +23,26 @@ end
 
 
 function w_base:set_screenshake(intensity, duration)
-	self.effect_ent.Screenshake = {
-		intensity = intensity or 1,
-		radius = self.shake_radius,
-		duration = duration
-	}
+	if self.effect_ent then
+		self.effect_ent.Screenshake = {
+			intensity = intensity or 1,
+			radius = self.shake_radius,
+			duration = duration
+		}
+	end
 end
 
 function w_base:set_sound(source, pitch)
-	self.effect_ent.Sound = {
-		source = source,
-		pitch = pitch
-	}
+	if self.effect_ent then
+		self.effect_ent.Sound = {
+			source = source,
+			pitch = pitch
+		}
+	end
 end
 
 function w_base:set_sound_pitch(pitch)
-	if self.effect_ent.Sound then
+	if self.effect_ent and self.effect_ent.Sound then
 		self.effect_ent.Sound.pitch = pitch
 	end
 end
