@@ -70,7 +70,7 @@ function game:init()
 	---
 
 	love.audio.setOrientation(0,0,-1, 0,1,0)
-	love.audio.setDistanceModel("inverse")
+	love.audio.setDistanceModel("inverse clamped")
 
 	---
 
