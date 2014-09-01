@@ -37,6 +37,10 @@ return {
 				end
 				ss.source:setPitch(pitch)
 
+				if ss.volume then
+					ss.source:setVolume(ss.volume)
+				end
+
 				if not ss.playing then
 					ss.source:play()
 					ss.playing = true
@@ -54,8 +58,15 @@ return {
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
 				local source = love.audio.newSource(collision_sound)
-				source:setVolume( clamp(0, entity.Velocity:len() / volume_threshold_speed, collision_max_volume) )
-				soundutil.play(source, pos/SOUND_POSITION_SCALE, world.speed)
+
+				world:spawnEntity{
+					Position = pos,
+					Lifetime = 0.3,
+					Sound = {
+						source = source,
+						volume = clamp(0, entity.Velocity:len() / volume_threshold_speed, collision_max_volume)
+					}
+				}
 			end
 		},
 		{ -- Sound for entity collision.
@@ -64,8 +75,14 @@ return {
 				if can_spawn_col_sound then
 					local source = love.audio.newSource(collision_sound)
 					local pos = ent2.Position + mtv
-					source:setVolume( clamp(0, (ent1.Velocity + ent2.Velocity):len() / volume_threshold_speed, collision_max_volume) )
-					soundutil.play(source, pos/SOUND_POSITION_SCALE, world.speed)
+
+					world:spawnEntity{
+						Position = pos,
+						Lifetime = 0.3,
+						Sound = {
+							source = source,
+							volume = clamp(0, (ent1.Velocity + ent2.Velocity):len() / volume_threshold_speed, collision_max_volume)						}
+					}
 
 					can_spawn_col_sound = false
 					timer.add(sound_spawn_delay, function()

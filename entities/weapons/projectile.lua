@@ -75,9 +75,14 @@ end
 
 function w_projectile:play_shot_sound(world, pos, pitch)
 	if self.shot_sound then
-		pitch = pitch or 1
-		pitch = pitch * world.speed
-		soundutil.play_file(self.shot_sound, pos/SOUND_POSITION_SCALE, pitch)
+		world:spawnEntity{
+			Position = pos,
+			Lifetime = 0.5,
+			Sound = {
+				source = love.audio.newSource(self.shot_sound),
+				pitch = pitch
+			}
+		}
 	end
 end
 
