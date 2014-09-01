@@ -6,6 +6,7 @@ local screenshake = require("lib.self.screenshake")
 local util = require("lib.self.util")
 
 local circleutil = require("util.circle")
+local colorutil = require("util.color")
 
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
@@ -185,7 +186,7 @@ function game:enter(previous, w, h, nbots)
 		kind = "single",
 		projectile = bullet,
 		projectile_speed = 800,
-		shot_delay = 0.1,
+		shot_delay = 0.6,
 
 		shot_sound = "audio/weapons/laser_shot.wav"
 	}
@@ -235,11 +236,14 @@ function game:enter(previous, w, h, nbots)
 
 	-- Place test balls.
 	for n = 1, 50 do
+		local color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
+
 		local radius = 30
+
 		world:spawnEntity{
 			Name = "Ball " .. n,
 
-			Color = {255, 0, 0},
+			Color = color,
 
 			Health = 30,
 			MaxHealth = 30,
