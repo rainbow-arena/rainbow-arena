@@ -205,11 +205,14 @@ function game:enter(previous, w, h, nbots)
 		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
-	player = world:spawnEntity{
+	world:spawnEntity{
 		Name = "Player",
 		Team = "Player",
 
 		Color = {0, 255, 255},
+
+		Health = 30,
+		MaxHealth = 30,
 
 		Radius = PLAYER_RADIUS,
 		Position = find_position(PLAYER_RADIUS),
@@ -237,6 +240,9 @@ function game:enter(previous, w, h, nbots)
 			Name = "Ball " .. n,
 
 			Color = {255, 0, 0},
+
+			Health = 30,
+			MaxHealth = 30,
 
 			Radius = radius,
 			Position = find_position(radius),
