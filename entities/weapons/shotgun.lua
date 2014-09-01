@@ -9,7 +9,7 @@ local w_shotgun = class{__includes = w_projectile}
 
 function w_shotgun:init(arg)
 	self.shotgun_pellets = arg.shotgun_pellets or 5
-	self.shotgun_spread = arg.shotgun_spread or math.pi/3
+	self.shotgun_spread = arg.shotgun_spread or math.pi/4
 
 	w_projectile.init(self, arg)
 end
