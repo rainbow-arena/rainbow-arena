@@ -1,23 +1,62 @@
 local class = require("lib.hump.class")
 
-local weapon = class{}
+---
 
-function weapon:init(arg)
+local w_base = class{}
+
+---
+
+function w_base:init(arg)
 	self.max_heat = arg.max_heat or 2
+	self.shake_radius = arg.shake_radius or 100
 
 	self.heat = 0
 end
 
-function weapon:start(world, host, pos, dir)
+function w_base:start(host, world, pos, dir)
+	self.effect_ent = world:spawnEntity{
+		Position = host.Position:clone()
+	}
+end
+
+---
+
+
+function w_base:set_screenshake(intensity, duration)
+	self.effect_ent.Screenshake = {
+		intensity = intensity or 1,
+		radius = self.shake_radius,
+		duration = duration
+	}
+end
+
+function w_base:set_sound(source, pitch)
+	self.effect_ent.Sound = {
+		source = source,
+		pitch = pitch
+	}
+end
+
+function w_base:set_sound_pitch(pitch)
+	if self.effect_ent.Sound then
+		self.effect_ent.Sound.pitch = pitch
+	end
+end
+
+---
+
+function w_base:firing(dt, host, world, pos, dir)
+	self.effect_ent.Position = host.Position:clone()
+end
+
+function w_base:cease(host, world)
+	world:destroyEntity(self.effect_ent)
+end
+
+function w_base:update(dt, host, world)
 
 end
 
-function weapon:update(dt, world, host, pos, dir)
+---
 
-end
-
-function weapon:cease(world, host)
-
-end
-
-return weapon
+return w_base

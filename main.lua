@@ -5,9 +5,8 @@
 --[[
 	Stuff to do:
 		Graphics: background
-		Content: weapons, powerups
+		Content: weapons, powerups?
 		Matches: Actual match/level logic
-		Sound: PlaySound event/component with position and source?
 
 		TODO:
 			Make player rotation limited by a turn rate.

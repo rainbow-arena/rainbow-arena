@@ -1,5 +1,7 @@
 local util = require("lib.self.util")
 
+---
+
 local clamp = util.math.clamp
 local range = util.math.range
 local map = util.math.map
@@ -47,6 +49,8 @@ return {
 
 				if not entity.ColorIntensity then
 					entity.ColorIntensity = 0
+				else
+					entity.ColorIntensity = clamp(0, entity.ColorIntensity, 1)
 				end
 
 				local v = map(entity.ColorIntensity, 0, 1, min_intensity, max_intensity)
