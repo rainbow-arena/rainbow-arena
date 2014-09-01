@@ -3,8 +3,6 @@ local timer = require("lib.hump.timer")
 local weaponutil = require("util.weapon")
 local util = require("lib.self.util")
 
-local soundutil = require("util.sound")
-
 ---
 
 local clone = util.table.clone

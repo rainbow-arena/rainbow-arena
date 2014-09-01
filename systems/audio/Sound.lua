@@ -1,8 +1,6 @@
 local timer = require("lib.hump.timer")
 local util = require("lib.self.util")
 
-local soundutil = require("util.sound")
-
 ---
 
 local clamp = util.math.clamp
