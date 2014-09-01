@@ -73,8 +73,10 @@ function w_projectile:fire_projectile(host, world, pos, dir)
 	return p
 end
 
-function w_projectile:play_shot_sound(pos, pitch)
+function w_projectile:play_shot_sound(world, pos, pitch)
 	if self.shot_sound then
+		pitch = pitch or 1
+		pitch = pitch * world.speed
 		soundutil.play_file(self.shot_sound, pos/SOUND_POSITION_SCALE, pitch)
 	end
 end
@@ -95,7 +97,7 @@ end
 function w_projectile:fire(host, world, pos, dir)
 	self:fire_projectile(host, world, pos, dir)
 	self:apply_shot_effects(host, world, pos, dir)
-	self:play_shot_sound(pos)
+	self:play_shot_sound(world, pos)
 end
 
 ---

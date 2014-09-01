@@ -227,7 +227,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = minigun,
+		Weapon = shotgun,
 
 		Player = true,
 		CameraTarget = true

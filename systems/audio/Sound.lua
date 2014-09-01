@@ -55,8 +55,7 @@ return {
 			func = function(world, entity, pos, side)
 				local source = love.audio.newSource(collision_sound)
 				source:setVolume( clamp(0, entity.Velocity:len() / volume_threshold_speed, collision_max_volume) )
-				source:setPitch(world.speed)
-				soundutil.play(source, pos/SOUND_POSITION_SCALE)
+				soundutil.play(source, pos/SOUND_POSITION_SCALE, world.speed)
 			end
 		},
 		{ -- Sound for entity collision.
@@ -66,8 +65,7 @@ return {
 					local source = love.audio.newSource(collision_sound)
 					local pos = ent2.Position + mtv
 					source:setVolume( clamp(0, (ent1.Velocity + ent2.Velocity):len() / volume_threshold_speed, collision_max_volume) )
-					source:setPitch(world.speed)
-					soundutil.play(source, pos/SOUND_POSITION_SCALE)
+					soundutil.play(source, pos/SOUND_POSITION_SCALE, world.speed)
 
 					can_spawn_col_sound = false
 					timer.add(sound_spawn_delay, function()

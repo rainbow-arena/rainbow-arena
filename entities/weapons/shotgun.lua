@@ -23,7 +23,7 @@ function w_shotgun:fire(host, world, pos, dir)
 	end
 
 	self:apply_shot_effects(host, world, pos, dir)
-	self:play_shot_sound(pos)
+	self:play_shot_sound(world, pos)
 end
 
 ---
