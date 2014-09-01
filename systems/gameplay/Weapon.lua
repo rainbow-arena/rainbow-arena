@@ -10,6 +10,12 @@ return {
 			update = function(entity, world, dt)
 				local weapon = entity.Weapon
 
+				weapon.heat = weapon.heat - dt
+				if weapon.heat < 0 then
+					weapon.overheat = false
+					weapon.heat = 0
+				end
+
 				if entity.Firing then
 					if weapon.heat >= weapon.max_heat then
 						weapon.overheat = true
@@ -44,12 +50,6 @@ return {
 							weapon:cease(entity, world)
 						end
 						weapon._fired = false
-					end
-
-					weapon.heat = weapon.heat - dt
-					if weapon.heat < 0 then
-						weapon.overheat = false
-						weapon.heat = 0
 					end
 				end
 

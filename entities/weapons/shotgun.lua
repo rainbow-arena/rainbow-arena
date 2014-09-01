@@ -19,8 +19,10 @@ function w_shotgun:fire(host, world, pos, dir)
 		local spread = self.shotgun_spread
 		local angle = (love.math.random() - 0.5) * (spread/2)
 
-		w_projectile.fire(self, host, world, pos, dir:rotated(angle))
+		self:fire_projectile(host, world, pos, dir:rotated(angle))
 	end
+
+	self:apply_shot_effects(host, world, pos, dir)
 end
 
 ---

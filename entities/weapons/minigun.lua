@@ -14,6 +14,7 @@ function w_minigun:init(arg)
 	self.start_shot_delay = arg.start_shot_delay or 0.3
 	self.final_shot_delay = arg.final_shot_delay or 0.02
 	self.spinup_time = arg.spinup_time or 2
+
 	arg.kind = "repeat"
 
 	w_projectile.init(self, arg)
