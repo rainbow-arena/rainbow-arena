@@ -20,8 +20,9 @@ return {
 					world:spawnEntity(require("entities.effects.explosion"){
 						position = entity.Position,
 						color = entity.Color,
-						force = (entity.Radius or 30)/2 * 10^5,
-						damage = 5,
+						force = 5*10^5,
+						damage = 10,
+						radius = (entity.Radius or 30)/2 * 10,
 						screenshake = 1,
 						duration = 2
 					})
