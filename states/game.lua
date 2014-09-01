@@ -163,7 +163,7 @@ function game:enter(previous, w, h, nbots)
 
 	local bullet = require("entities.projectiles.bullet")()
 
-	local pistol = require("entities.weapons.projectile"){
+	local shotgun = require("entities.weapons.shotgun"){
 		max_heat = 2,
 		shot_heat = 0.1,
 
@@ -205,7 +205,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = minigun,
+		Weapon = shotgun,
 
 		Player = true,
 		CameraTarget = true
