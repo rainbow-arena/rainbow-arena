@@ -227,14 +227,14 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = shotgun,
+		Weapon = minigun,
 
 		Player = true,
 		CameraTarget = true
 	}
 
 	-- Place test balls.
-	for n = 1, 10 do
+	for n = 1, 50 do
 		local radius = 30
 		world:spawnEntity{
 			Name = "Ball " .. n,
