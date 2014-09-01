@@ -71,7 +71,7 @@ function w_projectile:apply_shot_effects(host, world, pos, dir)
 	end
 
 	if self.shot_sound then
-		sound.play_file(self.shot_sound, pos)
+		soundutil.play_file(self.shot_sound, pos/SOUND_POSITION_SCALE)
 	end
 end
 

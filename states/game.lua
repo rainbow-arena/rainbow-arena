@@ -178,14 +178,16 @@ function game:enter(previous, w, h, nbots)
 
 	local bullet = require("entities.projectiles.bullet")()
 
-	local shotgun = require("entities.weapons.shotgun"){
+	local pistol = require("entities.weapons.projectile"){
 		max_heat = 2,
 		shot_heat = 0.1,
 
 		kind = "single",
 		projectile = bullet,
 		projectile_speed = 800,
-		shot_delay = 0.5
+		shot_delay = 0.5,
+
+		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
 	local minigun = require("entities.weapons.triple_minigun"){
@@ -198,7 +200,9 @@ function game:enter(previous, w, h, nbots)
 
 		initial_shot_delay = 0.3,
 		final_shot_delay = 0.05,
-		spinup_time = 2
+		spinup_time = 2,
+
+		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
 	player = world:spawnEntity{
@@ -220,7 +224,7 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = shotgun,
+		Weapon = minigun,
 
 		Player = true,
 		CameraTarget = true
