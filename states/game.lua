@@ -179,8 +179,8 @@ function game:enter(previous, w, h, nbots)
 	local bullet = require("entities.projectiles.bullet")()
 
 	local shotgun = require("entities.weapons.shotgun"){
-		max_heat = 5,
-		shot_heat = 1,
+		max_heat = 3,
+		shot_heat = 0.5,
 
 		kind = "single",
 		projectile = bullet,
