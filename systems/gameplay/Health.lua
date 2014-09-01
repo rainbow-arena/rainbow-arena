@@ -22,7 +22,7 @@ return {
 						color = entity.Color,
 						force = 5*10^5,
 						damage = 10,
-						radius = (entity.Radius or 30)/2 * 10,
+						radius = (entity.Radius or 30)/1.5 * 10,
 						screenshake = 1,
 						duration = 2
 					})
