@@ -73,6 +73,12 @@ function w_projectile:fire_projectile(host, world, pos, dir)
 	return p
 end
 
+function w_projectile:play_shot_sound(pos, pitch)
+	if self.shot_sound then
+		soundutil.play_file(self.shot_sound, pos/SOUND_POSITION_SCALE, pitch)
+	end
+end
+
 function w_projectile:apply_shot_effects(host, world, pos, dir)
 	self.shot_timer = self.shot_delay
 	self.heat = self.heat + self.shot_heat
@@ -82,10 +88,6 @@ function w_projectile:apply_shot_effects(host, world, pos, dir)
 	if self.shot_shake_intensity and self.shot_shake_duration then
 		self:set_screenshake(self.shot_shake_intensity, self.shot_shake_duration)
 	end
-
-	if self.shot_sound then
-		soundutil.play_file(self.shot_sound, pos/SOUND_POSITION_SCALE)
-	end
 end
 
 ---
@@ -93,6 +95,7 @@ end
 function w_projectile:fire(host, world, pos, dir)
 	self:fire_projectile(host, world, pos, dir)
 	self:apply_shot_effects(host, world, pos, dir)
+	self:play_shot_sound(pos)
 end
 
 ---
