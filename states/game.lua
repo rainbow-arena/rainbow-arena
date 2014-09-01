@@ -262,7 +262,7 @@ function game:enter(previous, w, h, nbots)
 end
 
 function game:update(dt)
-	world.speed = util.math.clamp(0.1, world.speed, 7)
+	world.speed = util.math.clamp(0, world.speed, 7)
 	local adjdt = dt * world.speed
 
 	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
@@ -270,7 +270,10 @@ function game:update(dt)
 	world.screenshake = 0
 
 	timer.update(adjdt)
-	world:runSystems("update", adjdt)
+
+	if adjdt > 0 then
+		world:runSystems("update", adjdt)
+	end
 end
 
 function game:draw()

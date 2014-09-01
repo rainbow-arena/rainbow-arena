@@ -29,22 +29,29 @@ return {
 
 				ss.source:setPosition(source.Position.x/SOUND_POSITION_SCALE, source.Position.y/SOUND_POSITION_SCALE, 0)
 
-				local pitch = world.speed
-				if ss.pitch then
-					pitch = pitch * ss.pitch
+				-- If source hasn't been started, start it.
+				if not ss.played then
+					ss.source:play()
+					ss.played = true
 				end
-				ss.source:setPitch(pitch)
+
+				if world.speed == 0 then
+					-- Pause source.
+					ss.source:pause()
+				else
+					if ss.source:isPaused() then
+						-- Resume source.
+						ss.source:resume()
+					end
+					ss.source:setPitch((ss.pitch or 1) * world.speed)
+				end
 
 				if ss.volume then
 					ss.source:setVolume(ss.volume)
 				end
 
-				if not ss.playing then
-					ss.source:play()
-					ss.playing = true
-				end
-
-				if ss.source:isStopped() and ss.playing then
+				-- If source has finished playing, remove the component.
+				if ss.source:isStopped() and ss.played and not ss.paused then
 					source.Sound = nil
 				end
 			end
