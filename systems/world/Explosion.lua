@@ -36,7 +36,7 @@ return {
 								affected.Velocity = affected.Velocity + impact * (exp.force / affected.Mass) * dir
 							end
 
-							if damage and affected.Health then
+							if exp.damage and affected.Health then
 								-- Apply health damage.
 								affected.Health = affected.Health - ceil(impact * exp.damage)
 							end

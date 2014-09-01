@@ -6,6 +6,7 @@ local screenshake = require("lib.self.screenshake")
 local util = require("lib.self.util")
 
 local circleutil = require("util.circle")
+local colorutil = require("util.color")
 
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
@@ -70,7 +71,7 @@ function game:init()
 	---
 
 	love.audio.setOrientation(0,0,-1, 0,1,0)
-	love.audio.setDistanceModel("inverse")
+	love.audio.setDistanceModel("inverse clamped")
 
 	---
 
@@ -178,14 +179,16 @@ function game:enter(previous, w, h, nbots)
 
 	local bullet = require("entities.projectiles.bullet")()
 
-	local pistol = require("entities.weapons.projectile"){
-		max_heat = 2,
-		shot_heat = 0.1,
+	local shotgun = require("entities.weapons.shotgun"){
+		max_heat = 3,
+		shot_heat = 0.5,
 
 		kind = "single",
 		projectile = bullet,
 		projectile_speed = 800,
-		shot_delay = 0.5
+		shot_delay = 0.6,
+
+		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
 	local minigun = require("entities.weapons.triple_minigun"){
@@ -198,14 +201,19 @@ function game:enter(previous, w, h, nbots)
 
 		initial_shot_delay = 0.3,
 		final_shot_delay = 0.05,
-		spinup_time = 2
+		spinup_time = 2,
+
+		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
-	player = world:spawnEntity{
+	world:spawnEntity{
 		Name = "Player",
 		Team = "Player",
 
 		Color = {0, 255, 255},
+
+		Health = 30,
+		MaxHealth = 30,
 
 		Radius = PLAYER_RADIUS,
 		Position = find_position(PLAYER_RADIUS),
@@ -220,19 +228,25 @@ function game:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = minigun,
+		Weapon = shotgun,
 
 		Player = true,
 		CameraTarget = true
 	}
 
 	-- Place test balls.
-	for n = 1, 10 do
+	for n = 1, 50 do
+		local color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
+
 		local radius = 30
+
 		world:spawnEntity{
 			Name = "Ball " .. n,
 
-			Color = {255, 0, 0},
+			Color = color,
+
+			Health = 30,
+			MaxHealth = 30,
 
 			Radius = radius,
 			Position = find_position(radius),
@@ -248,7 +262,7 @@ function game:enter(previous, w, h, nbots)
 end
 
 function game:update(dt)
-	world.speed = util.math.clamp(0.1, world.speed, 7)
+	world.speed = util.math.clamp(0, world.speed, 7)
 	local adjdt = dt * world.speed
 
 	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
@@ -256,7 +270,10 @@ function game:update(dt)
 	world.screenshake = 0
 
 	timer.update(adjdt)
-	world:runSystems("update", adjdt)
+
+	if adjdt > 0 then
+		world:runSystems("update", adjdt)
+	end
 end
 
 function game:draw()
