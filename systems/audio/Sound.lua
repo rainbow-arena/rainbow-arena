@@ -31,8 +31,6 @@ return {
 
 				ss.source:setPosition(source.Position.x/SOUND_POSITION_SCALE, source.Position.y/SOUND_POSITION_SCALE, 0)
 
-				print(ss.source:getAttenuationDistances())
-
 				local pitch = world.speed
 				if ss.pitch then
 					pitch = pitch * ss.pitch
