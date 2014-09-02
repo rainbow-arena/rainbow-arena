@@ -155,11 +155,12 @@ function game:update(dt)
 
 	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
 
+	-- TODO: Overhaul screenshake, make it slower when game slows,
+	-- when speed == 0, it pauses.
 	world.screenshake = 0
 
-	world.timer:update(adjdt)
-
 	if adjdt > 0 then
+		world.timer:update(adjdt)
 		world:runSystems("update", adjdt)
 	end
 end
