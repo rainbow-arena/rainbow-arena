@@ -40,7 +40,7 @@ local function find_position(radius, tries)
 		local ok = true
 
 		local pos = generate_position(radius)
-		for entity in pairs(world:getEntitiesWith{"Position", "Radius"}) do
+		for entity in pairs(world:get_entities_with{"Position", "Radius"}) do
 			if colliding(pos,radius, entity.Position,entity.Radius) then
 				ok = false
 				break
@@ -59,7 +59,7 @@ local function calculate_drag_accel(max_speed, accel_time)
 end
 
 function game:enter(previous, w, h, nbots)
-	world:clearEntities()
+	world:clear_entities()
 
 	world.w, world.h = w or 1000, h or 1000
 
@@ -94,7 +94,7 @@ function game:enter(previous, w, h, nbots)
 		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
-	world:spawnEntity{
+	world:spawn_entity{
 		Name = "Player",
 		Team = "Player",
 
@@ -128,7 +128,7 @@ function game:enter(previous, w, h, nbots)
 
 		local radius = 30
 
-		world:spawnEntity{
+		world:spawn_entity{
 			Name = "Ball " .. n,
 
 			Color = color,
@@ -161,7 +161,7 @@ function game:update(dt)
 
 	if adjdt > 0 then
 		world.timer:update(adjdt)
-		world:runSystems("update", adjdt)
+		world:run_systems("update", adjdt)
 	end
 end
 
@@ -176,7 +176,7 @@ function game:draw()
 	love.graphics.line(world.w,world.h, world.w,0)
 	love.graphics.line(world.w,0, 0,0)
 
-	world:runSystems("draw")
+	world:run_systems("draw")
 	world.camera:detach()
 
 	love.graphics.setColor(255, 255, 255)
@@ -189,11 +189,11 @@ end
 
 
 function game:keypressed(key, isrepeat)
-	world:emitEvent("KeyPressed", key, isrepeat)
+	world:emit_event("KeyPressed", key, isrepeat)
 end
 
 function game:keyreleased(key)
-	world:emitEvent("KeyReleased", key)
+	world:emit_event("KeyReleased", key)
 end
 
 function game:mousepressed(x, y, b)
@@ -204,17 +204,17 @@ function game:mousepressed(x, y, b)
 	end
 
 	if b == "r" then
-		world:spawnEntity(require("entities.effects.explosion"){
+		world:spawn_entity(require("entities.effects.explosion"){
 			position = vector.new(world.camera:worldCoords(x, y)),
 			force = 2*10^6
 		})
 	end
 
-	world:emitEvent("MousePressed", x, y, b)
+	world:emit_event("MousePressed", x, y, b)
 end
 
 function game:mousereleased(x, y, b)
-	world:emitEvent("MouseReleased", x, y, b)
+	world:emit_event("MouseReleased", x, y, b)
 end
 
 return game

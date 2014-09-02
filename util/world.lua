@@ -34,6 +34,12 @@ function world:spawn_entity(t)
 		self.hash:insert_object(entity, aabb(
 			entity.Radius, entity.Position.x, entity.Position.y))
 	end
+
+	return entity
+end
+
+function world:get_entities_with(components)
+	return self.ces:get_entities_with(components)
 end
 
 function world:destroy_entity(entity)
@@ -43,6 +49,10 @@ function world:destroy_entity(entity)
 		self.hash:remove_object(entity, aabb(
 			entity.Radius, entity.Position.x, entity.Position.y))
 	end
+end
+
+function world:clear_entities()
+	self.ces:clear_entities()
 end
 
 function world:move_entity(entity, x, y)
@@ -61,6 +71,14 @@ function world:move_entity(entity, x, y)
 	local new_x1,new_y1, new_x2,new_y2 = aabb(entity.Radius, newpos.x, newpos.y)
 
 	self.hash:move_object(entity, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
+end
+
+function world:add_system(arg)
+	self.ces:add_system(arg)
+end
+
+function world:run_systems(kind, ...)
+	self.ces:run_systems(kind, ...)
 end
 
 function world:load_system_dir(dir)
@@ -101,6 +119,8 @@ local function new()
 		screenshake = 0,
 		speed = 1
 	}
+
+	w.entities = w.ces.entities
 
 	return setmetatable(w, world)
 end
