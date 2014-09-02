@@ -51,19 +51,6 @@ return {
 
 				entity.Firing = love.mouse.isDown("l")
 			end
-		},
-
-		{
-			name = "DebugDrawPlayerRotation",
-			requires = {"Player", "Position", "Rotation"},
-			priority = -100,
-			draw = function(entity)
-				local len = 40
-				local sx, sy = entity.Position:unpack()
-				local ex, ey = sx + len*cos(entity.Rotation), sy + len*sin(entity.Rotation)
-				love.graphics.setColor(255, 255, 255)
-				love.graphics.line(sx,sy, ex,ey)
-			end
 		}
 	},
 

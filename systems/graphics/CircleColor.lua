@@ -2,6 +2,8 @@ local util = require("lib.self.util")
 
 ---
 
+local sin, cos = math.sin, math.cos
+
 local clamp = util.math.clamp
 local range = util.math.range
 local map = util.math.map
@@ -68,6 +70,18 @@ return {
 				love.graphics.setStencil()
 				love.graphics.setColor(color)
 				love.graphics.circle("line", pos.x, pos.y, radius, 20)
+			end
+		},
+
+		{
+			name = "DrawCircleRotation",
+			requires = {"Position", "Radius", "Color", "Rotation"},
+			draw = function(entity)
+				local radius = entity.Radius
+				local sx, sy = entity.Position:unpack()
+				local ex, ey = sx + radius*cos(entity.Rotation), sy + radius*sin(entity.Rotation)
+				love.graphics.setColor(entity.Color)
+				love.graphics.line(sx,sy, ex,ey)
 			end
 		},
 
