@@ -53,7 +53,7 @@ return {
 		{ -- Screenshake for arena wall collisions.
 			event = "ArenaCollision",
 			func = function(world, entity, pos, side)
-				world:spawnEntity{
+				world:spawn_entity{
 					Position = pos:clone(),
 					Lifetime = 0.1,
 					Screenshake = {
@@ -67,7 +67,7 @@ return {
 		{ -- Screenshake for entity collision.
 			event = "PhysicsCollision",
 			func = function(world, ent1, ent2, mtv)
-				world:spawnEntity{
+				world:spawn_entity{
 					Position = ent2.Position + mtv,
 					Lifetime = 0.1,
 					Screenshake = {

@@ -28,15 +28,15 @@ local clone = util.table.clone
 	}
 ]]
 
-local function sortOrderTable(systems, ordert)
+local function sort_order_table(systems, ordert)
 	table.sort(ordert, function(a, b)
 		return systems[a].priority > systems[b].priority
 	end)
 end
 
-function Registry:addSystem(args)
+function Registry:add_system(args)
 	--assert(args.name and args.requires and (args.update or args.draw),
-	--	"Missing argument to addSystem")
+	--	"Missing argument to add_system")
 
 	assert(not self.systems[args.name],
 		"System \"" .. args.name .. "\" already exists")
@@ -47,22 +47,22 @@ function Registry:addSystem(args)
 		func = args.update or args.draw
 	}
 
-	local orderTable = args.draw and self.drawOrder or self.updateOrder
-	table.insert(orderTable, args.name)
-	sortOrderTable(self.systems, orderTable)
+	local order_table = args.draw and self.draw_order or self.update_order
+	table.insert(order_table, args.name)
+	sort_order_table(self.systems, order_table)
 end
 
-function Registry:removeSystem(name)
+function Registry:remove_system(name)
 	self.systems[name] = nil
 end
 
-function Registry:spawnEntity(components)
+function Registry:spawn_entity(components)
 	local entity = clone(components) or {}
 	self.entities[entity] = entity
 	return entity
 end
 
-function Registry:getEntitiesWith(components)
+function Registry:get_entities_with(components)
 	local result = {}
 	for entity in pairs(self.entities) do
 		local add = true
@@ -76,14 +76,14 @@ function Registry:getEntitiesWith(components)
 	return result
 end
 
-function Registry:destroyEntity(entity)
-	self.destroyQueue[entity] = entity
+function Registry:destroy_entity(entity)
+	self.destroy_queue[entity] = entity
 end
 
-function Registry:clearEntities()
+function Registry:clear_entities()
 	--self.entities = {}
 	for entity in pairs(self.entities) do
-		self:destroyEntity(entity)
+		self:destroy_entity(entity)
 	end
 end
 
@@ -95,14 +95,14 @@ end
 	}
 ]]
 
-local function runSystemOnEntity(system, entity, ...)
+local function run_system_on_entity(system, entity, ...)
 	if util.table.has(entity, system.requires or {}) then
 		system.func(entity, ...)
 	end
 end
 
-function Registry:runSystem(args)
-	assert(args.name, "System name not supplied to runSystem")
+function Registry:run_system(args)
+	assert(args.name, "System name not supplied to run_system")
 
 	local system = self.systems[args.name]
 	if not system then
@@ -111,29 +111,29 @@ function Registry:runSystem(args)
 
 	for entity in pairs(self.entities) do
 		if type(args.userdata) == "table" then
-			runSystemOnEntity(system, entity, unpack(args.userdata))
+			run_system_on_entity(system, entity, unpack(args.userdata))
 		else
-			runSystemOnEntity(system, entity, args.userdata)
+			run_system_on_entity(system, entity, args.userdata)
 		end
 	end
 end
 
-function Registry:runSystems(kind, ...)
-	local orderTable = (kind == "draw") and self.drawOrder or self.updateOrder
+function Registry:run_systems(kind, ...)
+	local order_table = (kind == "draw") and self.draw_order or self.update_order
 
-	self.destroyQueue = {}
+	self.destroy_queue = {}
 
-	for i, system in ipairs(orderTable) do
+	for i, system in ipairs(order_table) do
 
 		if not self.systems[system] then -- If the system can't be found, it has probably been removed.
-			orderTable[i] = nil
+			order_table[i] = nil
 		end
 
-		love.graphics.setColor(255, 255, 255)
-		self:runSystem{ name = system, userdata = {self, ...} }
+		love.graphics.set_color(255, 255, 255)
+		self:run_system{ name = system, userdata = {self, ...} }
 	end
 
-	for entity in pairs(self.destroyQueue) do
+	for entity in pairs(self.destroy_queue) do
 		self.entities[entity] = nil
 	end
 end
@@ -143,14 +143,14 @@ end
 local function new()
 	return setmetatable({
 		systems = {},
-		updateOrder = {},
-		drawOrder = {},
+		update_order = {},
+		draw_order = {},
 		entities = setmetatable({}, {__len = function(self)
 			local count = 0
 			for kv in pairs(self) do count = count + 1 end
 			return count
 		end}),
-		destroyQueue = {}
+		destroy_queue = {}
 	}, { __index = Registry })
 end
 

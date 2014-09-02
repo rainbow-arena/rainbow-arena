@@ -98,7 +98,7 @@ return {
 						local col, mtv = colliding(entity.Position,entity.Radius,
 							other.Position,other.Radius)
 						if col then
-							world:emitEvent("EntityCollision", entity, other, mtv)
+							world:emit_event("EntityCollision", entity, other, mtv)
 						end
 					end
 				end
@@ -117,7 +117,7 @@ return {
 					world:move_entity_to(entity, radius, entity.Position.y)
 					entity.Velocity.x = -entity.Velocity.x
 
-					world:emitEvent("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
+					world:emit_event("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
 				end
 
 				-- Right
@@ -125,7 +125,7 @@ return {
 					world:move_entity_to(entity, arena_w - radius, entity.Position.y)
 					entity.Velocity.x = -entity.Velocity.x
 
-					world:emitEvent("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
+					world:emit_event("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
 				end
 
 				-- Top
@@ -133,7 +133,7 @@ return {
 					world:move_entity_to(entity, entity.Position.x, radius)
 					entity.Velocity.y = -entity.Velocity.y
 
-					world:emitEvent("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
+					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
 				end
 
 				-- Bottom
@@ -141,7 +141,7 @@ return {
 					world:move_entity_to(entity, entity.Position.x, arena_h - radius)
 					entity.Velocity.y = -entity.Velocity.y
 
-					world:emitEvent("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "left")
+					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "left")
 				end
 			end
 		},
@@ -153,7 +153,7 @@ return {
 				entity.Lifetime = entity.Lifetime - dt
 
 				if entity.Lifetime <= 0 then
-					world:destroyEntity(entity)
+					world:destroy_entity(entity)
 				end
 			end
 		},
@@ -165,7 +165,7 @@ return {
 				if entity.Position.x < 0 - tolerance or entity.Position.x > world.w + tolerance
 					or entity.Position.y < 0 - tolerance or entity.Position.y > world.h + tolerance
 				then
-					world:destroyEntity(entity)
+					world:destroy_entity(entity)
 				end
 			end
 		}
@@ -207,7 +207,7 @@ return {
 
 				---
 
-				world:emitEvent("PhysicsCollision", ent1, ent2, mtv)
+				world:emit_event("PhysicsCollision", ent1, ent2, mtv)
 
 				---
 
