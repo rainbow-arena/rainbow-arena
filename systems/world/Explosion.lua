@@ -1,5 +1,3 @@
-local timer = require("lib.hump.timer")
-
 local circleutil = require("util.circle")
 
 ---
@@ -27,7 +25,7 @@ return {
 
 					if impact > 0 then
 						local dir = dist_vec:normalized()
-						timer.add(delay, function()
+						world.timer:add(delay, function()
 							-- ColorPulse entity.
 							if affected.Color then affected.ColorPulse = impact end
 

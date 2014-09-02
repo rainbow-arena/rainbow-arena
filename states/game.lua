@@ -1,23 +1,17 @@
 local game = {}
 
-local ces = require("lib.self.ces")
-local spatialhash = require("lib.self.spatialhash")
 local screenshake = require("lib.self.screenshake")
 local util = require("lib.self.util")
 
+local worldutil = require("util.world")
 local circleutil = require("util.circle")
 local colorutil = require("util.color")
 
-local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
-local signal = require("lib.hump.signal")
-local timer = require("lib.hump.timer")
 
 ---
 
-local aabb = circleutil.aabb
 local colliding = circleutil.colliding
-
 local nelem = util.table.nelem
 
 ---
@@ -30,114 +24,8 @@ SOUND_POSITION_SCALE = 256
 
 local world
 
----
-
-local function load_systems(dir)
-	for _, item in ipairs(love.filesystem.getDirectoryItems(dir)) do
-		if love.filesystem.isDirectory(dir .. "/" .. item) then
-			load_systems(dir .. "/" .. item)
-		else
-			local t = love.filesystem.load(dir .. "/" .. item)()
-
-			if type(t) ~= "table" then
-				error(("System file \"%s\" doesn't return a table!"):format(dir .."/" .. item))
-			end
-
-			if t.systems then
-				for _, system in ipairs(t.systems) do
-					world:addSystem(system)
-				end
-			end
-			if t.events then
-				for _, eventitem in pairs(t.events) do
-					world:registerEvent(eventitem.event, eventitem.func)
-				end
-			end
-		end
-	end
-end
-
----
-
 function game:init()
-	world = ces.new()
-
-	world.camera = camera.new()
-	world.signal = signal.new()
-	world.screenshake = 0
-	world.hash = spatialhash.new()
-	world.speed = 1
-
-	---
-
-	love.audio.setOrientation(0,0,-1, 0,1,0)
-	love.audio.setDistanceModel("inverse clamped")
-
-	---
-
-	function world:registerEvent(event, func)
-		self.signal:register(event, func)
-	end
-
-	function world:emitEvent(event, ...)
-		self.signal:emit(event, self, ...)
-	end
-
-	function world:clearEvents()
-		self.signal:clear()
-	end
-
-	local olddestroy = world.destroyEntity
-	function world:destroyEntity(entity)
-		self:emitEvent("EntityDestroyed", entity)
-		olddestroy(self, entity)
-	end
-
-	---
-
-	local oldspawn = world.spawnEntity
-	function world:spawnEntity(t)
-		local entity = oldspawn(self, t)
-
-		if entity.Position and entity.Radius then
-			self.hash:insert_object(entity, aabb(
-				entity.Radius, entity.Position.x, entity.Position.y))
-		end
-
-		return entity
-	end
-
-	local olddestroy = world.destroyEntity
-	function world:destroyEntity(entity)
-		olddestroy(self, entity)
-
-		if entity.Position and entity.Radius then
-			self.hash:remove_object(entity, aabb(
-				entity.Radius, entity.Position.x, entity.Position.y))
-		end
-	end
-
-	function world:move_entity_to(entity, x, y)
-		local oldpos = entity.Position
-
-		local newpos
-		if not y then
-			newpos = x
-		else
-			newpos = vector.new(x, y)
-		end
-
-		entity.Position = newpos
-
-		local old_x1,old_y1, old_x2,old_y2 = aabb(entity.Radius, oldpos.x, oldpos.y)
-		local new_x1,new_y1, new_x2,new_y2 = aabb(entity.Radius, newpos.x, newpos.y)
-
-		self.hash:move_object(entity, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
-	end
-
-	---
-
-	load_systems("systems")
+	world = worldutil.new()
 end
 
 local function generate_position(radius)
@@ -269,7 +157,7 @@ function game:update(dt)
 
 	world.screenshake = 0
 
-	timer.update(adjdt)
+	world.timer:update(adjdt)
 
 	if adjdt > 0 then
 		world:runSystems("update", adjdt)
