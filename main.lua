@@ -24,9 +24,10 @@
 local gs = require("lib.hump.gamestate")
 
 local state_game = require("states.game")
+local state_test = require("states.test")
 
 function love.load()
 	gs.registerEvents()
 
-	gs.switch(state_game)
+	gs.switch(state_test)
 end
