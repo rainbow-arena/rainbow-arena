@@ -79,7 +79,7 @@ return {
 			requires = {"Position", "Velocity"},
 			priority = 1,
 			update = function(entity, world, dt)
-				world:move_entity_to(entity, entity.Position + entity.Velocity*dt)
+				world:move_entity(entity, entity.Position + entity.Velocity*dt)
 
 				entity.Velocity = entity.Velocity + ((entity.Acceleration or vector.zero) - (entity.Drag or 0) * entity.Velocity)*dt
 			end
@@ -114,7 +114,7 @@ return {
 
 				-- Left
 				if pos.x - radius < 0 then
-					world:move_entity_to(entity, radius, entity.Position.y)
+					world:move_entity(entity, radius, entity.Position.y)
 					entity.Velocity.x = -entity.Velocity.x
 
 					world:emit_event("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
@@ -122,7 +122,7 @@ return {
 
 				-- Right
 				if pos.x + radius > arena_w then
-					world:move_entity_to(entity, arena_w - radius, entity.Position.y)
+					world:move_entity(entity, arena_w - radius, entity.Position.y)
 					entity.Velocity.x = -entity.Velocity.x
 
 					world:emit_event("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
@@ -130,7 +130,7 @@ return {
 
 				-- Top
 				if pos.y - radius < 0 then
-					world:move_entity_to(entity, entity.Position.x, radius)
+					world:move_entity(entity, entity.Position.x, radius)
 					entity.Velocity.y = -entity.Velocity.y
 
 					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
@@ -138,7 +138,7 @@ return {
 
 				-- Bottom
 				if pos.y + radius > arena_h then
-					world:move_entity_to(entity, entity.Position.x, arena_h - radius)
+					world:move_entity(entity, entity.Position.x, arena_h - radius)
 					entity.Velocity.y = -entity.Velocity.y
 
 					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "left")
@@ -211,7 +211,7 @@ return {
 
 				---
 
-				world:move_entity_to(ent1, ent1.Position + mtv)
+				world:move_entity(ent1, ent1.Position + mtv)
 
 				if ent2.Velocity then
 					-- Dynamic vs. Dynamic

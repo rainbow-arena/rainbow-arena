@@ -129,7 +129,7 @@ function Registry:run_systems(kind, ...)
 			order_table[i] = nil
 		end
 
-		love.graphics.set_color(255, 255, 255)
+		love.graphics.setColor(255, 255, 255)
 		self:run_system{ name = system, userdata = {self, ...} }
 	end
 

@@ -84,7 +84,7 @@ end
 function world:load_system_dir(dir)
 	for _, item in ipairs(love.filesystem.getDirectoryItems(dir)) do
 		if love.filesystem.isDirectory(dir .. "/" .. item) then
-			load_systems(world, dir .. "/" .. item)
+			self:load_system_dir(dir .. "/" .. item)
 		else
 			local t = love.filesystem.load(dir .. "/" .. item)()
 
@@ -94,12 +94,12 @@ function world:load_system_dir(dir)
 
 			if t.systems then
 				for _, system in ipairs(t.systems) do
-					world:add_system(system)
+					self:add_system(system)
 				end
 			end
 			if t.events then
 				for _, eventitem in pairs(t.events) do
-					world:register_event(eventitem.event, eventitem.func)
+					self:register_event(eventitem.event, eventitem.func)
 				end
 			end
 		end

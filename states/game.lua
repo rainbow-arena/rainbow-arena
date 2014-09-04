@@ -26,6 +26,7 @@ local world
 
 function game:init()
 	world = worldutil.new()
+	world:load_system_dir("systems")
 end
 
 local function generate_position(radius)
