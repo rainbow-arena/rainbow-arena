@@ -114,7 +114,7 @@ end
 ---
 
 function world:update(dt)
-	world.speed = clamp(0, self.speed, 7)
+	self.speed = clamp(0, self.speed, 7)
 	local adjdt = dt * self.speed
 
 	love.audio.setPosition(self.camera.x/SOUND_POSITION_SCALE, self.camera.y/SOUND_POSITION_SCALE, 0)
