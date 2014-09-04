@@ -71,10 +71,11 @@ function w_projectile:fire_projectile(host, world, pos, dir)
 	return p
 end
 
-function w_projectile:play_shot_sound(world, pos, pitch)
+function w_projectile:play_shot_sound(world, host, pitch)
 	if self.shot_sound then
 		world:spawn_entity{
-			Position = pos,
+			Position = host.Position,
+			AttachedTo = host,
 			Lifetime = 0.5,
 			Sound = {
 				source = love.audio.newSource(self.shot_sound),
@@ -100,7 +101,7 @@ end
 function w_projectile:fire(host, world, pos, dir)
 	self:fire_projectile(host, world, pos, dir)
 	self:apply_shot_effects(host, world, pos, dir)
-	self:play_shot_sound(world, pos)
+	self:play_shot_sound(world, host)
 end
 
 ---
