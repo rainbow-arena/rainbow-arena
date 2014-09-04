@@ -64,7 +64,7 @@ return {
 			func = function(world, entity, pos, side)
 				local source = love.audio.newSource(collision_sound)
 
-				world:spawnEntity{
+				world:spawn_entity{
 					Position = pos,
 					Lifetime = 0.3,
 					Sound = {
@@ -81,7 +81,7 @@ return {
 					local source = love.audio.newSource(collision_sound)
 					local pos = ent2.Position + mtv
 
-					world:spawnEntity{
+					world:spawn_entity{
 						Position = pos,
 						Lifetime = 0.3,
 						Sound = {

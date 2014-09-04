@@ -48,7 +48,7 @@ function w_projectile:spawn_projectile(host, world, pos, dir)
 		table.insert(projectile.CollisionExcludeEntities, host)
 	end
 
-	world:spawnEntity(projectile)
+	world:spawn_entity(projectile)
 
 	return projectile
 end
@@ -73,7 +73,7 @@ end
 
 function w_projectile:play_shot_sound(world, pos, pitch)
 	if self.shot_sound then
-		world:spawnEntity{
+		world:spawn_entity{
 			Position = pos,
 			Lifetime = 0.5,
 			Sound = {

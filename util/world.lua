@@ -78,7 +78,7 @@ function world:add_system(arg)
 end
 
 function world:run_systems(kind, ...)
-	self.ces:run_systems(kind, ...)
+	self.ces:run_systems(kind, self, ...)
 end
 
 function world:load_system_dir(dir)

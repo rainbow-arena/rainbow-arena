@@ -101,20 +101,16 @@ local function run_system_on_entity(system, entity, ...)
 	end
 end
 
-function Registry:run_system(args)
-	assert(args.name, "System name not supplied to run_system")
+function Registry:run_system(name, ...)
+	assert(name, "System name not supplied to run_system")
 
-	local system = self.systems[args.name]
+	local system = self.systems[name]
 	if not system then
-		error("System \"" .. args.name .. "\" not found")
+		error("System \"" .. name .. "\" not found")
 	end
 
 	for entity in pairs(self.entities) do
-		if type(args.userdata) == "table" then
-			run_system_on_entity(system, entity, unpack(args.userdata))
-		else
-			run_system_on_entity(system, entity, args.userdata)
-		end
+		run_system_on_entity(system, entity, ...)
 	end
 end
 
@@ -130,7 +126,7 @@ function Registry:run_systems(kind, ...)
 		end
 
 		love.graphics.setColor(255, 255, 255)
-		self:run_system{ name = system, userdata = {self, ...} }
+		self:run_system(system, ...)
 	end
 
 	for entity in pairs(self.destroy_queue) do

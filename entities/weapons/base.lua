@@ -14,7 +14,7 @@ function w_base:init(arg)
 end
 
 function w_base:start(host, world, pos, dir)
-	self.effect_ent = world:spawnEntity{
+	self.effect_ent = world:spawn_entity{
 		Position = host.Position:clone()
 	}
 end
@@ -54,7 +54,7 @@ function w_base:firing(dt, host, world, pos, dir)
 end
 
 function w_base:cease(host, world)
-	world:destroyEntity(self.effect_ent)
+	world:destroy_entity(self.effect_ent)
 end
 
 function w_base:update(dt, host, world)
