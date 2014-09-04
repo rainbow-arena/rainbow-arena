@@ -1,14 +1,19 @@
 local ces = require("lib.self.ces")
 local spatialhash = require("lib.self.spatialhash")
+local screenshake = require("lib.self.screenshake")
 
 local camera = require("lib.hump.camera")
 local vector = require("lib.hump.vector")
 local signal = require("lib.hump.signal")
 local timer = require("lib.hump.timer")
 
+local util = require("lib.self.util")
+
 local circleutil = require("util.circle")
 
 ---
+
+local clamp = util.math.clamp
 
 local aabb = circleutil.aabb
 
@@ -109,37 +114,37 @@ end
 ---
 
 function world:update(dt)
-	world.speed = util.math.clamp(0, world.speed, 7)
-	local adjdt = dt * world.speed
+	world.speed = clamp(0, self.speed, 7)
+	local adjdt = dt * self.speed
 
-	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
+	love.audio.setPosition(self.camera.x/SOUND_POSITION_SCALE, self.camera.y/SOUND_POSITION_SCALE, 0)
 
 	-- TODO: Overhaul screenshake, make it slower when game slows,
 	-- when speed == 0, it pauses.
-	world.screenshake = 0
+	self.screenshake = 0
 
 	if adjdt > 0 then
-		world.timer:update(adjdt)
-		world:run_systems("update", adjdt)
+		self.timer:update(adjdt)
+		self:run_systems("update", adjdt)
 	end
 end
 
 function world:draw(on_camera, off_camera)
-	world.camera:attach()
+	self.camera:attach()
 
-	screenshake.apply(world.screenshake, world.screenshake)
+	screenshake.apply(self.screenshake, self.screenshake)
 
 	if on_camera then
-		on_camera()
+		on_camera(self)
 	end
 
-	world:run_systems("draw")
-	world.camera:detach()
+	self:run_systems("draw")
+	self.camera:detach()
 
 	---
 
 	if off_camera then
-		off_camera()
+		off_camera(self)
 	end
 end
 
