@@ -35,5 +35,5 @@ SOUND_POSITION_SCALE = 256
 function love.load()
 	gs.registerEvents()
 
-	gs.switch(state_game)
+	gs.switch(state_test)
 end

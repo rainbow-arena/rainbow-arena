@@ -151,40 +151,27 @@ function test:enter(previous, w, h, nbots)
 end
 
 function test:update(dt)
-	world.speed = util.math.clamp(0, world.speed, 7)
-	local adjdt = dt * world.speed
-
-	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
-
-	-- TODO: Overhaul screenshake, make it slower when game slows,
-	-- when speed == 0, it pauses.
-	world.screenshake = 0
-
-	if adjdt > 0 then
-		world.timer:update(adjdt)
-		world:run_systems("update", adjdt)
-	end
+	world:update(dt)
 end
 
 function test:draw()
-	world.camera:attach()
+	world:draw(
+		function(self) -- Draws "affected" by the camera.
+			-- Arena boundaries.
+			love.graphics.line(0,0, 0,self.h)
+			love.graphics.line(0,self.h, self.w,self.h)
+			love.graphics.line(self.w,self.h, self.w,0)
+			love.graphics.line(self.w,0, 0,0)
+		end,
 
-	screenshake.apply(world.screenshake, world.screenshake)
-
-	-- Arena boundaries.
-	love.graphics.line(0,0, 0,world.h)
-	love.graphics.line(0,world.h, world.w,world.h)
-	love.graphics.line(world.w,world.h, world.w,0)
-	love.graphics.line(world.w,0, 0,0)
-
-	world:run_systems("draw")
-	world.camera:detach()
-
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.print("Speed multiplier: " .. world.speed, 10, 10)
-	love.graphics.print(
-		"Entities: " .. nelem(world.entities),
-		10, 10 + love.graphics.getFont():getHeight()
+		function(self) -- Camera-independent draws.
+			love.graphics.setColor(255, 255, 255)
+			love.graphics.print("Speed multiplier: " .. self.speed, 10, 10)
+			love.graphics.print(
+				"Entities: " .. nelem(self.entities),
+				10, 10 + love.graphics.getFont():getHeight()
+			)
+		end
 	)
 end
 
