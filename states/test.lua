@@ -191,13 +191,6 @@ function test:mousepressed(x, y, b)
 		world.speed = world.speed + 0.1
 	end
 
-	if b == "r" then
-		world:spawn_entity(require("entities.effects.explosion"){
-			position = vector.new(world.camera:worldCoords(x, y)),
-			force = 2*10^6
-		})
-	end
-
 	world:emit_event("MousePressed", x, y, b)
 end
 
