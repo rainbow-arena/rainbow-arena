@@ -26,6 +26,12 @@ local gs = require("lib.hump.gamestate")
 local state_game = require("states.game")
 local state_test = require("states.test")
 
+---
+
+SOUND_POSITION_SCALE = 256
+
+---
+
 function love.load()
 	gs.registerEvents()
 

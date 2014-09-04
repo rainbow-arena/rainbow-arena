@@ -108,6 +108,43 @@ end
 
 ---
 
+function world:update(dt)
+	world.speed = util.math.clamp(0, world.speed, 7)
+	local adjdt = dt * world.speed
+
+	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
+
+	-- TODO: Overhaul screenshake, make it slower when game slows,
+	-- when speed == 0, it pauses.
+	world.screenshake = 0
+
+	if adjdt > 0 then
+		world.timer:update(adjdt)
+		world:run_systems("update", adjdt)
+	end
+end
+
+function world:draw(on_camera, off_camera)
+	world.camera:attach()
+
+	screenshake.apply(world.screenshake, world.screenshake)
+
+	if on_camera then
+		on_camera()
+	end
+
+	world:run_systems("draw")
+	world.camera:detach()
+
+	---
+
+	if off_camera then
+		off_camera()
+	end
+end
+
+---
+
 local function new()
 	local w = {
 		ces = ces.new(),

@@ -16,9 +16,7 @@ local nelem = util.table.nelem
 
 ---
 
-local PLAYER_RADIUS = 30
-
-SOUND_POSITION_SCALE = 256
+local COMBATANT_RADIUS = 30
 
 ---
 
@@ -59,133 +57,37 @@ local function calculate_drag_accel(max_speed, accel_time)
 	return drag, accel
 end
 
-function game:enter(previous, w, h, nbots)
+function game:enter(previous, arg)
 	world:clear_entities()
 
-	world.w, world.h = w or 1000, h or 1000
+	world.w, world.h = arg.w or 1000, arg.h or 1000
 
-	local c_drag, c_accel = calculate_drag_accel(800, 5)
+	local c_drag, c_accel = calculate_drag_accel(arg.max_speed or 800, arg.max_speed_time or 5)
 
-	local bullet = require("entities.projectiles.bullet")()
 
-	local shotgun = require("entities.weapons.shotgun"){
-		max_heat = 3,
-		shot_heat = 0.5,
-
-		kind = "single",
-		projectile = bullet,
-		projectile_speed = 800,
-		shot_delay = 0.6,
-
-		shot_sound = "audio/weapons/laser_shot.wav"
-	}
-
-	local minigun = require("entities.weapons.triple_minigun"){
-		max_heat = 2,
-		shot_heat = 0.01,
-
-		kind = "single",
-		projectile = bullet,
-		projectile_speed = 800,
-
-		initial_shot_delay = 0.3,
-		final_shot_delay = 0.05,
-		spinup_time = 2,
-
-		shot_sound = "audio/weapons/laser_shot.wav"
-	}
-
-	world:spawn_entity{
-		Name = "Player",
-		Team = "Player",
-
-		Color = {0, 255, 255},
-
-		Health = 30,
-		MaxHealth = 30,
-
-		Radius = PLAYER_RADIUS,
-		Position = find_position(PLAYER_RADIUS),
-		Velocity = vector.new(0, 0),
-		Acceleration = vector.new(0, 0),
-
-		Rotation = 0,
-		RotationSpeed = 2,
-
-		Drag = c_drag,
-		MoveAcceleration = c_accel,
-
-		CollisionPhysics = true,
-
-		Weapon = shotgun,
-
-		Player = true,
-		CameraTarget = true
-	}
-
-	-- Place test balls.
-	for n = 1, 50 do
-		local color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
-
-		local radius = 30
-
-		world:spawn_entity{
-			Name = "Ball " .. n,
-
-			Color = color,
-
-			Health = 30,
-			MaxHealth = 30,
-
-			Radius = radius,
-			Position = find_position(radius),
-			Velocity = vector.new(0, 0),
-			Acceleration = vector.new(0, 0),
-
-			Drag = c_drag,
-			MoveAcceleration = c_accel,
-
-			CollisionPhysics = true
-		}
-	end
 end
 
 function game:update(dt)
-	world.speed = util.math.clamp(0, world.speed, 7)
-	local adjdt = dt * world.speed
-
-	love.audio.setPosition(world.camera.x/SOUND_POSITION_SCALE, world.camera.y/SOUND_POSITION_SCALE, 0)
-
-	-- TODO: Overhaul screenshake, make it slower when game slows,
-	-- when speed == 0, it pauses.
-	world.screenshake = 0
-
-	if adjdt > 0 then
-		world.timer:update(adjdt)
-		world:run_systems("update", adjdt)
-	end
+	world:update(dt)
 end
 
 function game:draw()
-	world.camera:attach()
+	world:draw(function()
+		-- Arena boundaries.
+		love.graphics.line(0,0, 0,world.h)
+		love.graphics.line(0,world.h, world.w,world.h)
+		love.graphics.line(world.w,world.h, world.w,0)
+		love.graphics.line(world.w,0, 0,0)
+	end,
 
-	screenshake.apply(world.screenshake, world.screenshake)
-
-	-- Arena boundaries.
-	love.graphics.line(0,0, 0,world.h)
-	love.graphics.line(0,world.h, world.w,world.h)
-	love.graphics.line(world.w,world.h, world.w,0)
-	love.graphics.line(world.w,0, 0,0)
-
-	world:run_systems("draw")
-	world.camera:detach()
-
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.print("Speed multiplier: " .. world.speed, 10, 10)
-	love.graphics.print(
-		"Entities: " .. nelem(world.entities),
-		10, 10 + love.graphics.getFont():getHeight()
-	)
+	function()
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.print("Speed multiplier: " .. world.speed, 10, 10)
+		love.graphics.print(
+			"Entities: " .. nelem(world.entities),
+			10, 10 + love.graphics.getFont():getHeight()
+		)
+	end)
 end
 
 
