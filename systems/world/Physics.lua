@@ -79,7 +79,6 @@ return {
 			requires = {"Position", "Velocity"},
 			priority = 1,
 			update = function(entity, world, dt)
-				print(world.move_entity)
 				world:move_entity(entity, entity.Position + entity.Velocity*dt)
 
 				entity.Velocity = entity.Velocity + ((entity.Acceleration or vector.zero) - (entity.Drag or 0) * entity.Velocity)*dt

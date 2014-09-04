@@ -84,13 +84,15 @@ return {
 					world:spawn_entity{
 						Position = pos,
 						Lifetime = 0.3,
+
 						Sound = {
 							source = source,
-							volume = clamp(0, (ent1.Velocity + ent2.Velocity):len() / volume_threshold_speed, collision_max_volume)						}
+							volume = clamp(0, (ent1.Velocity + ent2.Velocity):len() / volume_threshold_speed, collision_max_volume)
+						}
 					}
 
 					can_spawn_col_sound = false
-					timer.add(sound_spawn_delay, function()
+					world.timer:add(sound_spawn_delay, function()
 						can_spawn_col_sound = true
 					end)
 				end

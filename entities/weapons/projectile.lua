@@ -114,6 +114,8 @@ function w_projectile:firing(dt, host, world, pos, dir)
 		elseif self.kind == "burst" and not self.fired then
 			self.fired = true
 
+			-- TODO: Fix this so shots always come from the circle, not where you originally fired.
+
 			local shot = 1
 			timer.add(self.burst_shot_delay, function(func)
 				self:fire(host, world, pos, dir)
