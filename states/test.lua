@@ -186,6 +186,7 @@ function test:mousepressed(x, y, b)
 	elseif b == "wu" then
 		world.speed = world.speed + 0.1
 	elseif b == "r" then
+		world.bg_color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
 		world:pulse_bg()
 	end
 
