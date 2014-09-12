@@ -6,7 +6,7 @@
 	Stuff to do:
 		Graphics: background
 		Content: weapons, powerups?
-		Matches: Actual match/level logic
+		Matches: Actual match/level logic, bot AI
 
 		TODO:
 			Make player rotation limited by a turn rate.
