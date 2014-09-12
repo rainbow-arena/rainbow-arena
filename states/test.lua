@@ -157,11 +157,7 @@ end
 function test:draw()
 	world:draw(
 		function(self) -- Draws "affected" by the camera.
-			-- Arena boundaries.
-			love.graphics.line(0,0, 0,self.h)
-			love.graphics.line(0,self.h, self.w,self.h)
-			love.graphics.line(self.w,self.h, self.w,0)
-			love.graphics.line(self.w,0, 0,0)
+
 		end,
 
 		function(self) -- Camera-independent draws.

@@ -134,6 +134,12 @@ function world:draw(on_camera, off_camera)
 
 	screenshake.apply(self.screenshake, self.screenshake)
 
+	-- Arena boundaries.
+	love.graphics.line(0,0, 0,self.h)
+	love.graphics.line(0,self.h, self.w,self.h)
+	love.graphics.line(self.w,self.h, self.w,0)
+	love.graphics.line(self.w,0, 0,0)
+
 	if on_camera then
 		on_camera(self)
 	end
@@ -150,13 +156,19 @@ end
 
 ---
 
-local function new()
+local function new(width, height)
 	local w = {
+		w = width, h = height,
+
 		ces = ces.new(),
 		signal = signal.new(),
 		hash = spatialhash.new(),
 		timer = timer.new(),
 		camera = camera.new(),
+
+		background_color = {0, 0, 0},
+		background_pulse_length = 1,
+		background_pulse_level = 0,
 
 		screenshake = 0,
 		speed = 1
