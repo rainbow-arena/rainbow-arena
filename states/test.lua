@@ -185,6 +185,8 @@ function test:mousepressed(x, y, b)
 		world.speed = world.speed - 0.1
 	elseif b == "wu" then
 		world.speed = world.speed + 0.1
+	elseif b == "r" then
+		world:pulse_bg()
 	end
 
 	world:emit_event("MousePressed", x, y, b)
