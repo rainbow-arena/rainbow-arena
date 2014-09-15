@@ -211,7 +211,15 @@ return {
 
 				---
 
-				world:move_entity(ent1, ent1.Position + mtv)
+				if ent1.Mass == 0 then
+					world:move_entity(ent1, ent1.Position + mtv)
+				elseif ent2.Mass == 0 then
+					world:move_entity(ent2, ent2.Position + mtv)
+				else
+					local masses = (ent1.Mass + ent2.Mass)
+					world:move_entity(ent1, ent1.Position + (ent2.Mass/masses)*mtv)
+					world:move_entity(ent2, ent2.Position - (ent1.Mass/masses)*mtv)
+				end
 
 				if ent2.Velocity then
 					-- Dynamic vs. Dynamic
