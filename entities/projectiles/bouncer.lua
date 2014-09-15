@@ -25,6 +25,15 @@ function e_proj_bouncer:on_collision(world, target, mtv)
 	e_proj_physical.on_collision(self, world, target, mtv)
 end
 
+function e_proj_bouncer:on_arena_collision(world, pos, side)
+	self.bounces = self.bounces - 1
+	if self.bounces < 0 then
+		world:destroy_entity(self)
+	end
+
+	e_proj_physical.on_arena_collision(self, world, pos, side)
+end
+
 ---
 
 return e_proj_bouncer
