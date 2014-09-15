@@ -172,6 +172,15 @@ return {
 	},
 
 	events = {
+		{ -- Call arena collision functions of entities if they have them.
+			event = "ArenaCollision",
+			func = function(world, entity, pos, side)
+				if entity.OnArenaCollision then
+					entity:OnArenaCollision(world, pos, side)
+				end
+			end
+		},
+
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)

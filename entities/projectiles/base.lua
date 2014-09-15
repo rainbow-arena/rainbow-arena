@@ -38,6 +38,15 @@ function e_proj_base:on_collision(world, target, mtv)
 
 end
 
+function e_proj_base:OnArenaCollision(world, pos, side)
+	self:on_arena_collision(world, pos, side)
+end
+
+function e_proj_base:on_arena_collision(world, pos, side)
+
+end
+
+
 ---
 
 return e_proj_base
