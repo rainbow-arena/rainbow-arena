@@ -17,7 +17,7 @@ local w_projectile = class{__includes = w_base}
 function w_projectile:init(arg)
 	self.kind = arg.kind or "single"
 
-	self.shot_heat = arg.shot_heat or 0.25
+	self.shot_heat = arg.shot_heat or 0.1
 	self.projectile = arg.projectile
 	self.projectile_speed = arg.projectile_speed or 800
 	self.shot_delay = arg.shot_delay or 0.1

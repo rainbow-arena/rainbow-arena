@@ -7,7 +7,7 @@ local w_base = class{}
 ---
 
 function w_base:init(arg)
-	self.max_heat = arg.max_heat or 2
+	self.max_heat = arg.max_heat or 3
 	self.shake_radius = arg.shake_radius or 100
 
 	self.heat = 0
