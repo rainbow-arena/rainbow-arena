@@ -10,17 +10,17 @@ local map = util.math.map
 
 ---
 
-local intensity_decay_rate = 2
+local INTENSITY_DECAY_RATE = 2
 
-local min_intensity = 0.3
-local max_intensity = 0.7
+local MIN_INTENSITY = 0.3
+local MAX_INTENSITY = 0.7
 
-local max_pulse_speed = 500
+local MAX_PULSE_SPEED = 500
 
 ---
 
 local function calculate_single_entity_pulse(entity, velocity)
-	return (velocity or entity.Velocity:len()) / max_pulse_speed
+	return (velocity or entity.Velocity:len()) / MAX_PULSE_SPEED
 end
 
 local function calculate_double_entity_pulse(ent1, ent2)
@@ -55,7 +55,7 @@ return {
 					entity.ColorIntensity = clamp(0, entity.ColorIntensity, 1)
 				end
 
-				local v = map(entity.ColorIntensity, 0, 1, min_intensity, max_intensity)
+				local v = map(entity.ColorIntensity, 0, 1, MIN_INTENSITY, MAX_INTENSITY)
 
 				---
 
@@ -89,7 +89,7 @@ return {
 			name = "RestoreCircleColor",
 			requires = {"ColorIntensity"},
 			update = function(entity, world, dt)
-				local step = intensity_decay_rate*dt
+				local step = INTENSITY_DECAY_RATE*dt
 
 				if range(-step, entity.ColorIntensity, step) then
 					entity.ColorIntensity = 0
