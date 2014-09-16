@@ -40,6 +40,7 @@ function w_projectile:spawn_projectile(host, world, pos, dir)
 	projectile.Position = pos + dir
 	projectile.Velocity = self.projectile_speed * dir + host.Velocity
 	projectile.Team = host.Team
+	projectile.Firer = host
 
 	-- Add host to collision exclusion list.
 	if not projectile.CollisionExcludeEntities then

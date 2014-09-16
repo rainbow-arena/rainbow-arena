@@ -16,7 +16,7 @@ function e_proj_bullet:init(arg)
 end
 
 function e_proj_bullet:on_collision(world, target, mtv)
-	if target.Health then
+	if target ~= self.Firer and target.Health then
 		target.Health = target.Health - self.damage
 	end
 	world:destroy_entity(self)
