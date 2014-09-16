@@ -158,12 +158,8 @@ function test:update(dt)
 end
 
 function test:draw()
-	world:draw(
-		function(self) -- Draws "affected" by the camera.
-
-		end,
-
-		function(self) -- Camera-independent draws.
+	world:draw{
+		ui = function(self)
 			love.graphics.setColor(255, 255, 255)
 			love.graphics.print("Speed multiplier: " .. self.speed, 10, 10)
 			love.graphics.print(
@@ -171,7 +167,7 @@ function test:draw()
 				10, 10 + love.graphics.getFont():getHeight()
 			)
 		end
-	)
+	}
 end
 
 

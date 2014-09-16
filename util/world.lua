@@ -124,23 +124,21 @@ function world:update(dt)
 	self.screenshake = 0
 
 	if adjdt > 0 then
-		self.bg_pulse_level = self.bg_pulse_level - (adjdt/self.bg_pulse_length)
-		if self.bg_pulse_level <= 0 then
-			self.bg_pulse_level = 0
-		end
-
 		self.timer:update(adjdt)
 		self:run_systems("update", adjdt)
 	end
 end
 
-function world:draw(on_camera, off_camera)
+function world:draw(funcs)
+	if funcs.background then
+		funcs.background(self)
+	end
+
+	---
+
 	self.camera:attach()
 
 	screenshake.apply(self.screenshake, self.screenshake)
-
-	love.graphics.setColor(self.bg_color[1], self.bg_color[2], self.bg_color[3], self.bg_pulse_level*255)
-	love.graphics.rectangle("fill", 0, 0, self.w, self.h)
 
 	-- Arena boundaries.
 	love.graphics.setColor(255, 255, 255)
@@ -149,24 +147,19 @@ function world:draw(on_camera, off_camera)
 	love.graphics.line(self.w,self.h, self.w,0)
 	love.graphics.line(self.w,0, 0,0)
 
-	if on_camera then
-		on_camera(self)
+	if funcs.world then
+		funcs.world(self)
 	end
 
 	self:run_systems("draw")
+
 	self.camera:detach()
 
 	---
 
-	if off_camera then
-		off_camera(self)
+	if funcs.ui then
+		funcs.ui(self)
 	end
-end
-
----
-
-function world:pulse_bg()
-	self.bg_pulse_level = self.bg_pulse_max or 1
 end
 
 ---
@@ -180,11 +173,6 @@ local function new(width, height)
 		hash = spatialhash.new(),
 		timer = timer.new(),
 		camera = camera.new(),
-
-		bg_color = {255, 255, 255},
-		bg_pulse_length = 1,
-		bg_pulse_level = 0,
-		bg_pulse_max = 0.8,
 
 		screenshake = 0,
 		speed = 1
