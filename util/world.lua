@@ -164,10 +164,8 @@ end
 
 ---
 
-local function new(width, height)
+local function new()
 	local w = {
-		w = width, h = height,
-
 		ces = ces.new(),
 		signal = signal.new(),
 		hash = spatialhash.new(),
