@@ -19,6 +19,7 @@
 			Turret deployer
 			Sonic (dubstep) gun
 			Gravity ball launcher
+			Multi-lock missile launcher
 ]]
 
 local gs = require("lib.hump.gamestate")

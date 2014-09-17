@@ -37,7 +37,7 @@ function e_explosion:init(arg)
 	self.Explosion = {
 		radius = radius,
 		speed = speed,
-		force = arg.force or 2*10^6,
+		force = arg.force or 10^6,
 		damage = arg.damage or 10,
 	}
 	self.Screenshake = {

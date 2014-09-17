@@ -66,16 +66,16 @@ function test:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local bouncer = require("entities.projectiles.bouncer")()
+	local proj = require("entities.projectiles.bomb")()
 
-	local shotgun = require("entities.weapons.shotgun"){
+	local shotgun = require("entities.weapons.projectile"){
 		max_heat = 3,
 		shot_heat = 0.01,
 
 		kind = "single",
-		projectile = bouncer,
-		projectile_speed = 400,
-		shot_delay = 0.4,
+		projectile = proj,
+		projectile_speed = 200,
+		shot_delay = 1,
 
 		shot_sound = "audio/weapons/laser_shot.wav"
 	}
