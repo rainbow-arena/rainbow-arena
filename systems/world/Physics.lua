@@ -107,7 +107,7 @@ return {
 
 		{
 			name = "ArenaCollision",
-			requires = {"Position", "Velocity", "Radius", "CollisionPhysics"},
+			requires = {"Position", "Velocity", "Radius"},
 			update = function(entity, world, dt)
 				local pos, radius = entity.Position, entity.Radius
 				local arena_w, arena_h = world.w, world.h
