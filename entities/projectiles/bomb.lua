@@ -11,10 +11,12 @@ local e_proj_bomb = class{__includes = e_proj_physical}
 
 ---
 
+-- 300 is good muzzle speed.
 function e_proj_bomb:init(arg)
 	arg = arg or {}
 
 	arg.radius = arg.radius or 10
+	arg.mass = arg.mass or 700
 
 	e_proj_physical.init(self, arg)
 end

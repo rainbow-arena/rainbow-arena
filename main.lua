@@ -20,6 +20,7 @@
 			Sonic (dubstep) gun
 			Gravity ball launcher
 			Multi-lock missile launcher
+			Firework gun - weak bomb-launching shotgun
 ]]
 
 local gs = require("lib.hump.gamestate")
