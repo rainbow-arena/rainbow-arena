@@ -66,8 +66,8 @@ function test:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local proj = require("entities.projectiles.bomb"){
-		mass = 700
+	local proj = require("entities.projectiles.sticky_bomb"){
+
 	}
 
 	local shotgun = require("entities.weapons.projectile"){
