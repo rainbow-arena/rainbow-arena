@@ -22,14 +22,16 @@ end
 
 function e_proj_sticky_bomb:on_collision(world, target, mtv)
 	if not self.stuck then
+		self.stuck = true
+
 		local offset = self.Position - target.Position
 		self.AttachedTo = target
 		self.AttachmentOffset = offset
 		self.Velocity = vector.new(0, 0)
 
-		self.stuck = true
 		world.timer:add(self.detonate_delay, function()
-			e_proj_bomb.on_collision(self, world, target, mtv)
+			self:explode(world)
+			--e_proj_bomb.on_collision(self, world, target, mtv)
 		end)
 	end
 end

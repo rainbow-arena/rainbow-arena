@@ -21,24 +21,24 @@ function e_proj_bomb:init(arg)
 	e_proj_physical.init(self, arg)
 end
 
-function e_proj_bomb:on_collision(world, target, mtv)
+function e_proj_bomb:explode(world)
 	local exp = require("entities.effects.explosion"){
 		position = self.Position:clone()
 	}
 
 	world:spawn_entity(exp)
+
 	world:destroy_entity(self)
+end
+
+function e_proj_bomb:on_collision(world, target, mtv)
+	self:explode(world)
 
 	e_proj_physical.on_collision(self, world, target, mtv)
 end
 
 function e_proj_bomb:on_arena_collision(world, pos, side)
-	local exp = require("entities.effects.explosion"){
-		position = self.Position:clone()
-	}
-
-	world:spawn_entity(exp)
-	world:destroy_entity(self)
+	self:explode(world)
 
 	e_proj_physical.on_arena_collision(self, world, pos, side)
 end
