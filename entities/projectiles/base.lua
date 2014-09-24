@@ -46,6 +46,15 @@ function e_proj_base:on_arena_collision(world, pos, side)
 
 end
 
+---
+
+function e_proj_base:OnDeath(world)
+	self:on_death(world, pos, side)
+end
+
+function e_proj_base:on_death(world)
+
+end
 
 ---
 
