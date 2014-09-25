@@ -6,7 +6,7 @@ return {
 	systems = {
 		{
 			name = "UpdateWeapon",
-			requires = {"Weapon"},
+			requires = {"Weapon", "Rotation"},
 			update = function(entity, world, dt)
 				local weapon = entity.Weapon
 
@@ -53,7 +53,7 @@ return {
 					end
 				end
 
-				-- updateL called every frame.
+				-- update: called every frame.
 				if weapon.update then
 					weapon:update(dt, entity, world)
 				end
