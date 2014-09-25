@@ -88,6 +88,8 @@ function test:enter(previous, w, h, nbots)
 
 		Color = {0, 255, 255},
 
+		DeathExplosion = true,
+
 		Health = 30,
 		MaxHealth = 30,
 
@@ -120,6 +122,8 @@ function test:enter(previous, w, h, nbots)
 			Name = "Ball " .. n,
 
 			Color = color,
+
+			DeathExplosion = true,
 
 			Health = 30,
 			MaxHealth = 30,

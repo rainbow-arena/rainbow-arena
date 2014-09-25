@@ -24,8 +24,9 @@ return {
 			event = "EntityDead",
 			func = function(world, entity)
 				-- Add an explosion!
-				if entity.Position then
-					local expdata = entity.DeathExplosion or {}
+				if entity.DeathExplosion and entity.Position then
+					local expdata = (type(entity.DeathExplosion) == "table")
+						and entity.DeathExplosion or {}
 
 					world:spawn_entity(require("entities.effects.explosion"){
 						position = entity.Position,
