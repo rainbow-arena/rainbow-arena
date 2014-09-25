@@ -70,7 +70,7 @@ function test:enter(previous, w, h, nbots)
 
 	}
 
-	local shotgun = require("entities.weapons.projectile"){
+	local weapon = require("entities.weapons.projectile"){
 		max_heat = 3,
 		shot_heat = 0.01,
 
@@ -104,7 +104,7 @@ function test:enter(previous, w, h, nbots)
 
 		CollisionPhysics = true,
 
-		Weapon = shotgun,
+		Weapon = weapon,
 
 		Player = true,
 		CameraTarget = true
