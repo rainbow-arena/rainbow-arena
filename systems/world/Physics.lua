@@ -201,7 +201,7 @@ return {
 				end
 
 				if not colback_called[ent2][ent1] and ent2.OnEntityCollision then
-					ent2:OnEntityCollision(world, ent1, mtv)
+					ent2:OnEntityCollision(world, ent1, -mtv)
 				end
 
 				colback_called[ent2][ent1] = true
