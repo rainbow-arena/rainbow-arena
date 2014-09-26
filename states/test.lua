@@ -82,62 +82,40 @@ function test:enter(previous, w, h, nbots)
 		shot_sound = "audio/weapons/laser_shot.wav"
 	}
 
-	world:spawn_entity{
-		Name = "Player",
-		Team = "Player",
+	local combatant = require("entities.combatant")
 
-		Color = {0, 255, 255},
+	world:spawn_entity(combatant{
+		team = "Player",
+		player = true,
 
-		DeathExplosion = true,
+		position = find_position(PLAYER_RADIUS),
 
-		Health = 30,
-		MaxHealth = 30,
+		radius = PLAYER_RADIUS,
+		color = {255, 255, 255},
+		health = 30,
 
-		Radius = PLAYER_RADIUS,
-		Position = find_position(PLAYER_RADIUS),
-		Velocity = vector.new(0, 0),
-		Acceleration = vector.new(0, 0),
+		drag = c_drag,
+		move_acceleration = c_accel,
 
-		Rotation = 0,
-		RotationSpeed = 2,
-
-		Drag = c_drag,
-		MoveAcceleration = c_accel,
-
-		CollisionPhysics = true,
-
-		Weapon = weapon,
-
-		Player = true,
-		CameraTarget = true
-	}
+		weapon = weapon
+	})
 
 	-- Place test balls.
 	for n = 1, 50 do
 		local color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
 
-		local radius = 30
+		world:spawn_entity(combatant{
+			team = "Enemy",
 
-		world:spawn_entity{
-			Name = "Ball " .. n,
+			position = find_position(PLAYER_RADIUS),
 
-			Color = color,
+			radius = PLAYER_RADIUS,
+			color = color,
+			health = 30,
 
-			DeathExplosion = true,
-
-			Health = 30,
-			MaxHealth = 30,
-
-			Radius = radius,
-			Position = find_position(radius),
-			Velocity = vector.new(0, 0),
-			Acceleration = vector.new(0, 0),
-
-			Drag = c_drag,
-			MoveAcceleration = c_accel,
-
-			CollisionPhysics = true
-		}
+			drag = c_drag,
+			move_acceleration = c_accel
+		})
 	end
 end
 
