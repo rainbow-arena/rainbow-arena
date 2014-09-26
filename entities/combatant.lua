@@ -6,15 +6,13 @@ local vector = require("lib.hump.vector")
 local e_combatant = class{}
 
 function e_combatant:init(arg)
-	assert(arg.position, "Need a position to create combatant!")
-
 	self.Name = arg.name
 	self.Team = arg.team
 
 	self.Radius = arg.radius or 30
 	self.Color = arg.color or {255, 255, 255}
 
-	self.Position = arg.position:clone()
+	self.Position = arg.position and arg.position:clone() or vector.new(0, 0)
 	self.Velocity = arg.velocity and arg.velocity:clone() or vector.new(0, 0)
 	self.Acceleration = arg.acceleration and arg.acceleration:clone() or vector.new(0, 0)
 

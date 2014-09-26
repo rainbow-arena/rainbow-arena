@@ -66,8 +66,12 @@ function test:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local proj = require("entities.projectiles.sticky_bomb"){
+	local proj = require("entities.miniturret"){
+		drag = c_drag,
 
+		weapon = require("entities.weapons.minigun"){
+			projectile = require("entities.projectiles.bullet")()
+		}
 	}
 
 	local weapon = require("entities.weapons.projectile"){
@@ -105,6 +109,7 @@ function test:enter(previous, w, h, nbots)
 		local color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
 
 		world:spawn_entity(combatant{
+			name = "Ball " .. n,
 			team = "Enemy",
 
 			position = find_position(PLAYER_RADIUS),

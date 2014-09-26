@@ -42,12 +42,14 @@ function w_projectile:spawn_projectile(host, world, pos, dir)
 	projectile.Team = host.Team
 	projectile.Firer = host
 
+	--[[
 	-- Add host to collision exclusion list.
 	if not projectile.CollisionExcludeEntities then
 		projectile.CollisionExcludeEntities = {host}
 	else
 		table.insert(projectile.CollisionExcludeEntities, host)
 	end
+	--]]
 
 	world:spawn_entity(projectile)
 
