@@ -17,14 +17,16 @@ function w_minigun:init(arg)
 
 	arg.kind = "repeat"
 
-	w_projectile.init(self, arg)
-end
-
-function w_minigun:start(host, world, pos, dir)
 	self.shot_delay = self.start_shot_delay
 	self.firetime = 0
 
-	w_projectile.start(self, host, world, pos, dir)
+	w_projectile.init(self, arg)
+end
+
+function w_minigun:cease(host, world)
+	self:set_screenshake(0)
+	self.shot_delay = self.start_shot_delay
+	self.firetime = 0
 end
 
 function w_minigun:firing(dt, host, world, pos, dir)
