@@ -17,6 +17,12 @@ function w_minigun:init(arg)
 
 	arg.kind = "repeat"
 
+	arg.max_heat = arg.max_heat or 3
+	arg.shot_heat = arg.shot_heat or 0.1
+
+	arg.spread = arg.spread or math.pi/20
+
+	self:set_screenshake(0)
 	self.shot_delay = self.start_shot_delay
 	self.firetime = 0
 
