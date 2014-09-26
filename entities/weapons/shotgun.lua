@@ -15,8 +15,9 @@ function w_shotgun:init(arg)
 end
 
 function w_shotgun:fire(host, world, pos, dir)
+	local _
 	for pellet = 1, self.pellets do
-		self:fire_projectile(host, world, pos, dir)
+		_, pos, dir = self:fire_projectile(host, world, pos, dir)
 	end
 
 	self:apply_shot_effects(host, world, pos, dir)
