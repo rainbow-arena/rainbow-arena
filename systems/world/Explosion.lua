@@ -29,7 +29,7 @@ return {
 							-- ColorPulse entity.
 							if affected.Color then affected.ColorPulse = impact end
 
-							if affected.Velocity then
+							if affected.CollisionPhysics and affected.Velocity then
 								-- Apply explosion force.
 								affected.Velocity = affected.Velocity + impact * (exp.force / affected.Mass) * dir
 							end
