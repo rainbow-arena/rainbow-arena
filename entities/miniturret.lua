@@ -9,7 +9,7 @@ local e_miniturret = class{__includes = e_combatant}
 
 function e_miniturret:init(arg)
 	self.DumbTurretAI = true
-	self.TargetSearchRadius = arg.target_search_radius or 10000
+	self.TargetSearchRadius = arg.target_search_radius or 200
 
 	arg.radius = arg.radius or 15
 
