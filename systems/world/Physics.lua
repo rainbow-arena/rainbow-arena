@@ -49,6 +49,9 @@ end
 -- callbacks called once.
 local colback_called = {}
 
+-- TODO: Change the collision system so that EntityCollision events fire once
+-- when collisions start and EntityCollisionStop when collisions stop.
+
 ---
 
 return {
