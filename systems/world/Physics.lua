@@ -110,7 +110,7 @@ return {
 
 		{
 			name = "ArenaCollision",
-			requires = {"Position", "Velocity", "Radius"},
+			requires = {"Position", "Velocity", "Radius", "ArenaBounded"},
 			update = function(entity, world, dt)
 				local pos, radius = entity.Position, entity.Radius
 				local arena_w, arena_h = world.w, world.h
@@ -162,7 +162,7 @@ return {
 		},
 		{
 			name = "DestroyOutsideArena",
-			requires = {"Position", "ArenaBounded"},
+			requires = {"Position", "DestroyOutsideArena"},
 			update = function(entity, world, dt)
 				local tolerance = tonumber(entity.ArenaBounded) or -entity.Radius or 0
 				if entity.Position.x < 0 - tolerance or entity.Position.x > world.w + tolerance

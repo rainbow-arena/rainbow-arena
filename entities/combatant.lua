@@ -21,6 +21,8 @@ function e_combatant:init(arg)
 
 	self.CollisionPhysics = true
 
+	self.ArenaBounded = true
+
 	self.Rotation = arg.rotation or 0
 	self.RotationSpeed = arg.rotation_speed or 2
 

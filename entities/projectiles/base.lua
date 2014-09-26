@@ -23,7 +23,7 @@ end
 
 function e_proj_base:init()
 	self.Projectile = true
-	self.ArenaBounded = true
+	self.DestroyOutsideArena = true
 
 	self.CollisionExcludeComponents = {"Projectile"}
 end
