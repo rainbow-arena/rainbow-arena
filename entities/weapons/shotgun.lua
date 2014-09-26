@@ -9,17 +9,14 @@ local w_shotgun = class{__includes = w_projectile}
 
 function w_shotgun:init(arg)
 	self.pellets = arg.pellets or 5
-	self.spread = arg.spread or math.pi/10
+	arg.spread = arg.spread or math.pi/10
 
 	w_projectile.init(self, arg)
 end
 
 function w_shotgun:fire(host, world, pos, dir)
 	for pellet = 1, self.pellets do
-		local spread = self.spread
-		local angle = (love.math.random() - 0.5) * spread
-
-		self:fire_projectile(host, world, pos + dir:perpendicular() * angle * 10, dir:rotated(angle))
+		self:fire_projectile(host, world, pos, dir)
 	end
 
 	self:apply_shot_effects(host, world, pos, dir)

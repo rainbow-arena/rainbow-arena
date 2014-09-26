@@ -21,6 +21,7 @@ function w_projectile:init(arg)
 	self.projectile = arg.projectile
 	self.projectile_speed = arg.projectile_speed or 800
 	self.shot_delay = arg.shot_delay or 0.1
+	self.spread = arg.spread or 0
 
 	self.shot_sound = arg.shot_sound
 
@@ -68,10 +69,14 @@ end
 ---
 
 function w_projectile:fire_projectile(host, world, pos, dir)
+	local angle = (love.math.random() - 0.5) * self.spread
+	pos = pos + dir:perpendicular() * angle * 10
+	dir = dir:rotated(angle)
+
 	local p = self:spawn_projectile(host, world, pos, dir)
 	self:apply_recoil(host, p, dir)
 
-	return p
+	return p, pos, dir
 end
 
 function w_projectile:play_shot_sound(world, host, pitch)
@@ -102,7 +107,7 @@ end
 ---
 
 function w_projectile:fire(host, world, pos, dir)
-	self:fire_projectile(host, world, pos, dir)
+	local p, pos, dir = self:fire_projectile(host, world, pos, dir)
 	self:apply_shot_effects(host, world, pos, dir)
 	self:play_shot_sound(world, host)
 end
