@@ -70,7 +70,8 @@ function test:enter(previous, w, h, nbots)
 		drag = c_drag,
 
 		weapon = require("entities.weapons.minigun"){
-			projectile = require("entities.projectiles.bullet")()
+			projectile = require("entities.projectiles.bullet")(),
+			shot_sound = "audio/weapons/laser_shot.wav"
 		}
 	}
 
