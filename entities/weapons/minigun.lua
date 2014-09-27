@@ -7,6 +7,8 @@ local map = util.math.map
 
 ---
 
+-- FIX: Spawns an entity that doesn't disappear.
+
 local w_projectile = require("entities.weapons.projectile")
 local w_minigun = class{__includes = w_projectile}
 
@@ -33,6 +35,8 @@ function w_minigun:cease(host, world)
 	self:set_screenshake(0)
 	self.shot_delay = self.start_shot_delay
 	self.firetime = 0
+
+	w_projectile.cease(self, host, world)
 end
 
 function w_minigun:firing(dt, host, world, pos, dir)
