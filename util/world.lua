@@ -40,6 +40,10 @@ function world:spawn_entity(t)
 			entity.Radius, entity.Position.x, entity.Position.y))
 	end
 
+	if entity.OnSpawn then
+		entity:OnSpawn(self)
+	end
+
 	return entity
 end
 
@@ -53,6 +57,10 @@ function world:destroy_entity(entity)
 	if entity.Position and entity.Radius then
 		self.hash:remove_object(entity, aabb(
 			entity.Radius, entity.Position.x, entity.Position.y))
+	end
+
+	if entity.OnDestroy then
+		entity:OnDestroy(self)
 	end
 end
 

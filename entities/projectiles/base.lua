@@ -48,6 +48,22 @@ end
 
 ---
 
+function e_proj_base:OnSpawn(world)
+	self:on_spawn(world)
+end
+
+function e_proj_base:on_spawn(world)
+
+end
+
+function e_proj_base:OnDestroy(world)
+	self:on_destroy(world)
+end
+
+function e_proj_base:on_destroy(world)
+
+end
+
 function e_proj_base:OnDeath(world)
 	self:on_death(world, pos, side)
 end
