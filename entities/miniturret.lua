@@ -13,6 +13,8 @@ function e_miniturret:init(arg)
 
 	arg.radius = arg.radius or 15
 
+	arg.health = arg.health or math.ceil(arg.radius / 3)
+
 	e_combatant.init(self, arg)
 end
 
