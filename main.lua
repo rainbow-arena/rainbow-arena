@@ -9,13 +9,9 @@
 		Matches: Actual match/level logic, bot AI
 		Menus: main, weapon select, colour select
 
-		TODO:
-			Make player rotation limited by a turn rate.
-
 		Weapons to make:
 			Beam laser
 			Guided missile launcher
-			Turret deployer
 			Sonic (dubstep) gun
 			Gravity ball launcher
 			Multi-lock missile launcher
