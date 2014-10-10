@@ -3,7 +3,18 @@ local util = require("lib.self.util")
 
 ---
 
+local pi = math.pi
 local sin, cos = math.sin, math.cos
+local atan2 = math.atan2
+local abs = math.abs
+local sign = util.math.sign
+local floor = math.floor
+
+---
+
+local function lerp(a, b, t)
+	return a + (b - a) * t
+end
 
 ---
 
@@ -13,10 +24,30 @@ return {
 			name = "UpdateRotation",
 			requires = {"Rotation", "RotationTarget", "RotationSpeed"},
 			update = function(entity, world, dt)
-				--local current = vector.new(cos(entity.Rotation), sin(entity.Rotation))
-				--local target = vector.new(cos(entity.Rotation), sin(entity.Rotation))
+				local current = entity.Rotation
+				local target = entity.RotationTarget
 
-				entity.Rotation = entity.RotationTarget
+				local vec = atan2(
+					sin(target - current),
+					cos(target - current)
+				)
+
+				local dir = sign(vec)
+				local dist = abs(vec)
+
+				---
+
+				local GUARD_DIST = pi/6
+				local step = (dist / GUARD_DIST) * entity.RotationSpeed * dt
+
+				local new
+				if dist < step then
+					new = target
+				else
+					new = entity.Rotation + dir * step
+				end
+
+				entity.Rotation = new
 			end
 		}
 	}

@@ -24,7 +24,7 @@ function e_combatant:init(arg)
 	self.ArenaBounded = true
 
 	self.Rotation = arg.rotation or 0
-	self.RotationSpeed = arg.rotation_speed or 2
+	self.RotationSpeed = arg.rotation_speed or 4
 
 	self.Health = arg.health
 	self.MaxHealth = arg.health
