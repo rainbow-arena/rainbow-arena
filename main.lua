@@ -16,6 +16,11 @@
 			Gravity ball launcher
 			Multi-lock missile launcher
 			Firework gun - weak bomb-launching shotgun
+
+	FIX:
+		Properly parent screenshake entities for weapon
+			effects to weapon holder. Currently, if the holder
+			dies while firing, the effect entity stays.
 ]]
 
 local gs = require("lib.hump.gamestate")
