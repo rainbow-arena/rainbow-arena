@@ -11,6 +11,16 @@ local has = util.table.has
 
 ---
 
+local function ent_colliding(entity, other)
+	return colliding(entity.Position,entity.Radius, other.Position,other.Radius)
+end
+
+local function ent_aabb(entity)
+	return aabb(entity.Radius, entity.Position.x, entity.Position.y)
+end
+
+---
+
 local function collision_eligible(ent1, ent2)
 	if ent1 == ent2 then return false end
 
@@ -45,12 +55,35 @@ end
 
 ---
 
--- Used to make sure each entity pair that collides only gets their collision
--- callbacks called once.
-local colback_called = {}
+local col_pairs = setmetatable({},
+	{
+		__index = function(self, key)
+			local t = {}
+			rawset(self, key, t)
+			return t
+		end,
 
--- TODO: Change the collision system so that EntityCollision events fire once
--- when collisions start and EntityCollisionStop when collisions stop.
+		__mode = "kv"
+	}
+)
+
+local function add_pair(ent1, ent2)
+	col_pairs[ent1][ent2] = true
+	col_pairs[ent2][ent1] = true
+end
+
+local function remove_pair(ent1, ent2)
+	col_pairs[ent1][ent2] = nil
+	col_pairs[ent2][ent1] = nil
+end
+
+local function check_pair(ent1, ent2)
+	return col_pairs[ent1][ent2] --and col_pairs[ent2][ent1]
+end
+
+local function get_pairs(ent)
+	return col_pairs[ent]
+end
 
 ---
 
@@ -92,17 +125,26 @@ return {
 			name = "Collision",
 			requires = {"Position", "Velocity", "Radius"},
 			update = function(entity, world, dt)
-				colback_called = {}
+				local tested = {}
 
-				for other in pairs(world.hash:get_objects_in_range(
-					aabb(entity.Radius, entity.Position.x, entity.Position.y)))
-				do
-					if collision_eligible(entity, other) then
-						local col, mtv = colliding(entity.Position,entity.Radius,
-							other.Position,other.Radius)
-						if col then
+				for other in pairs(get_pairs(entity)) do
+					tested[other] = true
+
+					if not ent_colliding(entity, other) then
+						remove_pair(entity, other)
+						world:emit_event("EntityCollisionStop", entity, other)
+					end
+				end
+
+				for other in pairs(world.hash:get_objects_in_range(ent_aabb(entity))) do
+					if other ~= entity and not tested[other] then
+						---
+						local col, mtv = ent_colliding(entity, other)
+						if col and not check_pair(entity, other) then
+							add_pair(entity, other)
 							world:emit_event("EntityCollision", entity, other, mtv)
 						end
+						---
 					end
 				end
 			end,
@@ -187,27 +229,15 @@ return {
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				if not colback_called[ent1] then
-					colback_called[ent1] = {}
-				end
-
-				if not colback_called[ent1][ent2] and ent1.OnEntityCollision then
+				if ent1.OnEntityCollision then
 					ent1:OnEntityCollision(world, ent2, mtv)
 				end
 
-				colback_called[ent1][ent2] = true
-
 				---
 
-				if not colback_called[ent2] then
-					colback_called[ent2] = {}
-				end
-
-				if not colback_called[ent2][ent1] and ent2.OnEntityCollision then
+				if ent2.OnEntityCollision then
 					ent2:OnEntityCollision(world, ent1, -mtv)
 				end
-
-				colback_called[ent2][ent1] = true
 			end
 		},
 
