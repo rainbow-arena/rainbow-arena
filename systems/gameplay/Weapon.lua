@@ -6,7 +6,7 @@ return {
 	systems = {
 		{
 			name = "UpdateWeapon",
-			requires = {"Weapon", "Rotation"},
+			requires = {"Position", "Radius", "Rotation", "Weapon"},
 			update = function(entity, world, dt)
 				local weapon = entity.Weapon
 
