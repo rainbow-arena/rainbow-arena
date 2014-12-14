@@ -53,6 +53,47 @@ local function collision_eligible(ent1, ent2)
 	return true
 end
 
+local function physics_resolve_collision(world, ent1, ent2, mtv)
+	if ent1.Mass == 0 then
+		world:move_entity(ent1, ent1.Position + mtv)
+	elseif ent2.Mass == 0 then
+		world:move_entity(ent2, ent2.Position + mtv)
+	else
+		local masses = (ent1.Mass + ent2.Mass)
+		world:move_entity(ent1, ent1.Position + (ent2.Mass/masses)*mtv)
+		world:move_entity(ent2, ent2.Position - (ent1.Mass/masses)*mtv)
+	end
+
+	if ent2.Velocity then
+		-- Dynamic vs. Dynamic
+		local ent1_normal_velocity = ent1.Velocity:projectOn(mtv)
+		local ent1_tangent_velocity = ent1.Velocity - ent1_normal_velocity
+
+		local ent2_normal_velocity = ent2.Velocity:projectOn(mtv)
+		local ent2_tangent_velocity = ent2.Velocity - ent2_normal_velocity
+
+		local ent1_mass = ent1.Mass
+		local ent2_mass = ent2.Mass
+
+		-- We only care about normal velocity - the tangent velocities remain the same.
+		-- Velocity equations: https://en.wikipedia.org/wiki/Elastic_collision
+		local ent1_final_normal_velocity =
+			(ent1_normal_velocity * (ent1_mass - ent2_mass) + 2 * ent2_mass * ent2_normal_velocity)
+			/ (ent1_mass + ent2_mass)
+		local ent2_final_normal_velocity =
+			(ent2_normal_velocity * (ent2_mass - ent1_mass) + 2 * ent1_mass * ent1_normal_velocity)
+			/ (ent2_mass + ent1_mass)
+
+		ent1.Velocity = ent1_tangent_velocity + ent1_final_normal_velocity
+		ent2.Velocity = ent2_tangent_velocity + ent2_final_normal_velocity
+	else
+		-- Dynamic vs. Static
+		local normal_velocity = entity.Velocity:projectOn(mtv)
+		local tangent_velocity = entity.Velocity - normal_velocity
+		entity.Velocity = -normal_velocity + tangent_velocity
+	end
+end
+
 ---
 
 local col_pairs = setmetatable({},
@@ -251,46 +292,7 @@ return {
 
 				world:emit_event("PhysicsCollision", ent1, ent2, mtv)
 
-				---
-
-				if ent1.Mass == 0 then
-					world:move_entity(ent1, ent1.Position + mtv)
-				elseif ent2.Mass == 0 then
-					world:move_entity(ent2, ent2.Position + mtv)
-				else
-					local masses = (ent1.Mass + ent2.Mass)
-					world:move_entity(ent1, ent1.Position + (ent2.Mass/masses)*mtv)
-					world:move_entity(ent2, ent2.Position - (ent1.Mass/masses)*mtv)
-				end
-
-				if ent2.Velocity then
-					-- Dynamic vs. Dynamic
-					local ent1_normal_velocity = ent1.Velocity:projectOn(mtv)
-					local ent1_tangent_velocity = ent1.Velocity - ent1_normal_velocity
-
-					local ent2_normal_velocity = ent2.Velocity:projectOn(mtv)
-					local ent2_tangent_velocity = ent2.Velocity - ent2_normal_velocity
-
-					local ent1_mass = ent1.Mass
-					local ent2_mass = ent2.Mass
-
-					-- We only care about normal velocity - the tangent velocities remain the same.
-					-- Velocity equations: https://en.wikipedia.org/wiki/Elastic_collision
-					local ent1_final_normal_velocity =
-						(ent1_normal_velocity * (ent1_mass - ent2_mass) + 2 * ent2_mass * ent2_normal_velocity)
-						/ (ent1_mass + ent2_mass)
-					local ent2_final_normal_velocity =
-						(ent2_normal_velocity * (ent2_mass - ent1_mass) + 2 * ent1_mass * ent1_normal_velocity)
-						/ (ent2_mass + ent1_mass)
-
-					ent1.Velocity = ent1_tangent_velocity + ent1_final_normal_velocity
-					ent2.Velocity = ent2_tangent_velocity + ent2_final_normal_velocity
-				else
-					-- Dynamic vs. Static
-					local normal_velocity = entity.Velocity:projectOn(mtv)
-					local tangent_velocity = entity.Velocity - normal_velocity
-					entity.Velocity = -normal_velocity + tangent_velocity
-				end
+				physics_resolve_collision(world, ent1, ent2, mtv)
 			end
 		}
 	}
