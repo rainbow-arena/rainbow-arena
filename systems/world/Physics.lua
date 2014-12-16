@@ -119,7 +119,7 @@ local function remove_pair(ent1, ent2)
 end
 
 local function check_pair(ent1, ent2)
-	return col_pairs[ent1][ent2] --and col_pairs[ent2][ent1]
+	return col_pairs[ent1] and col_pairs[ent1][ent2] --and col_pairs[ent2] and col_pairs[ent2][ent1]
 end
 
 local function get_pairs(ent)
