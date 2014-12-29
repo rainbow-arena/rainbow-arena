@@ -83,7 +83,7 @@ function w_projectile:play_shot_sound(world, host, pitch)
 	if self.shot_sound then
 		world:spawn_entity{
 			Position = host.Position,
-			AttachedTo = host,
+			Parent = host,
 			Lifetime = 0.5,
 			Sound = {
 				source = love.audio.newSource(self.shot_sound),

@@ -3,19 +3,21 @@ local vector = require("lib.hump.vector")
 return {
 	systems = {
 		{
-			name = "UpdateAttachedEntity",
-			requires = {"Position", "AttachedTo"},
+			name = "UpdateChild",
+			requires = {"Position", "Parent"},
 			update = function(entity, world, dt)
-				if world.entities[entity.AttachedTo] then
-					entity.Position = entity.AttachedTo.Position:clone()
+				if world.entities[entity.Parent] then
+					entity.Position = entity.Parent.Position:clone()
 						+ (entity.AttachmentOffset or vector.zero)
-					if entity.AttachedTo.Velocity then
-						entity.Velocity = entity.AttachedTo.Velocity:clone()
+					if entity.Parent.Velocity then
+						entity.Velocity = entity.Parent.Velocity:clone()
 					else
 						entity.Velocity = vector.new(0, 0)
 					end
+				elseif entity.DestroyWithParent then
+					world:destroy_entity(entity)
 				else
-					entity.AttachedTo = nil
+					entity.Parent = nil
 				end
 			end
 		}

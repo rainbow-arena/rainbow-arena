@@ -22,7 +22,7 @@ function e_proj_sticky_bomb:init(arg)
 end
 
 function e_proj_sticky_bomb:stick(target, mtv)
-	self.AttachedTo = target
+	self.Parent = target
 	self.AttachmentOffset = mtv:normalized() * (self.Radius + target.Radius)
 	self.Velocity = vector.new(0, 0)
 	self.HealthDrainRate = 1
