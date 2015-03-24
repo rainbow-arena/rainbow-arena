@@ -4,12 +4,28 @@
 
 --[[
 	Stuff to do:
+		Fix collision
+			Set mass of object at creation, remove CalculateMass system
+		Rewrite weapons using systems and make weapons entities
+			eg. so I can swap out components to change a weapon from ammo to cooldown-based
+		Make camera keep reference to a target entity instead of CameraTarget being a component
+		Makes maps not just square arenas - Tiled and STI?
+		Some way to get entities in actual radius, not just AABB calculated from radius
+
+
 		Graphics: background
 		Content: weapons, powerups?
 		Matches: Actual match/level logic, bot AI
 		Menus: main, weapon select, colour select
 
-		Weapons to make:
+		Weapons:
+			Pistol
+			Burst rifle
+			Machine gun
+			Minigun, and triple barreled
+			Shotgun
+			Bomb launcher (sticky and normal)
+
 			Beam laser
 			Guided missile launcher
 			Sonic (dubstep) gun
@@ -21,6 +37,13 @@
 		Properly parent screenshake entities for weapon
 			effects to weapon holder. Currently, if the holder
 			dies while firing, the effect entity stays.
+
+	IDEAS:
+		Make this a single-player game where the player goes through levels.
+			Destroy all enemies/get to exit?
+
+		Stages:
+			Ice - no drag
 ]]
 
 local gs = require("lib.hump.gamestate")
