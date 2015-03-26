@@ -94,17 +94,18 @@ local function physics_resolve_collision(world, ent1, ent2, mtv)
 	end
 end
 
----
+--
 
+local weak_mt = {__mode = "k"}
 local col_pairs = setmetatable({},
 	{
 		__index = function(self, key)
-			local t = {}
+			local t = setmetatable({}, weak_mt)
 			rawset(self, key, t)
 			return t
 		end,
 
-		__mode = "kv"
+		__mode = "k"
 	}
 )
 
@@ -156,11 +157,10 @@ return {
 			name = "Collision",
 			requires = {"Position", "Velocity", "Radius"},
 			update = function(entity, world, dt)
-				local tested = {}
+				-- TODO: Optimise by not checking already tested ones?
+				-- Last time this made the second check skip some entities all the time or something.
 
 				for other in pairs(get_pairs(entity)) do
-					tested[other] = true
-
 					if not ent_colliding(entity, other) then
 						remove_pair(entity, other)
 						world:emit_event("EntityCollisionStop", entity, other)
@@ -168,12 +168,16 @@ return {
 				end
 
 				for other in pairs(world.hash:get_objects_in_range(ent_aabb(entity))) do
-					if other ~= entity and not tested[other] then
+					if other ~= entity then
 						---
 						local col, mtv = ent_colliding(entity, other)
-						if col and not check_pair(entity, other) then
-							add_pair(entity, other)
-							world:emit_event("EntityCollision", entity, other, mtv)
+						if col then
+							if not check_pair(entity, other) then
+								add_pair(entity, other)
+								world:emit_event("EntityCollision", entity, other, mtv)
+							end
+
+							world:emit_event("EntityColliding", entity, other, mtv)
 						end
 						---
 					end
@@ -249,7 +253,7 @@ return {
 		},
 
 		{ -- Collision physics.
-			event = "EntityCollision",
+			event = "EntityColliding",
 			func = function(world, ent1, ent2, mtv)
 				if not ent1.CollisionPhysics or not ent1.Mass
 					or not ent2.CollisionPhysics or not ent2.Mass
