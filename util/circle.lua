@@ -1,8 +1,15 @@
 local circle = {}
 
+---
+
 local vector = require("lib.hump.vector")
 
+---
+
 local abs = math.abs
+local pi = math.pi
+
+---
 
 function circle.colliding(pos1,r1, pos2,r2)
 	-- Circle one -> Circle two
@@ -26,5 +33,11 @@ function circle.aabb(r, x, y)
 
 	return x - r, y - r, x + r, y + r
 end
+
+function circle.area(r)
+	return pi * r^2
+end
+
+---
 
 return circle

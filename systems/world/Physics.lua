@@ -131,16 +131,6 @@ end
 return {
 	systems = {
 		{
-			name = "CalculateMass",
-			requires = {"Radius"},
-			priority = 4,
-			update = function(entity)
-				if not entity.Mass then
-					entity.Mass = math.pi * entity.Radius^2
-				end
-			end
-		},
-		{
 			name = "CalculateAcceleration",
 			requires = {"InputAcceleration"},
 			priority = 2,
@@ -261,8 +251,9 @@ return {
 		{ -- Collision physics.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
-				if not ent1.CollisionPhysics or not ent2.CollisionPhysics
-					then return end
+				if not ent1.CollisionPhysics or not ent1.Mass
+					or not ent2.CollisionPhysics or not ent2.Mass
+				then return end
 
 				---
 

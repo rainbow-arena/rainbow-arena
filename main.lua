@@ -21,7 +21,6 @@
 		Weapons:
 			Pistol
 			Burst rifle
-			Machine gun
 			Minigun, and triple barreled
 			Shotgun
 			Bomb launcher (sticky and normal)
@@ -41,6 +40,8 @@
 	IDEAS:
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
+		Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
+		Circular arena
 
 		Stages:
 			Ice - no drag

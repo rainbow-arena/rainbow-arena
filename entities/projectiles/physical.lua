@@ -2,6 +2,8 @@ local class = require("lib.hump.class")
 
 local weaponutil = require("util.weapon")
 
+local circle = require("util.circle")
+
 ---
 
 local e_proj_base = require("entities.projectiles.base")
@@ -13,7 +15,7 @@ function e_proj_physical:init(arg)
 	arg = arg or {}
 
 	self.Radius = arg.radius or 3
-	self.Mass = arg.mass or math.pi * self.Radius^2
+	self.Mass = arg.mass or circle.area(self.Radius)
 	self.Color = arg.color or {255, 255, 0}
 
 	e_proj_base.init(self)

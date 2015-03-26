@@ -1,5 +1,7 @@
 local class = require("lib.hump.class")
 
+local circle = require("util.circle")
+
 ---
 
 local e_proj_base = class{}
