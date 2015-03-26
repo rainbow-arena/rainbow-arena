@@ -221,7 +221,7 @@ return {
 					world:move_entity(entity, entity.Position.x, arena_h - radius)
 					entity.Velocity.y = -entity.Velocity.y
 
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "left")
+					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "bottom")
 				end
 			end
 		}
