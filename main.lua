@@ -9,6 +9,7 @@
 		Make camera keep reference to a target entity instead of CameraTarget being a component
 		Makes maps not just square arenas - Tiled and STI?
 		Some way to get entities in actual radius, not just AABB calculated from radius
+		Make health smoothly graphically transition?
 
 
 		Graphics: background

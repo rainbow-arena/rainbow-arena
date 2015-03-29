@@ -76,6 +76,7 @@ return {
 		{
 			name = "DrawCircleRotation",
 			requires = {"Position", "Radius", "Color", "Rotation"},
+			priority = -1,
 			draw = function(entity)
 				local radius = entity.Radius
 				local sx, sy = entity.Position:unpack()

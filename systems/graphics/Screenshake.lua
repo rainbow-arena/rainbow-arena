@@ -5,6 +5,8 @@ local util = require("lib.self.util")
 
 local clamp = util.math.clamp
 
+local table_has = util.table.has
+
 ---
 
 local SHAKE_STEP_SPEED = 150
@@ -18,7 +20,10 @@ return {
 			requires = {"Position", "Screenshake"},
 			update = function(source, world, dt)
 				local ss = source.Screenshake
-				assert( ss.intensity and ss.radius, "Screenshake component missing field(s)!")
+				assert(table_has(ss, {
+					"intensity",
+					"radius"
+				}))
 
 				-- Initialise starting time if this is a timed source.
 				if not ss.timer and ss.duration then

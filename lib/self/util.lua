@@ -79,10 +79,19 @@ function util.table.invert(t)
 end
 
 function util.table.has(t, keys)
-	for _,c in ipairs(keys) do
-		if not t[c] then return false end
+	local missing = {}
+
+	for _, c in ipairs(keys) do
+		if not t[c] then
+			table.insert(missing, c)
+		end
 	end
-	return true
+
+	if #missing > 0 then
+		return false, "Missing fields: " .. table.concat(missing, ", ")
+	else
+		return true
+	end
 end
 
 function util.table.maxn(t)
