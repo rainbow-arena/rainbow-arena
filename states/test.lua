@@ -102,7 +102,10 @@ function test:enter(previous, w, h, nbots)
 		drag = c_drag,
 		move_acceleration = c_accel,
 
-		weapon = weapon
+		weapon = require("entities.weapons.minigun"){
+			projectile = require("entities.projectiles.bullet")(),
+			shot_sound = "audio/weapons/laser_shot.wav"
+		}
 	})
 
 	-- Place test balls.
