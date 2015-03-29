@@ -183,60 +183,10 @@ return {
 					end
 				end
 			end,
-		},
-
-		{
-			name = "ArenaCollision",
-			requires = {"Position", "Velocity", "Radius", "ArenaBounded"},
-			update = function(entity, world, dt)
-				local pos, radius = entity.Position, entity.Radius
-				local arena_w, arena_h = world.w, world.h
-
-				-- Left
-				if pos.x - radius < 0 then
-					world:move_entity(entity, radius, entity.Position.y)
-					entity.Velocity.x = -entity.Velocity.x
-
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
-				end
-
-				-- Right
-				if pos.x + radius > arena_w then
-					world:move_entity(entity, arena_w - radius, entity.Position.y)
-					entity.Velocity.x = -entity.Velocity.x
-
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
-				end
-
-				-- Top
-				if pos.y - radius < 0 then
-					world:move_entity(entity, entity.Position.x, radius)
-					entity.Velocity.y = -entity.Velocity.y
-
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
-				end
-
-				-- Bottom
-				if pos.y + radius > arena_h then
-					world:move_entity(entity, entity.Position.x, arena_h - radius)
-					entity.Velocity.y = -entity.Velocity.y
-
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "bottom")
-				end
-			end
 		}
 	},
 
 	events = {
-		{ -- Call arena collision functions of entities if they have them.
-			event = "ArenaCollision",
-			func = function(world, entity, pos, side)
-				if entity.OnArenaCollision then
-					entity:OnArenaCollision(world, pos, side)
-				end
-			end
-		},
-
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
@@ -252,7 +202,7 @@ return {
 			end
 		},
 
-		{ -- Collision physics.
+		{ -- Resolve collisions.
 			event = "EntityColliding",
 			func = function(world, ent1, ent2, mtv)
 				if not ent1.CollisionPhysics or not ent1.Mass

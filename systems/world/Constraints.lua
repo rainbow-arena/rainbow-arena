@@ -32,18 +32,6 @@ return {
 					world:destroy_entity(entity)
 				end
 			end
-		},
-		{
-			name = "DestroyOutsideArena",
-			requires = {"Position", "DestroyOutsideArena"},
-			update = function(entity, world, dt)
-				local tolerance = tonumber(entity.ArenaBounded) or -entity.Radius or 0
-				if entity.Position.x < 0 - tolerance or entity.Position.x > world.w + tolerance
-					or entity.Position.y < 0 - tolerance or entity.Position.y > world.h + tolerance
-				then
-					world:destroy_entity(entity)
-				end
-			end
 		}
 	}
 }
