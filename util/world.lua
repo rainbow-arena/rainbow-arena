@@ -100,7 +100,7 @@ function world:load_system_dir(dir)
 	for _, item in ipairs(love.filesystem.getDirectoryItems(dir)) do
 		if love.filesystem.isDirectory(dir .. "/" .. item) then
 			self:load_system_dir(dir .. "/" .. item)
-		else
+		elseif item:find(".lua$") then
 			local t = love.filesystem.load(dir .. "/" .. item)()
 
 			if type(t) ~= "table" then
