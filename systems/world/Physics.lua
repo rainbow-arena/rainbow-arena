@@ -188,6 +188,20 @@ return {
 
 	events = {
 		{ -- Call the collision functions of entities if they have them.
+			event = "EntityColliding",
+			func = function(world, ent1, ent2, mtv)
+				if ent1.OnEntityColliding then
+					ent1:OnEntityColliding(world, ent2, mtv)
+				end
+
+				---
+
+				if ent2.OnEntityColliding then
+					ent2:OnEntityColliding(world, ent1, -mtv)
+				end
+			end
+		},
+		{
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
 				if ent1.OnEntityCollision then
@@ -202,18 +216,18 @@ return {
 			end
 		},
 
-		{ -- Resolve collisions.
+		{ -- Resolve collisions with physics!
 			event = "EntityColliding",
 			func = function(world, ent1, ent2, mtv)
-				if not ent1.CollisionPhysics or not ent1.Mass
-					or not ent2.CollisionPhysics or not ent2.Mass
-				then return end
+				local REQ = {
+					"CollisionPhysics",
+					"Mass"
+				}
 
-				---
-
-				world:emit_event("PhysicsCollision", ent1, ent2, mtv)
-
-				physics_resolve_collision(world, ent1, ent2, mtv)
+				if has(ent1, REQ) and has(ent2, REQ) then
+					world:emit_event("PhysicsCollision", ent1, ent2, mtv)
+					physics_resolve_collision(world, ent1, ent2, mtv)
+				end
 			end
 		}
 	}
