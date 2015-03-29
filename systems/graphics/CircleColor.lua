@@ -2,11 +2,12 @@ local util = require("lib.self.util")
 
 ---
 
-local sin, cos = math.sin, math.cos
+local math_sin = math.sin
+local math_cos = math.cos
 
-local clamp = util.math.clamp
-local range = util.math.range
-local map = util.math.map
+local math_clamp = util.math.clamp
+local math_range = util.math.range
+local math_map = util.math.map
 
 ---
 
@@ -52,16 +53,16 @@ return {
 				if not entity.ColorIntensity then
 					entity.ColorIntensity = 0
 				else
-					entity.ColorIntensity = clamp(0, entity.ColorIntensity, 1)
+					entity.ColorIntensity = math_clamp(0, entity.ColorIntensity, 1)
 				end
 
-				local v = map(entity.ColorIntensity, 0, 1, MIN_INTENSITY, MAX_INTENSITY)
+				local v = math_map(entity.ColorIntensity, 0, 1, MIN_INTENSITY, MAX_INTENSITY)
 
 				---
 
 				local fill_radius = radius
 				if entity.Health and entity.MaxHealth then
-					fill_radius = fill_radius * (clamp(0, entity.Health / entity.MaxHealth, 1))
+					fill_radius = fill_radius * (math_clamp(0, entity.Health / entity.MaxHealth, 1))
 				end
 				love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
 				love.graphics.circle("fill", pos.x, pos.y, fill_radius, 20)
@@ -80,7 +81,9 @@ return {
 			draw = function(entity)
 				local radius = entity.Radius
 				local sx, sy = entity.Position:unpack()
-				local ex, ey = sx + radius*cos(entity.Rotation), sy + radius*sin(entity.Rotation)
+				local ex, ey = sx + radius * math_cos(entity.Rotation),
+					sy + radius * math_sin(entity.Rotation)
+
 				love.graphics.setColor(entity.Color)
 				love.graphics.line(sx,sy, ex,ey)
 			end
@@ -92,7 +95,7 @@ return {
 			update = function(entity, world, dt)
 				local step = INTENSITY_DECAY_RATE*dt
 
-				if range(-step, entity.ColorIntensity, step) then
+				if math_range(-step, entity.ColorIntensity, step) then
 					entity.ColorIntensity = 0
 				elseif entity.ColorIntensity > 0 then
 					entity.ColorIntensity = entity.ColorIntensity - step

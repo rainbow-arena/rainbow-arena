@@ -3,9 +3,7 @@ local util = require("lib.self.util")
 
 ---
 
-local range = util.math.range
-local clamp = util.math.clamp
-local sin, cos, atan2 = math.sin, math.cos, math.atan2
+local math_atan2 = math.atan2
 
 ---
 
@@ -18,7 +16,7 @@ return {
 				local mx, my = love.mouse.getPosition()
 				local psx, psy = world.camera:cameraCoords(entity.Position.x, entity.Position.y)
 
-				entity.RotationTarget = atan2(my - psy, mx - psx)
+				entity.RotationTarget = math_atan2(my - psy, mx - psx)
 
 				---
 

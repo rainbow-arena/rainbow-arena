@@ -2,6 +2,11 @@ local vector = require("lib.hump.vector")
 
 ---
 
+local math_sin = math.sin
+local math_cos = math.cos
+
+---
+
 return {
 	systems = {
 		{
@@ -27,7 +32,7 @@ return {
 
 					if not weapon.overheat then
 						local direction_vector = vector.new(
-							math.cos(entity.Rotation), math.sin(entity.Rotation))
+							math_cos(entity.Rotation), math_sin(entity.Rotation))
 						local position_vector = entity.Position:clone()
 							+ (direction_vector * (entity.Radius))
 

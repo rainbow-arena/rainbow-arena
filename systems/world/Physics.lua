@@ -1,22 +1,23 @@
-local circleutil = require("util.circle")
 local vector = require("lib.hump.vector")
 local util = require("lib.self.util")
 
+local circle = require("util.circle")
+
 ---
 
-local colliding = circleutil.colliding
-local aabb = circleutil.aabb
-local invert = util.table.invert
-local has = util.table.has
+local circle_colliding = circle.colliding
+local circle_aabb = circle.aabb
+local table_invert = util.table.invert
+local table_has = util.table.has
 
 ---
 
 local function ent_colliding(entity, other)
-	return colliding(entity.Position,entity.Radius, other.Position,other.Radius)
+	return circle_colliding(entity.Position,entity.Radius, other.Position,other.Radius)
 end
 
 local function ent_aabb(entity)
-	return aabb(entity.Radius, entity.Position.x, entity.Position.y)
+	return circle_aabb(entity.Radius, entity.Position.x, entity.Position.y)
 end
 
 ---
@@ -25,13 +26,13 @@ local function collision_eligible(ent1, ent2)
 	if ent1 == ent2 then return false end
 
 	if ent1.CollisionExcludeEntities then
-		if invert(ent1.CollisionExcludeEntities)[ent2] then
+		if table_invert(ent1.CollisionExcludeEntities)[ent2] then
 			return false
 		end
 	end
 
 	if ent2.CollisionExcludeEntities then
-		if invert(ent2.CollisionExcludeEntities)[ent1] then
+		if table_invert(ent2.CollisionExcludeEntities)[ent1] then
 			return false
 		end
 	end
@@ -39,13 +40,13 @@ local function collision_eligible(ent1, ent2)
 	---
 
 	if ent1.CollisionExcludeComponents then
-		if has(ent2, ent1.CollisionExcludeComponents) then
+		if table_has(ent2, ent1.CollisionExcludeComponents) then
 			return false
 		end
 	end
 
 	if ent2.CollisionExcludeComponents then
-		if has(ent1, ent2.CollisionExcludeComponents) then
+		if table_has(ent1, ent2.CollisionExcludeComponents) then
 			return false
 		end
 	end
@@ -224,7 +225,7 @@ return {
 					"Mass"
 				}
 
-				if has(ent1, REQ) and has(ent2, REQ) then
+				if table_has(ent1, REQ) and table_has(ent2, REQ) then
 					world:emit_event("PhysicsCollision", ent1, ent2, mtv)
 					physics_resolve_collision(world, ent1, ent2, mtv)
 				end

@@ -1,11 +1,10 @@
-local circle = require("util.circle")
-
 local util = require("lib.self.util")
+
+local circle = require("util.circle")
 
 ---
 
-local aabb = circle.aabb
-local ceil = math.ceil
+local circle_aabb = circle.aabb
 
 ---
 
@@ -32,7 +31,7 @@ return {
 					local current_radius = blast.progress * blast.radius
 
 					for affected in pairs(world.hash:get_objects_in_range(
-						aabb(current_radius, entity.Position.x, entity.Position.y)))
+						circle_aabb(current_radius, entity.Position.x, entity.Position.y)))
 					do
 						if not blast.affected[affected] then
 							local dist_vec = (affected.Position - entity.Position)

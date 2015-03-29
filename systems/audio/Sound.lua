@@ -3,15 +3,13 @@ local util = require("lib.self.util")
 
 ---
 
-local clamp = util.math.clamp
+local math_clamp = util.math.clamp
 
 ---
 
 local COLLISION_SOUND = "audio/collision.wav"
 local MAX_VOLUME_SPEED = 1600
 local COLLISION_MAX_VOLUME = 0.5
-
----
 
 local can_spawn_col_sound = true
 local SOUND_SPAWN_DELAY = 0.05
@@ -69,7 +67,7 @@ return {
 					Lifetime = 0.3,
 					Sound = {
 						source = source,
-						volume = clamp(0, entity.Velocity:len() / MAX_VOLUME_SPEED, COLLISION_MAX_VOLUME)
+						volume = math_clamp(0, entity.Velocity:len() / MAX_VOLUME_SPEED, COLLISION_MAX_VOLUME)
 					}
 				}
 			end
@@ -87,7 +85,7 @@ return {
 
 						Sound = {
 							source = source,
-							volume = clamp(0, (ent1.Velocity + ent2.Velocity):len() / MAX_VOLUME_SPEED, COLLISION_MAX_VOLUME)
+							volume = math_clamp(0, (ent1.Velocity + ent2.Velocity):len() / MAX_VOLUME_SPEED, COLLISION_MAX_VOLUME)
 						}
 					}
 

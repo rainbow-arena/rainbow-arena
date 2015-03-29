@@ -12,6 +12,7 @@ return {
 		{
 			name = "DrawParticleSystem",
 			requires = {"ParticleSystem"},
+			priority = -2,
 			draw = function(entity, world, dt)
 				love.graphics.draw(entity.ParticleSystem)
 			end

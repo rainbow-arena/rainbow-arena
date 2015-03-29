@@ -3,7 +3,7 @@ local util = require("lib.self.util")
 
 ---
 
-local clamp = util.math.clamp
+local math_clamp = util.math.clamp
 
 local table_has = util.table.has
 
@@ -47,7 +47,7 @@ return {
 				local camera_pos = vector.new(world.camera.x, world.camera.y)
 				local dist_to_source = (source.Position - camera_pos):len()
 
-				local final_intensity = clamp(0, intensity * (1 - (dist_to_source/ss.radius)), math.huge)
+				local final_intensity = math_clamp(0, intensity * (1 - (dist_to_source/ss.radius)), math.huge)
 
 				world.screenshake = world.screenshake + final_intensity
 			end

@@ -3,12 +3,14 @@ local util = require("lib.self.util")
 
 ---
 
-local pi = math.pi
-local sin, cos = math.sin, math.cos
-local atan2 = math.atan2
-local abs = math.abs
-local sign = util.math.sign
-local floor = math.floor
+local math_pi = math.pi
+
+local math_sin = math.sin
+local math_cos = math.cos
+local math_atan2 = math.atan2
+
+local math_abs = math.abs
+local math_sign = util.math.sign
 
 ---
 
@@ -21,17 +23,17 @@ return {
 				local current = entity.Rotation
 				local target = entity.RotationTarget
 
-				local vec = atan2(
-					sin(target - current),
-					cos(target - current)
+				local vec = math_atan2(
+					math_sin(target - current),
+					math_cos(target - current)
 				)
 
-				local dir = sign(vec)
-				local dist = abs(vec)
+				local dir = math_sign(vec)
+				local dist = math_abs(vec)
 
 				---
 
-				local GUARD_DIST = pi/6
+				local GUARD_DIST = math_pi/6
 				local step = (dist / GUARD_DIST) * entity.RotationSpeed * dt
 
 				local new
