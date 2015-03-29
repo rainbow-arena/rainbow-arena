@@ -9,13 +9,13 @@ local timer = require("lib.hump.timer")
 
 local util = require("lib.self.util")
 
-local circleutil = require("util.circle")
+local circle = require("util.circle")
 
 ---
 
-local clamp = util.math.clamp
+local math_clamp = util.math.clamp
 
-local aabb = circleutil.aabb
+local circle_aabb = circle.aabb
 
 ---
 
@@ -36,7 +36,7 @@ function world:spawn_entity(t)
 	local entity = self.ces:spawn_entity(t)
 
 	if entity.Position and entity.Radius then
-		self.hash:insert_object(entity, aabb(
+		self.hash:insert_object(entity, circle_aabb(
 			entity.Radius, entity.Position.x, entity.Position.y))
 	end
 
@@ -55,7 +55,7 @@ function world:destroy_entity(entity)
 	self.ces:destroy_entity(entity)
 
 	if entity.Position and entity.Radius then
-		self.hash:remove_object(entity, aabb(
+		self.hash:remove_object(entity, circle_aabb(
 			entity.Radius, entity.Position.x, entity.Position.y))
 	end
 
@@ -81,8 +81,8 @@ function world:move_entity(entity, x, y)
 	entity.Position = newpos
 
 	if entity.Radius then
-		local old_x1,old_y1, old_x2,old_y2 = aabb(entity.Radius, oldpos.x, oldpos.y)
-		local new_x1,new_y1, new_x2,new_y2 = aabb(entity.Radius, newpos.x, newpos.y)
+		local old_x1,old_y1, old_x2,old_y2 = circle_aabb(entity.Radius, oldpos.x, oldpos.y)
+		local new_x1,new_y1, new_x2,new_y2 = circle_aabb(entity.Radius, newpos.x, newpos.y)
 
 		self.hash:move_object(entity, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
 	end
@@ -124,7 +124,7 @@ end
 ---
 
 function world:update(dt)
-	self.speed = clamp(0, self.speed, 7)
+	self.speed = math_clamp(0, self.speed, 7)
 	local adjdt = dt * self.speed
 
 	love.audio.setPosition(self.camera.x/SOUND_POSITION_SCALE, self.camera.y/SOUND_POSITION_SCALE, 0)

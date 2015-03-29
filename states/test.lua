@@ -1,18 +1,20 @@
 local test = {}
 
+---
+
+local vector = require("lib.hump.vector")
 local screenshake = require("lib.self.screenshake")
 local util = require("lib.self.util")
 
-local worldutil = require("util.world")
-local circleutil = require("util.circle")
-local colorutil = require("util.color")
+local circle = require("util.circle")
+local color = require("util.color")
 
-local vector = require("lib.hump.vector")
+local World = require("logic.world")
 
 ---
 
-local colliding = circleutil.colliding
-local nelem = util.table.nelem
+local circle_colliding = circle.colliding
+local table_nelem = util.table.nelem
 
 ---
 
@@ -25,7 +27,7 @@ SOUND_POSITION_SCALE = 256
 local world
 
 function test:init()
-	world = worldutil.new()
+	world = World.new()
 	world:load_system_dir("systems")
 end
 
@@ -42,7 +44,7 @@ local function find_position(radius, tries)
 
 		local pos = generate_position(radius)
 		for entity in pairs(world:get_entities_with{"Position", "Radius"}) do
-			if colliding(pos,radius, entity.Position,entity.Radius) then
+			if circle_colliding(pos,radius, entity.Position,entity.Radius) then
 				ok = false
 				break
 			end
@@ -110,7 +112,7 @@ function test:enter(previous, w, h, nbots)
 
 	-- Place test balls.
 	for n = 1, 50 do
-		local color = {colorutil.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
+		local color = {color.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
 
 		world:spawn_entity(combatant{
 			name = "Ball " .. n,
@@ -138,7 +140,7 @@ function test:draw()
 			love.graphics.setColor(255, 255, 255)
 			love.graphics.print("Speed multiplier: " .. self.speed, 10, 10)
 			love.graphics.print(
-				"Entities: " .. nelem(self.entities),
+				"Entities: " .. table_nelem(self.entities),
 				10, 10 + love.graphics.getFont():getHeight()
 			)
 		end
