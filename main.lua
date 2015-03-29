@@ -4,8 +4,6 @@
 
 --[[
 	Stuff to do:
-		Fix collision
-			Set mass of object at creation, remove CalculateMass system
 		Rewrite weapons using systems and make weapons entities
 			eg. so I can swap out components to change a weapon from ammo to cooldown-based
 		Make camera keep reference to a target entity instead of CameraTarget being a component
