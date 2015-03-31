@@ -33,7 +33,7 @@ end
 
 local function generate_position(radius)
 
-	local angle = love.math.random(0, 2*math.pi)
+	local angle = love.math.random() * 2*math.pi
 	local magnitude = love.math.random(0, world.r)
 
 	return vector.new(
@@ -68,7 +68,7 @@ end
 function test:enter(previous, w, h, nbots)
 	world:clear_entities()
 
-	world.r = r or 1000
+	world.r = r or 600
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
