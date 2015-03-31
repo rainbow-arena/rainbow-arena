@@ -29,10 +29,10 @@ return {
 			name = "DestroyOutsideArena",
 			requires = {"Position", "DestroyOutsideArena"},
 			update = function(entity, world, dt)
-				local tolerance = tonumber(entity.ArenaBounded) or -entity.Radius or 0
-				if entity.Position.x < 0 - tolerance or entity.Position.x > world.w + tolerance
-					or entity.Position.y < 0 - tolerance or entity.Position.y > world.h + tolerance
-				then
+				local pos = entity.Position
+				local magnitude = (pos.x^2 + pos.y^2)^0.5
+
+				if (magnitude + (entity.Radius or 0)) > world.r then
 					world:destroy_entity(entity)
 				end
 			end
