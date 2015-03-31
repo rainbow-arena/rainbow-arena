@@ -65,12 +65,12 @@ return {
 					fill_radius = fill_radius * (math_clamp(0, entity.Health / entity.MaxHealth, 1))
 				end
 				love.graphics.setColor(color[1] * v, color[2] * v, color[3] * v)
-				love.graphics.circle("fill", pos.x, pos.y, fill_radius, 20)
+				love.graphics.circle("fill", pos.x, pos.y, fill_radius)
 
 
 				love.graphics.setStencil()
 				love.graphics.setColor(color)
-				love.graphics.circle("line", pos.x, pos.y, radius, 20)
+				love.graphics.circle("line", pos.x, pos.y, radius)
 			end
 		},
 
