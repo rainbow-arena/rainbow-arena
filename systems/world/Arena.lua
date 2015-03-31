@@ -8,39 +8,19 @@ return {
 			name = "ArenaCollision",
 			requires = {"Position", "Velocity", "Radius", "ArenaBounded"},
 			update = function(entity, world, dt)
-				local pos, radius = entity.Position, entity.Radius
-				local arena_w, arena_h = world.w, world.h
+				local pos, radius, vel = entity.Position, entity.Radius, entity.Velocity
 
-				-- Left
-				if pos.x - radius < 0 then
-					world:move_entity(entity, radius, entity.Position.y)
-					entity.Velocity.x = -entity.Velocity.x
+				local angle_vec = vector.new(pos.x, pos.y):normalized()
+				local magnitude = (pos.x^2 + pos.y^2)^0.5
 
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x - radius, pos.y), "left")
-				end
+				if (magnitude + radius) > world.r then
+					world:move_entity(entity, angle_vec * (world.r - radius))
 
-				-- Right
-				if pos.x + radius > arena_w then
-					world:move_entity(entity, arena_w - radius, entity.Position.y)
-					entity.Velocity.x = -entity.Velocity.x
+					local norm_vel = vel:projectOn(angle_vec)
+					local tangent_vel = vel - norm_vel
+					entity.Velocity = tangent_vel - norm_vel
 
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x + radius, pos.y), "right")
-				end
-
-				-- Top
-				if pos.y - radius < 0 then
-					world:move_entity(entity, entity.Position.x, radius)
-					entity.Velocity.y = -entity.Velocity.y
-
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y - radius), "top")
-				end
-
-				-- Bottom
-				if pos.y + radius > arena_h then
-					world:move_entity(entity, entity.Position.x, arena_h - radius)
-					entity.Velocity.y = -entity.Velocity.y
-
-					world:emit_event("ArenaCollision", entity, vector.new(pos.x, pos.y + radius), "bottom")
+					world:emit_event("ArenaCollision", entity, angle_vec * world.r)
 				end
 			end
 		},

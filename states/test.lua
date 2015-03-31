@@ -32,9 +32,13 @@ function test:init()
 end
 
 local function generate_position(radius)
+
+	local angle = love.math.random(0, 2*math.pi)
+	local magnitude = love.math.random(0, world.r)
+
 	return vector.new(
-		love.math.random(radius, world.w - radius),
-		love.math.random(radius, world.h - radius)
+		magnitude * math.cos(angle),
+		magnitude * math.sin(angle)
 	)
 end
 
@@ -64,7 +68,7 @@ end
 function test:enter(previous, w, h, nbots)
 	world:clear_entities()
 
-	world.w, world.h = w or 1000, h or 1000
+	world.r = r or 1000
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 

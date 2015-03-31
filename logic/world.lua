@@ -151,11 +151,8 @@ function world:draw(funcs)
 	screenshake.apply(self.screenshake, self.screenshake)
 
 	-- Arena boundaries.
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.line(0,0, 0,self.h)
-	love.graphics.line(0,self.h, self.w,self.h)
-	love.graphics.line(self.w,self.h, self.w,0)
-	love.graphics.line(self.w,0, 0,0)
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.circle("line", 0,0, self.r)
 
 	if funcs.world then
 		funcs.world(self)
