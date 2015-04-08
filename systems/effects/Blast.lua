@@ -63,6 +63,7 @@ return {
 		{
 			name = "DrawBlast",
 			requires = {"Position", "Blast"},
+			priority = -2,
 			draw = function(entity, world)
 				local color = entity.Color or DEFAULT_BLAST_COLOR
 
