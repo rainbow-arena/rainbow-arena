@@ -6,6 +6,9 @@
 	Stuff to do:
 		Rewrite weapons using systems and make weapons entities
 			eg. so I can swap out components to change a weapon from ammo to cooldown-based
+			Have host.Weapon, have a Weapon system that is basically a nested entity system
+				that works on Weapon subcomponents.
+
 		Make camera keep reference to a target entity instead of CameraTarget being a component
 		Makes maps not just square arenas - Tiled and STI?
 		Make health smoothly graphically transition.
@@ -38,11 +41,11 @@
 	IDEAS:
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
-		Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
-		Circular arena
 
-		Stages:
+		Game modifiers/stages:
+			Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
 			Ice - no drag
+			Everyone has the same weapon, when anyone changes weapons everyone else does too.
 ]]
 
 local gs = require("lib.hump.gamestate")
