@@ -4,7 +4,7 @@ local util = require("lib.self.util")
 
 ---
 
-local has = util.table.has
+local table_check = util.table.check
 
 ---
 
@@ -13,11 +13,11 @@ local img_particle = love.graphics.newImage("graphics/particle.png")
 local e_explosion = class{}
 
 function e_explosion:init(arg)
-	assert(has(arg, {
+	assert(table_check(arg, {
 		"position",
 		"radius",
 		"duration"
-	}))
+	}, "Explosion init"))
 
 
 	local color = arg.color or {255, 97, 0}

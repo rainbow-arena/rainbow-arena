@@ -58,6 +58,15 @@ function util.table.join(...)
 	return result
 end
 
+-- Returns a new table with the values of t as keys and vice versa.
+function util.table.invert(t)
+	local result = {}
+	for k, v in pairs(t) do
+		result[v] = k
+	end
+	return result
+end
+
 -- If t doesn't have a key that kv does, the key
 -- and its value from kv will be added to t.
 function util.table.fill(t, kv)
@@ -68,17 +77,16 @@ function util.table.fill(t, kv)
 	end
 end
 
--- Returns a new table with the values of t as keys and vice versa.
-function util.table.invert(t)
-	local result = {}
-	for k, v in pairs(t) do
-		result[v] = k
-	end
-	return result
-end
-
 -- Checks whether t has all the keys listed in keys.
 function util.table.has(t, keys)
+	for _, c in ipairs(keys) do
+		if not t[c] then return false end
+	end
+	return true
+end
+
+-- Like has, but on failure also returns a string detailing the missing fields.
+function util.table.check(t, keys, msg)
 	local missing = {}
 
 	for _, c in ipairs(keys) do
@@ -88,7 +96,7 @@ function util.table.has(t, keys)
 	end
 
 	if #missing > 0 then
-		return false, "Missing fields: " .. table.concat(missing, ", ")
+		return false, (msg and (msg .. ": ") or "") "missing fields: " .. table.concat(missing, ", ")
 	else
 		return true
 	end
