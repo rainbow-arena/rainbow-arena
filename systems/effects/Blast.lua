@@ -8,6 +8,10 @@ local circle_aabb = circle.aabb
 
 ---
 
+local DEFAULT_BLAST_COLOR = {255, 255, 255}
+
+---
+
 return {
 	systems = {
 		{
@@ -57,11 +61,19 @@ return {
 		},
 
 		{
-			name = "DebugDrawBlast",
+			name = "DrawBlast",
 			requires = {"Position", "Blast"},
 			draw = function(entity, world)
-				love.graphics.setColor(255, 255, 255, (1 - entity.Blast.progress) * 255)
-				love.graphics.circle("line", entity.Position.x, entity.Position.y, entity.Blast.radius * entity.Blast.progress)
+				local color = entity.Color or DEFAULT_BLAST_COLOR
+
+				local cradius = entity.Blast.radius * entity.Blast.progress
+				local fade = 1 - entity.Blast.progress
+
+				love.graphics.setColor(color[1], color[2], color[3], fade * 255)
+				love.graphics.circle("line", entity.Position.x, entity.Position.y, cradius)
+
+				love.graphics.setColor(color[1], color[2], color[3], fade * 64)
+				love.graphics.circle("fill", entity.Position.x, entity.Position.y, cradius)
 			end
 		}
 	}
