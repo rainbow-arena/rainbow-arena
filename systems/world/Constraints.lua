@@ -13,7 +13,7 @@ return {
 						+ (entity.AttachmentOffset or vector.zero)
 					if entity.Parent.Velocity then
 						entity.Velocity = entity.Parent.Velocity:clone()
-					else
+					elseif entity.Velocity.x ~= 0 or entity.Velocity.y ~= 0 then
 						entity.Velocity = vector.new(0, 0)
 					end
 				elseif entity.DestroyWithParent then
