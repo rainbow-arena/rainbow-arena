@@ -23,7 +23,7 @@ function e_explosion:init(arg)
 	self.Color = arg.color or {255, 97, 0}
 
 	self.Position = arg.position:clone()
-	self.Lifetime = duration
+	self.Lifetime = arg.duration
 
 	self.Blast = {
 		radius = arg.radius,
