@@ -10,6 +10,7 @@ local timer = require("lib.hump.timer")
 local util = require("lib.self.util")
 
 local circle = require("util.circle")
+local file = require("util.file")
 
 ---
 
@@ -88,11 +89,9 @@ function world:run_systems(kind, ...)
 	self.ces:run_systems(kind, self, ...)
 end
 
-function world:load_system_dir(dir)
-	for _, item in ipairs(love.filesystem.getDirectoryItems(dir)) do
-		if love.filesystem.isDirectory(dir .. "/" .. item) then
-			self:load_system_dir(dir .. "/" .. item)
-		elseif item:find(".lua$") then
+function world:load_system_dir(sysdir)
+	file.diriter(sysdir, function(dir, item)
+		if item:find(".lua$") then
 			local t = love.filesystem.load(dir .. "/" .. item)()
 
 			if type(t) ~= "table" then
@@ -114,7 +113,7 @@ function world:load_system_dir(dir)
 				t.init(self)
 			end
 		end
-	end
+	end)
 end
 
 ---
