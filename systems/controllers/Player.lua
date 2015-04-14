@@ -47,7 +47,9 @@ return {
 
 				---
 
-				entity.Firing = love.mouse.isDown("l")
+				if entity.Weapon then
+					entity.Weapon.Firing = love.mouse.isDown("l")
+				end
 			end
 		}
 	},

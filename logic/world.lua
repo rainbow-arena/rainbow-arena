@@ -33,6 +33,8 @@ function world:emit_event(event, ...)
 	self.signal:emit(event, self, ...)
 end
 
+---
+
 function world:spawn_entity(t)
 	local entity = self.ces:spawn_entity(t)
 
@@ -80,6 +82,19 @@ function world:move_entity(entity, x, y)
 		self.hash:move_object(entity, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
 	end
 end
+
+function world:raycast(x,y, dx,dy)
+	local candidates = self.hash:get_objects_in_range(x,y, x+dx,y+dy)
+
+	for entity in pairs(candidates) do
+		if entity.Position and entity.Radius then
+			local pos, radius = entity.Position, entity.Radius
+			-- Circle-ray intersection
+		end
+	end
+end
+
+---
 
 function world:add_system(arg)
 	self.ces:add_system(arg)

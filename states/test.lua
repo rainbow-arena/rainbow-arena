@@ -72,27 +72,6 @@ function test:enter(previous, w, h, nbots)
 
 	local c_drag, c_accel = calculate_drag_accel(800, 5)
 
-	local proj = require("entities.miniturret"){
-		drag = c_drag,
-
-		weapon = require("entities.weapons.minigun"){
-			projectile = require("entities.projectiles.bullet")(),
-			shot_sound = "audio/weapons/laser_shot.wav"
-		}
-	}
-
-	local weapon = require("entities.weapons.projectile"){
-		max_heat = 3,
-		shot_heat = 0.01,
-
-		kind = "single",
-		projectile = proj,
-		projectile_speed = 300,
-		shot_delay = 1,
-
-		shot_sound = "audio/weapons/laser_shot.wav"
-	}
-
 	local combatant = require("entities.combatant")
 
 	world:spawn_entity(combatant{
@@ -108,9 +87,10 @@ function test:enter(previous, w, h, nbots)
 		drag = c_drag,
 		move_acceleration = c_accel,
 
-		weapon = require("entities.weapons.minigun"){
-			projectile = require("entities.projectiles.bullet")(),
-			shot_sound = "audio/weapons/laser_shot.wav"
+		weapon = {
+			WeaponBlink = true,
+			AmmoInfinite = true,
+			ShotDelay = 0.5
 		}
 	})
 
