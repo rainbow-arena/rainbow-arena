@@ -8,7 +8,8 @@ local util = require("lib.self.util")
 
 ---
 
-local clone = util.table.clone
+local table_clone = util.table.clone
+local table_has = util.table.has
 
 ---
 
@@ -57,7 +58,7 @@ function Registry:remove_system(name)
 end
 
 function Registry:spawn_entity(components)
-	local entity = clone(components) or {}
+	local entity = table_clone(components) or {}
 	self.entities[entity] = entity
 	return entity
 end
@@ -87,20 +88,6 @@ function Registry:clear_entities()
 	end
 end
 
---[[
-	args = {
-		name = <name of system>,
-		entities = <a table of entities to run this system on, or nil to use all entities>,
-		userdata = <anything that you want to pass to the system>
-	}
-]]
-
-local function run_system_on_entity(system, entity, ...)
-	if util.table.has(entity, system.requires or {}) then
-		system.func(entity, ...)
-	end
-end
-
 function Registry:run_system(name, ...)
 	assert(name, "System name not supplied to run_system")
 
@@ -109,8 +96,21 @@ function Registry:run_system(name, ...)
 		error("System \"" .. name .. "\" not found")
 	end
 
-	for entity in pairs(self.entities) do
-		run_system_on_entity(system, entity, ...)
+	if not system.requires then
+		-- Run just once with no entity.
+		system.func(nil, ...)
+	elseif #system.requires == 0 then
+		-- Run on all entities.
+		for entity in pairs(self.entities) do
+			system.func(entity, ...)
+		end
+	else
+		-- Run on entities with required components.
+		for entity in pairs(self.entities) do
+			if table_has(entity, system.requires) then
+				system.func(entity, ...)
+			end
+		end
 	end
 end
 
