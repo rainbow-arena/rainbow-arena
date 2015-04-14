@@ -40,10 +40,6 @@ function world:spawn_entity(t)
 			entity.Radius, entity.Position.x, entity.Position.y))
 	end
 
-	if entity.OnSpawn then
-		entity:OnSpawn(self)
-	end
-
 	return entity
 end
 
@@ -57,10 +53,6 @@ function world:destroy_entity(entity)
 	if entity.Position and entity.Radius then
 		self.hash:remove_object(entity, circle_aabb(
 			entity.Radius, entity.Position.x, entity.Position.y))
-	end
-
-	if entity.OnDestroy then
-		entity:OnDestroy(self)
 	end
 end
 
@@ -113,9 +105,13 @@ function world:load_system_dir(dir)
 				end
 			end
 			if t.events then
-				for _, eventitem in pairs(t.events) do
+				for _, eventitem in ipairs(t.events) do
 					self:register_event(eventitem.event, eventitem.func)
 				end
+			end
+
+			if t.init then
+				t.init(self)
 			end
 		end
 	end
