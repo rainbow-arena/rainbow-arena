@@ -66,13 +66,9 @@ end
 function Registry:get_entities_with(components)
 	local result = {}
 	for entity in pairs(self.entities) do
-		local add = true
-		for _, component in ipairs(components) do
-			if not entity[component] then
-				add = false
-			end
+		if table_has(entity, components) then
+			result[entity] = entity
 		end
-		if add then result[entity] = entity end
 	end
 	return result
 end
