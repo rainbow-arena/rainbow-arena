@@ -2,15 +2,11 @@
 	A weapon is a table of components.
 	These components are separate from components in the entity system.
 
-	There are some flags:
-		Firing: eg. is the LMB being held down?
-		AmmoReady: ammo systems modify this, firing systems check this.
-		ShotReady: whether shot delay has expired. Rename this component?
+	Have ammo systems and firing systems, and make these more ingrained?
+	Weapon components just refer to name of ammo/firing system?
 
-	Systems:
-		Firing systems check Firing, AmmoReady and ShotReady
-		Ammo systems set AmmoReady as required
-		Shot delay system sets ShotReady as required
+	Weapon can only have one ammo system (and firing system).
+	To combine them, make a new system.
 ]]
 
 
@@ -20,9 +16,6 @@ local util = require("lib.self.util")
 local file = require("util.file")
 
 ---
-
-local math_sin = math.sin
-local math_cos = math.cos
 
 local table_has = util.table.has
 

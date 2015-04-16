@@ -1,5 +1,3 @@
--- TODO: how to trigger custom reset of different ammo systems in a unified way?
-
 return {
 	systems = {
 		{
