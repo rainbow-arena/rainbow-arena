@@ -42,6 +42,11 @@
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
 
+		Weapons:
+			Teleport projectile
+				teleports shooter to where projectile dies/hits
+				allow enemy projectiles to prematurely trigger teleport
+
 		Game modifiers/stages:
 			Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
 			Ice - no drag
