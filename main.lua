@@ -12,6 +12,7 @@
 		Make camera keep reference to a target entity instead of CameraTarget being a component
 		Makes maps not just square arenas - Tiled and STI?
 		Make health smoothly graphically transition.
+		Figure out how to trigger oneshot things in this entity system (like what happens when a projectile hits)
 
 
 		Graphics: background
