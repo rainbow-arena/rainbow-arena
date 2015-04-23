@@ -71,7 +71,7 @@ function world:move_entity(entity, x, y)
 		newpos = vector.new(x, y)
 	end
 
-	entity.Position = newpos
+	entity.Position = newpos:clone()
 
 	if entity.Radius then
 		local old_x1,old_y1, old_x2,old_y2 = circle_aabb(entity.Radius, oldpos.x, oldpos.y)

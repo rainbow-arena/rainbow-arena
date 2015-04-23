@@ -12,6 +12,7 @@ return {
 		{
 			name = "UpdateWeapon",
 			requires = {"Position", "Radius", "Rotation", "Weapon"},
+			priority = 0,
 			update = function(entity, world, dt)
 				local weapon = entity.Weapon
 

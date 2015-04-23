@@ -37,22 +37,22 @@ end
 ---
 
 function w_projectile:spawn_projectile(host, world, pos, dir)
-	local projectile = clone(self.projectile)
-	projectile.Position = pos + dir
-	projectile.Velocity = self.projectile_speed * dir + host.Velocity
-	projectile.Team = host.Team
-	projectile.Firer = host
+	local template = clone(self.projectile)
+	template.Position = pos + dir
+	template.Velocity = self.projectile_speed * dir + host.Velocity
+	template.Team = host.Team
 
 	--[[
 	-- Add host to collision exclusion list.
-	if not projectile.CollisionExcludeEntities then
-		projectile.CollisionExcludeEntities = {host}
+	if not template.CollisionExcludeEntities then
+		template.CollisionExcludeEntities = {host}
 	else
-		table.insert(projectile.CollisionExcludeEntities, host)
+		table.insert(template.CollisionExcludeEntities, host)
 	end
 	--]]
 
-	world:spawn_entity(projectile)
+	local projectile = world:spawn_entity(template)
+	projectile.Firer = host
 
 	return projectile
 end
