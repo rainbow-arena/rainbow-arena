@@ -33,6 +33,8 @@ return {
 				local magnitude = (pos.x^2 + pos.y^2)^0.5
 
 				if (magnitude + (entity.Radius or 0)) > world.r then
+					local angle_vec = vector.new(pos.x, pos.y):normalized()
+					world:emit_event("ArenaCollision", entity, angle_vec * world.r)
 					world:destroy_entity(entity)
 				end
 			end

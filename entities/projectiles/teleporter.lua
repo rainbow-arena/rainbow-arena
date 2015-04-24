@@ -29,7 +29,7 @@ function e_proj_teleporter:on_arena_collision(world, pos, side)
 	world:move_entity(self.Firer, pos)
 	world:destroy_entity(self)
 
-	e_proj_physical.on_collision(self, world, pos, side)
+	e_proj_physical.on_arena_collision(self, world, pos, side)
 end
 
 ---
