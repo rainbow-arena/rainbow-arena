@@ -87,11 +87,7 @@ function test:enter(previous, w, h, nbots)
 		drag = c_drag,
 		move_acceleration = c_accel,
 
-		weapon = {
-			WeaponBlink = true,
-			AmmoInfinite = true,
-			ShotDelay = 0.5
-		}
+		weapon = require("entities.weapons.blinktest")()
 	})
 
 	-- Place test balls.
