@@ -5,6 +5,9 @@ local circle = require("util.circle")
 
 ---
 
+-- TODO: Allow passing raw template, defaults are filled and others are not touched.
+-- .new() function, nest these for miniturret.
+
 local e_combatant = class{}
 
 function e_combatant:init(arg)
