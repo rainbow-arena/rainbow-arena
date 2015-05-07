@@ -58,7 +58,7 @@ function Registry:remove_system(name)
 end
 
 function Registry:spawn_entity(components)
-	local entity = table_clone(components) or {}
+	local entity = components or {} -- Note no longer clones template
 	self.entities[entity] = entity
 	return entity
 end

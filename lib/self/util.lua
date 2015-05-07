@@ -71,7 +71,7 @@ end
 -- and its value from kv will be added to t.
 function util.table.fill(t, kv)
 	for k, v in pairs(kv) do
-		if not t[k] then
+		if t[k] == nil then
 			t[k] = v
 		end
 	end

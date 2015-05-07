@@ -1,47 +1,44 @@
-local class = require("lib.hump.class")
 local vector = require("lib.hump.vector")
+local util = require("lib.self.util")
 
 local circle = require("util.circle")
+
+---
+
+local table_fill = util.table.fill
 
 ---
 
 -- TODO: Allow passing raw template, defaults are filled and others are not touched.
 -- .new() function, nest these for miniturret.
 
-local e_combatant = class{}
+local e_combatant = {}
 
-function e_combatant:init(arg)
-	self.Name = arg.name
-	self.Team = arg.team
+function e_combatant.new(template)
+	local radius = template.Radius or 30
 
-	self.Radius = arg.radius or 30
-	self.Mass = arg.mass or circle.area(self.Radius)
-	self.Color = arg.color or {255, 255, 255}
+	table_fill(template, {
+		Radius = radius,
+		Mass = circle.area(radius),
+		Color = {255, 255, 255},
 
-	self.Position = arg.position and arg.position:clone() or vector.new(0, 0)
-	self.Velocity = arg.velocity and arg.velocity:clone() or vector.new(0, 0)
-	self.Acceleration = arg.acceleration and arg.acceleration:clone() or vector.new(0, 0)
+		CollisionPhysics = true,
+		ArenaBounded = true,
 
-	self.MoveAcceleration = arg.move_acceleration
-	self.Drag = arg.drag
+		Rotation = 0,
+		RotationSpeed = 4,
 
-	self.CollisionPhysics = true
+		Health = radius,
+		MaxHealth = radius,
 
-	self.ArenaBounded = true
+		DeathExplosion = true
+	})
 
-	self.Rotation = arg.rotation or 0
-	self.RotationSpeed = arg.rotation_speed or 4
-
-	self.Health = arg.health
-	self.MaxHealth = arg.health
-	self.DeathExplosion = true
-
-	self.Weapon = arg.weapon
-
-	if arg.player then
-		self.Player = true
-		self.CameraTarget = true
+	if template.Player then
+		template.CameraTarget = true
 	end
+
+	return template
 end
 
 ---
