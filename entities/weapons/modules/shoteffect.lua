@@ -1,9 +1,9 @@
 return {
 	init = function(self, arg)
-		if arg.shakedur or arg.shakeamp or arg.shakeradius then
-			self._shakedur = arg.shakedur or 0.5
-			self._shakeamp = arg.shakeamp or 2
-			self._shakeradius = arg.shakeradius or 100
+		if arg.shakedur and arg.shakeamp and arg.shakeradius then
+			self._shakedur = arg.shakedur
+			self._shakeamp = arg.shakeamp
+			self._shakerad = arg.shakerad
 		end
 
 		if arg.shotsound then
@@ -27,7 +27,7 @@ return {
 			temp.Screenshake = {
 				duration = self._shakedur,
 				intensity = self._shakeamp,
-				radius = self._shakeradius
+				radius = self._shakerad
 			}
 		end
 

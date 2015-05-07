@@ -1,7 +1,7 @@
 return {
 	init = function(self, delay)
 		self.shottimer = 0
-		self.shotdelay = delay or 0.2
+		self.shotdelay = delay
 	end,
 
 	on_fire = function(self, host, world)
