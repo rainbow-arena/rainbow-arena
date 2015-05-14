@@ -4,11 +4,6 @@
 
 --[[
 	Stuff to do:
-		Rewrite weapons using systems and make weapons entities
-			eg. so I can swap out components to change a weapon from ammo to cooldown-based
-			Have host.Weapon, have a Weapon system that is basically a nested entity system
-				that works on Weapon subcomponents.
-
 		Make camera keep reference to a target entity instead of CameraTarget being a component
 		Makes maps not just square arenas - Tiled and STI?
 		Make health smoothly graphically transition.
