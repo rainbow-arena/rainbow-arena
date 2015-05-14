@@ -29,11 +29,6 @@
 			Multi-lock missile launcher
 			Firework gun - weak bomb-launching shotgun
 
-	FIX:
-		Properly parent screenshake entities for weapon
-			effects to weapon holder. Currently, if the holder
-			dies while firing, the effect entity stays.
-
 	IDEAS:
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
