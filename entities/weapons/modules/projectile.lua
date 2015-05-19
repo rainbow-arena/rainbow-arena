@@ -32,7 +32,7 @@ function wepm_projectile.fire(self, host, world)
 
 	local shot_pos_vec = h_pos + dir_vec
 
-	return wepm_projectile.fire_from(self, world, shot_pos_vec, self.projvel * dir_vec)
+	return wepm_projectile.fire_from(self, world, shot_pos_vec, self._projvel * dir_vec)
 end
 
 ---

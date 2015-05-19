@@ -188,6 +188,7 @@ return {
 	},
 
 	events = {
+		--[[
 		{ -- Call the collision functions of entities if they have them.
 			event = "EntityColliding",
 			func = function(world, ent1, ent2, mtv)
@@ -216,6 +217,7 @@ return {
 				end
 			end
 		},
+		--]]
 
 		{ -- Resolve collisions with physics!
 			event = "EntityColliding",

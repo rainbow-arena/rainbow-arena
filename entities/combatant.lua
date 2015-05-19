@@ -9,15 +9,14 @@ local table_fill = util.table.fill
 
 ---
 
--- TODO: Allow passing raw template, defaults are filled and others are not touched.
--- .new() function, nest these for miniturret.
-
 local e_combatant = {}
 
 function e_combatant.new(template)
 	local radius = template.Radius or 30
 
 	table_fill(template, {
+		Velocity = vector.new(),
+
 		Radius = radius,
 		Mass = circle.area(radius),
 		Color = {255, 255, 255},

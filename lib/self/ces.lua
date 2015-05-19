@@ -8,7 +8,17 @@ local util = require("lib.self.util")
 
 ---
 
-local table_clone = util.table.clone
+-- Shallow clone.
+local function table_clone(t)
+	local n = {}
+
+	for k, v in pairs(t) do
+		n[k] = v
+	end
+
+	return n
+end
+
 local table_has = util.table.has
 
 ---
@@ -58,7 +68,7 @@ function Registry:remove_system(name)
 end
 
 function Registry:spawn_entity(components)
-	local entity = components or {} -- Note no longer clones template
+	local entity = table_clone(components) or {}
 	self.entities[entity] = entity
 	return entity
 end

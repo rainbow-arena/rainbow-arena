@@ -74,38 +74,40 @@ function test:enter(previous, w, h, nbots)
 
 	local combatant = require("entities.combatant")
 
-	world:spawn_entity(combatant{
-		team = "Player",
-		player = true,
+	world:spawn_entity(combatant.new{
+		Team = "Player",
+		Player = true,
 
-		position = find_position(PLAYER_RADIUS),
+		Position = find_position(PLAYER_RADIUS),
 
-		radius = PLAYER_RADIUS,
-		color = {255, 255, 255},
-		health = 30,
+		Radius = PLAYER_RADIUS,
+		Color = {255, 255, 255},
+		Health = 30,
 
-		drag = c_drag,
-		move_acceleration = c_accel,
+		Drag = c_drag,
+		MoveAcceleration = c_accel,
 
-		weapon = require("entities.weapons.projectile.machinegun")()
+		Weapon = require("entities.weapons.projectile.machinegun").new{
+			projectile = require("entities.projectiles.bullet").new(1)
+		}
 	})
 
 	-- Place test balls.
 	for n = 1, 50 do
 		local color = {color.hsv_to_rgb(love.math.random(0, 359), 255, 255)}
 
-		world:spawn_entity(combatant{
-			name = "Ball " .. n,
-			team = "Enemy",
+		world:spawn_entity(combatant.new{
+			Name = "Ball " .. n,
+			Team = "Enemy",
 
-			position = find_position(PLAYER_RADIUS),
+			Position = find_position(PLAYER_RADIUS),
 
-			radius = PLAYER_RADIUS,
-			color = color,
-			health = 30,
+			Radius = PLAYER_RADIUS,
+			Color = color,
+			Health = 30,
 
-			drag = c_drag,
-			move_acceleration = c_accel
+			Drag = c_drag,
+			MoveAcceleration = c_accel
 		})
 	end
 end
