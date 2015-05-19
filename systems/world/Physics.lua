@@ -164,7 +164,7 @@ return {
 				for other in pairs(get_pairs(entity)) do
 					if not ent_colliding(entity, other) then
 						remove_pair(entity, other)
-						world:emit_event("EntityCollisionStop", entity, other)
+						world:emit_event("_EntityCollisionStop", entity, other)
 					end
 				end
 
@@ -175,10 +175,10 @@ return {
 						if col then
 							if not check_pair(entity, other) then
 								add_pair(entity, other)
-								world:emit_event("EntityCollision", entity, other, mtv)
+								world:emit_event("_EntityCollision", entity, other, mtv)
 							end
 
-							world:emit_event("EntityColliding", entity, other, mtv)
+							world:emit_event("_EntityColliding", entity, other, mtv)
 						end
 						---
 					end
@@ -219,6 +219,32 @@ return {
 		},
 		--]]
 
+		-- Metaevent relays.
+		{
+			event = "_EntityCollision",
+			func = function(world, ent1, ent2, mtv)
+				if collision_eligible(ent1, ent2) then
+					world:emit_event("EntityCollision", ent1, ent2, mtv)
+				end
+			end
+		},
+		{
+			event = "_EntityColliding",
+			func = function(world, ent1, ent2, mtv)
+				if collision_eligible(ent1, ent2) then
+					world:emit_event("EntityColliding", ent1, ent2, mtv)
+				end
+			end
+		},
+		{
+			event = "_EntityCollisionStop",
+			func = function(world, ent1, ent2)
+				if collision_eligible(ent1, ent2) then
+					world:emit_event("EntityCollisionStop", ent1, ent2)
+				end
+			end
+		},
+
 		{ -- Resolve collisions with physics!
 			event = "EntityColliding",
 			func = function(world, ent1, ent2, mtv)
@@ -230,6 +256,19 @@ return {
 				if table_has(ent1, REQ) and table_has(ent2, REQ) then
 					world:emit_event("PhysicsCollision", ent1, ent2, mtv)
 					physics_resolve_collision(world, ent1, ent2, mtv)
+				end
+			end
+		},
+
+		{ -- DestroyOnEntityCollision
+			event = "EntityColliding",
+			func = function(world, ent1, ent2, mtv)
+				if ent1.DestroyOnEntityCollision then
+					world:destroy_entity(ent1)
+				end
+
+				if ent2.DestroyOnEntityCollision then
+					world:destroy_entity(ent2)
 				end
 			end
 		}

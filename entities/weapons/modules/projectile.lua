@@ -13,11 +13,12 @@ function wepm_projectile.init(self, projtemp, projvel)
 	self._projvel = projvel
 end
 
-function wepm_projectile.fire_from(self, world, pos, vel)
+function wepm_projectile.fire_from(self, host, world, pos, vel)
 	local proj = world:spawn_entity(self._projectile)
 
 	proj.Position = pos:clone()
 	proj.Velocity = vel:clone()
+	proj.CollisionExcludeEntities = {host}
 
 	return proj
 end
@@ -30,9 +31,9 @@ function wepm_projectile.fire(self, host, world)
 	local dir_vec = vector.new(math.cos(h_rot), math.sin(h_rot))
 	local pointer_vec = dir_vec * h_rad
 
-	local shot_pos_vec = h_pos + dir_vec
+	local shot_pos_vec = h_pos + pointer_vec
 
-	return wepm_projectile.fire_from(self, world, shot_pos_vec, self._projvel * dir_vec)
+	return wepm_projectile.fire_from(self, host, world, shot_pos_vec, self._projvel * dir_vec)
 end
 
 ---

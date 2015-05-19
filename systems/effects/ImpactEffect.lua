@@ -4,6 +4,13 @@ local entity = require("util.entity")
 
 return {
 	events = {
+		{ -- Knockback
+			event = "EntityCollision",
+			func = function(world, ent1, ent2, mtv)
+
+			end
+		},
+
 		{ -- PhysicalDamage
 			event = "EntityCollision",
 			func = function(world, ent1, ent2, mtv)
