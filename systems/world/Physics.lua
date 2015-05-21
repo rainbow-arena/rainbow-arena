@@ -258,8 +258,9 @@ return {
 					physics_resolve_collision(world, ent1, ent2, mtv)
 				end
 			end
-		},
+		}
 
+		--[[
 		{ -- DestroyOnEntityCollision
 			event = "EntityColliding",
 			func = function(world, ent1, ent2, mtv)
@@ -272,5 +273,6 @@ return {
 				end
 			end
 		}
+		--]]
 	}
 }

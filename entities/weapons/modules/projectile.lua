@@ -19,6 +19,7 @@ function wepm_projectile.fire_from(self, host, world, pos, vel)
 	proj.Position = pos:clone()
 	proj.Velocity = vel:clone()
 	proj.CollisionExcludeEntities = {host}
+	proj.Team = host.Team
 
 	return proj
 end

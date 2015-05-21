@@ -35,5 +35,20 @@ return {
 				end
 			end
 		}
+	},
+
+	events = {
+		{ -- DieOnEntityCollision
+			event = "EntityColliding",
+			func = function(world, ent1, ent2, mtv)
+				if ent1.DieOnEntityCollision then
+					ent1.Health = 0
+				end
+
+				if ent2.DieOnEntityCollision then
+					ent2.Health = 0
+				end
+			end
+		}
 	}
 }

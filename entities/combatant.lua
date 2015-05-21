@@ -33,10 +33,6 @@ function e_combatant.new(template)
 		DeathExplosion = true
 	})
 
-	if template.Player then
-		template.CameraTarget = true
-	end
-
 	return template
 end
 

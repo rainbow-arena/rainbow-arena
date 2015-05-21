@@ -74,7 +74,7 @@ function test:enter(previous, w, h, nbots)
 
 	local combatant = require("entities.combatant")
 
-	world:spawn_entity(combatant.new{
+	local player = world:spawn_entity(combatant.new{
 		Team = "Player",
 		Player = true,
 
@@ -91,6 +91,8 @@ function test:enter(previous, w, h, nbots)
 			projectile = require("entities.projectiles.bullet").new(1)
 		}
 	})
+
+	world.camera_target = player
 
 	-- Place test balls.
 	for n = 1, 50 do
