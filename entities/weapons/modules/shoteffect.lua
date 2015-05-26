@@ -1,6 +1,10 @@
 return {
 	init = function(self, arg)
-		if arg.shakedur and arg.shakeamp and arg.shakeradius then
+		assert(arg.shakedur and arg.shakeamp and arg.shakerad
+			or not (arg.shakedur and arg.shakeamp and arg.shakerad),
+			"Screenshake only partially defined!")
+
+		if arg.shakedur and arg.shakeamp and arg.shakerad then
 			self._shakedur = arg.shakedur
 			self._shakeamp = arg.shakeamp
 			self._shakerad = arg.shakerad
@@ -40,5 +44,7 @@ return {
 		local ent = world:spawn_entity(temp)
 
 		ent.Parent = host
+
+		return ent
 	end
 }

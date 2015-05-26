@@ -13,6 +13,7 @@ function e_bullet.new(damage, radius, color)
 		PhysicalDamage = damage,
 
 		CollisionPhysics = true,
+		IgnoreExplosion = true,
 
 		DestroyOutsideArena = true,
 		DieOnEntityCollision = true

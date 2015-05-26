@@ -1,16 +1,14 @@
-local wepm_projectile = {}
-
----
-
 local vector = require("lib.hump.vector")
 
 ---
 
-function wepm_projectile.init(self, projtemp, projvel)
-	assert(projtemp, "Projectile weapon requires projectile!")
+local wepm_projectile = {}
 
-	self._projectile = projtemp
-	self._projvel = projvel
+---
+
+function wepm_projectile.init(self, projectile, shotvel)
+	self._projectile = assert(projectile, "Projectile weapon requires projectile!")
+	self._projvel = assert(shotvel, "Projectile weapon requires shotvel!")
 end
 
 function wepm_projectile.fire_from(self, host, world, pos, vel)

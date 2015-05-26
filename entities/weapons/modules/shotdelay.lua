@@ -1,7 +1,7 @@
 return {
 	init = function(self, delay)
 		self.shottimer = 0
-		self.shotdelay = delay
+		self.shotdelay = assert(delay, "No shot delay specified!")
 	end,
 
 	on_fire = function(self, host, world)

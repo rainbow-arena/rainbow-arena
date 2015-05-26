@@ -96,7 +96,7 @@ function util.table.check(t, keys, msg)
 	end
 
 	if #missing > 0 then
-		return false, (msg and (msg .. ": ") or "") "missing fields: " .. table.concat(missing, ", ")
+		return false, (msg and (msg .. ": ") or "") .. "missing fields: " .. table.concat(missing, ", ")
 	else
 		return true
 	end

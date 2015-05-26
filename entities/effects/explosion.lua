@@ -33,7 +33,7 @@ function e_explosion:init(arg)
 			if entity.Color then entity.ColorPulse = impact end
 
 			-- Apply explosion force.
-			if entity.CollisionPhysics and entity.Velocity then
+			if entity.CollisionPhysics and entity.Velocity and not entity.IgnoreExplosion then
 				entity.Velocity = entity.Velocity + impact * ((arg.force or 10^6) / entity.Mass) * dir_vec
 			end
 

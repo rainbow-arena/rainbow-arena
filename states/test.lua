@@ -87,8 +87,10 @@ function test:enter(previous, w, h, nbots)
 		Drag = c_drag,
 		MoveAcceleration = c_accel,
 
-		Weapon = require("entities.weapons.projectile.machinegun").new{
-			projectile = require("entities.projectiles.bullet").new(1)
+		Weapon = require("entities.weapons.projectile.auto").new{
+			projectile = require("entities.projectiles.bullet").new(2),
+			shotvel = 400,
+			shotdelay = 0.3
 		}
 	})
 
