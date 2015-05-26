@@ -53,20 +53,20 @@ end
 
 ---
 -- TODO: Separate fire stuff to allow shotguns and burst.
-function wep_projectile_base:fire_projectile(host, world, pos)
-	local proj = wepm_projectile.fire(self, host, world, pos)
+function wep_projectile_base:fire_projectile(host, world)
+	return wepm_projectile.fire(self, host, world)
+end
 
-	wepm_shotdelay.on_fire(self, host, world)
-	wepm_shoteffect.do_effect(self, host, world)
+-- Does recoil and color pulse.
+function wep_projectile_base:fire_effect(host, world, proj)
 	wepm_recoil.apply(self, host, proj)
-
 	host.ColorPulse = 1
 end
 
-function wep_projectile_base:fire_when_ready(host, world, pos, spread)
-	if self:can_fire(world) then
-		self:fire_projectile(host, world, pos, spread)
-	end
+-- Resets shot delay and does screenshake and sound.
+function wep_projectile_base:fire_done(host, world)
+	wepm_shotdelay.on_fire(self, host, world)
+	wepm_shoteffect.do_effect(self, host, world)
 end
 
 ---
