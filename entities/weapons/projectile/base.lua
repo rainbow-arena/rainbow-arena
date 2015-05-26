@@ -38,7 +38,7 @@ function wep_projectile_base.new(args)
 		shotsound = args.shotsound or "audio/weapons/laser_shot.wav"
 	})
 
-	wepm_projectile.init(w, args.projectile, args.shotvel)
+	wepm_projectile.init(w, args.projectile, args.shotvel, args.spread)
 
 	---
 
@@ -52,9 +52,9 @@ function wep_projectile_base:can_fire(host, world)
 end
 
 ---
-
-function wep_projectile_base:fire_projectile(host, world)
-	local proj = wepm_projectile.fire(self, host, world)
+-- TODO: Separate fire stuff to allow shotguns and burst.
+function wep_projectile_base:fire_projectile(host, world, pos)
+	local proj = wepm_projectile.fire(self, host, world, pos)
 
 	wepm_shotdelay.on_fire(self, host, world)
 	wepm_shoteffect.do_effect(self, host, world)
@@ -63,9 +63,9 @@ function wep_projectile_base:fire_projectile(host, world)
 	host.ColorPulse = 1
 end
 
-function wep_projectile_base:fire_when_ready(host, world)
+function wep_projectile_base:fire_when_ready(host, world, pos, spread)
 	if self:can_fire(world) then
-		self:fire_projectile(host, world)
+		self:fire_projectile(host, world, pos, spread)
 	end
 end
 

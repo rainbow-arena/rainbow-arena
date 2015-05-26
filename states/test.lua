@@ -90,7 +90,8 @@ function test:enter(previous, w, h, nbots)
 		Weapon = require("entities.weapons.projectile.auto").new{
 			projectile = require("entities.projectiles.bullet").new(2),
 			shotvel = 400,
-			shotdelay = 0.3
+			shotdelay = 0.2,
+			spread = math.pi/24
 		}
 	})
 

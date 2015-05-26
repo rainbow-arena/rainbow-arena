@@ -6,13 +6,14 @@ local wepm_projectile = {}
 
 ---
 
-function wepm_projectile.init(self, projectile, shotvel)
-	self._projectile = assert(projectile, "Projectile weapon requires projectile!")
-	self._projvel = assert(shotvel, "Projectile weapon requires shotvel!")
+function wepm_projectile.init(self, projectile, shotvel, spread)
+	self.projectile = assert(projectile, "Projectile weapon requires projectile!")
+	self.shotvel = assert(shotvel, "Projectile weapon requires shotvel!")
+	self.spread = spread
 end
 
 function wepm_projectile.fire_from(self, host, world, pos, vel)
-	local proj = world:spawn_entity(self._projectile)
+	local proj = world:spawn_entity(self.projectile)
 
 	proj.Position = pos:clone()
 	proj.Velocity = vel:clone()
@@ -28,11 +29,16 @@ function wepm_projectile.fire(self, host, world)
 	local h_rad = host.Radius
 
 	local dir_vec = vector.new(math.cos(h_rot), math.sin(h_rot))
+
+	if self.spread then
+		local amp = love.math.random() - 0.5
+		dir_vec:rotate_inplace(amp * self.spread) -- Apply spread.
+	end
+
 	local pointer_vec = dir_vec * h_rad
+	local pos = h_pos + pointer_vec
 
-	local shot_pos_vec = h_pos + pointer_vec
-
-	return wepm_projectile.fire_from(self, host, world, shot_pos_vec, self._projvel * dir_vec)
+	return wepm_projectile.fire_from(self, host, world, pos, self.shotvel * dir_vec)
 end
 
 ---

@@ -5,13 +5,13 @@ return {
 			"Screenshake only partially defined!")
 
 		if arg.shakedur and arg.shakeamp and arg.shakerad then
-			self._shakedur = arg.shakedur
-			self._shakeamp = arg.shakeamp
-			self._shakerad = arg.shakerad
+			self.shakedur = arg.shakedur
+			self.shakeamp = arg.shakeamp
+			self.shakerad = arg.shakerad
 		end
 
 		if arg.shotsound then
-			self._shotsound = arg.shotsound
+			self.shotsound = arg.shotsound
 
 			local sd = love.sound.newSoundData(arg.shotsound)
 			self._shotsoundlen = sd:getDuration()
@@ -24,20 +24,20 @@ return {
 
 			DestroyWithParent = true,
 
-			Lifetime = math.max(self._shakedur or 0, self._shotsoundlen or 0)
+			Lifetime = math.max(self.shakedur or 0, self._shotsoundlen or 0)
 		}
 
 		if self._shakedur then
 			temp.Screenshake = {
-				duration = self._shakedur,
-				intensity = self._shakeamp,
-				radius = self._shakerad
+				duration = self.shakedur,
+				intensity = self.shakeamp,
+				radius = self.shakerad
 			}
 		end
 
 		if self._shotsound then
 			temp.Sound = {
-				source = love.audio.newSource(self._shotsound)
+				source = love.audio.newSource(self.shotsound)
 			}
 		end
 
