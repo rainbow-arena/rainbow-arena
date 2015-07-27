@@ -16,7 +16,12 @@ function e_bullet.new(damage, radius, color)
 		IgnoreExplosion = true,
 
 		DestroyOutsideArena = true,
-		DieOnEntityCollision = true
+		DieOnEntityCollision = true,
+
+		Bullet = true,
+		CollisionExcludeComponents = {"Bullet"},
+
+		--CollisionExcludeOwnTeam = true
 	}
 
 	bullet.Mass = circle.area(bullet.Radius)

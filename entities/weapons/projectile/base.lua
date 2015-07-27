@@ -57,16 +57,16 @@ function wep_projectile_base:fire_projectile(host, world)
 	return wepm_projectile.fire(self, host, world)
 end
 
--- Does recoil and color pulse.
+-- Does recoil and color pulse and does screenshake and sound.
 function wep_projectile_base:fire_effect(host, world, proj)
 	wepm_recoil.apply(self, host, proj)
+	wepm_shoteffect.do_effect(self, host, world)
 	host.ColorPulse = 1
 end
 
--- Resets shot delay and does screenshake and sound.
+-- Resets shot delay.
 function wep_projectile_base:fire_done(host, world)
 	wepm_shotdelay.on_fire(self, host, world)
-	wepm_shoteffect.do_effect(self, host, world)
 end
 
 ---

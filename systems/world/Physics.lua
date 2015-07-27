@@ -51,6 +51,15 @@ local function collision_eligible(ent1, ent2)
 		end
 	end
 
+	---
+
+
+	if (ent1.CollisionExcludeOwnTeam or ent2.CollisionExcludeOwnTeam) and ent1.Team == ent2.Team then
+		return false
+	end
+
+	---
+
 	return true
 end
 
