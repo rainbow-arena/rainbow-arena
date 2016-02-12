@@ -11,10 +11,10 @@ local circle = require("util.circle")
 
 
 --- System definition ---
-local DrawEntity = tiny.processingSystem()
-DrawEntity.filter = tiny.requireAll("Position", "Radius", "Color")
+local sys_DrawEntity = tiny.processingSystem()
+sys_DrawEntity.filter = tiny.requireAll("Position", "Radius", "Color")
 
-DrawEntity.isDrawSystem = true
+sys_DrawEntity.isDrawSystem = true
 --- ==== ---
 
 
@@ -59,8 +59,6 @@ end
 
 local function draw_entity_circle(e)
 	local pos = e.Position
-	local floored_pos = {x = math.floor(pos.x), y = math.floor(pos.y)}
-
 	local radius = e.Radius
 	local color = e.Color
 
@@ -80,11 +78,11 @@ local function draw_entity_circle(e)
 		fill_radius = fill_radius * (util.math.clamp(0, e.Health / e.MaxHealth, 1))
 	end
 	love.graphics.setColor(color[1] * amp, color[2] * amp, color[3] * amp)
-	love.graphics.circle("fill", floored_pos.x, floored_pos.y, fill_radius)
+	love.graphics.circle("fill", pos.x, pos.y, fill_radius)
 
 
 	love.graphics.setColor(color)
-	love.graphics.circle("line", floored_pos.x, floored_pos.y, radius)
+	love.graphics.circle("line", pos.x, pos.y, radius)
 end
 
 local function draw_entity_aiming(e)
@@ -94,7 +92,7 @@ local function draw_entity_aiming(e)
 	local ex, ey = sx + radius * math.cos(angle), sy + radius * math.sin(angle)
 
 	love.graphics.setColor(e.Color)
-	love.graphics.line(math.floor(sx),math.floor(sy), math.floor(ex),math.floor(ey))
+	love.graphics.line(sx,sy, ex,ey)
 end
 
 
@@ -112,7 +110,7 @@ local function draw_entity_debug_info(e)
 	end
 
 	if e.ColorIntensity then
-		str_t[#str_t + 1] = ("Shine: %.2f"):format(e.ColorIntensity)
+		str_t[#str_t + 1] = ("ColorIntensity: %.2f"):format(e.ColorIntensity)
 	end
 
 	---
@@ -143,7 +141,7 @@ end
 
 
 --- System functions ---
-function DrawEntity:onAddToWorld(world)
+function sys_DrawEntity:onAddToWorld(world)
 	local world = world.world
 
 	-- Combatants blink upon hitting eachother.
@@ -155,7 +153,7 @@ function DrawEntity:onAddToWorld(world)
 	end)
 end
 
-function DrawEntity:process(e, dt)
+function sys_DrawEntity:process(e, dt)
 	local world = self.world.world
 
 	draw_entity_circle(e)
@@ -172,4 +170,4 @@ function DrawEntity:process(e, dt)
 end
 --- ==== ---
 
-return Class(DrawEntity)
+return Class(sys_DrawEntity)

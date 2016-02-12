@@ -11,8 +11,8 @@ local circle = require("util.circle")
 
 
 --- System definition ---
-local Collision = tiny.processingSystem()
-Collision.filter = tiny.requireAll("Position", "Radius", "Velocity", "Mass")
+local sys_Collision = tiny.processingSystem()
+sys_Collision.filter = tiny.requireAll("Position", "Radius", "Velocity", "Mass")
 --- ==== ---
 
 
@@ -112,25 +112,25 @@ end
 
 
 --- System functions ---
-function Collision:onAddToWorld(world)
+function sys_Collision:onAddToWorld(world)
 	local world = world.world
 
 
 	-- Relay collision events if entities can collide.
 	world:register_event("_EntityCollision", function(world, e1, e2, mtv)
-		if can_entities_collide() then
+		if can_entities_collide(world, e1, e2) then
 			world:emit_event("EntityCollision", e1, e2, mtv)
 		end
 	end)
 
 	world:register_event("_EntityColliding", function(world, e1, e2, mtv)
-		if can_entities_collide() then
+		if can_entities_collide(world, e1, e2) then
 			world:emit_event("EntityColliding", e1, e2, mtv)
 		end
 	end)
 
 	world:register_event("_EntityCollisionStop", function(world, e1, e2)
-		if can_entities_collide() then
+		if can_entities_collide(world, e1, e2) then
 			world:emit_event("EntityCollisionStop", e1, e2)
 		end
 	end)
@@ -144,15 +144,24 @@ function Collision:onAddToWorld(world)
 		}
 
 		if util.table.has(e1, REQ) and util.table.has(e2, REQ) then
-			world:emit_event("CollisionCollision", e1, e2, mtv)
+			world:emit_event("PhysicsCollision", e1, e2, mtv)
 			resolve_collision(world, e1, e2, mtv)
 		end
 	end)
 end
 
-function Collision:process(e, dt)
+function sys_Collision:process(e, dt)
 	local world = self.world.world
 
+	-- First check whether any registered collisions have stopped.
+	for other in pairs(get_pairs(e)) do
+		if not are_entities_colliding(e, other) then
+			remove_pair(e, other)
+			world:emit_event("_EntityCollisionStop", e, other)
+		end
+	end
+
+	-- Then check for collisions normally.
 	for other in pairs(world.hash:get_objects_in_range(get_entity_aabb(e))) do
 		if other ~= e then
 			local col, mtv = are_entities_colliding(e, other)
@@ -170,4 +179,4 @@ function Collision:process(e, dt)
 end
 --- ==== ---
 
-return Class(Collision)
+return Class(sys_Collision)

@@ -7,8 +7,8 @@ local tiny = require("lib.tiny")
 
 
 --- System definition ---
-local Motion = tiny.processingSystem()
-Motion.filter = tiny.requireAll("Position", "Velocity")
+local sys_Motion = tiny.processingSystem()
+sys_Motion.filter = tiny.requireAll("Position", "Velocity")
 --- ==== ---
 
 
@@ -17,18 +17,22 @@ Motion.filter = tiny.requireAll("Position", "Velocity")
 
 
 --- System functions ---
-function Motion:process(e, dt)
+function sys_Motion:process(e, dt)
 	local world = self.world.world
 
-	--- Apply Velocity to Position.
-	world:move_entity(e, e.Position + e.Velocity * dt)
-
-
-	--- Apply Acceleration to Velocity.
-	if e.Acceleration then
-		e.Velocity = e.Velocity + (e.Acceleration * e.Velocity) * dt
+	-- Convert Force into Acceleration.
+	if e.Force then
+		e.Acceleration = e.Force / e.Mass
 	end
+
+	-- Apply Acceleration to Velocity.
+	if e.Acceleration then
+		e.Velocity = e.Velocity + e.Acceleration * dt
+	end
+
+	-- Apply Velocity to Position.
+	world:move_entity(e, e.Position + e.Velocity * dt)
 end
 --- ==== ---
 
-return Class(Motion)
+return Class(sys_Motion)
