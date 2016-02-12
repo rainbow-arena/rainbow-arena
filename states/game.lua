@@ -1,4 +1,5 @@
 --- Require ---
+local vector = require("lib.hump.vector")
 --- ==== ---
 
 
@@ -13,9 +14,23 @@ local Game = {}
 
 
 --- Gamestate functions ---
+local function spawn_test_entities(world)
+	world:add_entity{
+		Position = vector.new(400, 400),
+		Radius = 30,
+		Color = {255, 255, 255},
+		AimAngle = 0
+	}
+end
+
+
 -- Entering and leaving ---
 function Game:init()
 	self.world = World()
+
+	---
+
+	spawn_test_entities(self.world)
 end
 
 function Game:enter(prev, ...)
