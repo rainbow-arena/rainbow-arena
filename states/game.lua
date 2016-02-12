@@ -1,9 +1,9 @@
 --- Require ---
-local util = require("lib.self.util")
 --- ==== ---
 
 
 --- Classes ---
+local World = require("World")
 --- ==== ---
 
 
@@ -15,7 +15,7 @@ local Game = {}
 --- Gamestate functions ---
 -- Entering and leaving ---
 function Game:init()
-
+	self.world = World()
 end
 
 function Game:enter(prev, ...)
@@ -30,11 +30,11 @@ end
 
 -- Updating ---
 function Game:update(dt)
-
+	self.world:update(dt)
 end
 
 function Game:draw()
-
+	self.world:draw()
 end
 -- ==== --
 

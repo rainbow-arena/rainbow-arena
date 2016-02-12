@@ -2,6 +2,8 @@
 local Class = require("lib.hump.class")
 local vector = require("lib.hump.vector")
 
+local tiny = require("lib.tiny")
+
 local util = require("lib.util")
 
 local circle = require("util.circle")
@@ -9,8 +11,8 @@ local circle = require("util.circle")
 
 
 --- System definition ---
-local Collision = tiny.processingSystem(Class())
-Collision.filter = tiny.requireAll("Position", "Radius", "Velocity")
+local Physics = tiny.processingSystem()
+Physics.filter = tiny.requireAll("Position", "Radius", "Velocity")
 --- ==== ---
 
 
@@ -110,7 +112,7 @@ end
 
 
 --- System functions ---
-function Collision:onAddToWorld(world)
+function Physics:onAddToWorld(world)
 	local world = world.world
 
 
@@ -138,7 +140,6 @@ function Collision:onAddToWorld(world)
 	-- Resolve collisions.
 	world:register_event("EntityCollision", function(world, e1, e2)
 		local REQ = {
-			"CollisionPhysics",
 			"Mass"
 		}
 
@@ -149,7 +150,7 @@ function Collision:onAddToWorld(world)
 	end)
 end
 
-function Collision:process(e, dt)
+function Physics:process(e, dt)
 	local world = self.world.world
 
 	--- Apply Velocity to Position.
@@ -189,4 +190,4 @@ function Collision:process(e, dt)
 end
 --- ==== ---
 
-return Collision
+return Class(Physics)

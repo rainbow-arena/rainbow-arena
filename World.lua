@@ -2,6 +2,7 @@
 local Class = require("lib.hump.class")
 local signal = require("lib.hump.signal")
 local vector = require("lib.hump.vector")
+local camera = require("lib.hump.camera")
 
 local tiny = require("lib.tiny")
 
@@ -9,6 +10,7 @@ local SH = require("lib.spatialhash")
 local util = require("lib.util")
 
 local circle = require("util.circle")
+local file = require("util.file")
 --- ==== ---
 
 
@@ -29,14 +31,23 @@ function World:init(system_dir)
 
 	self.hash = SH.new()
 	self.event = signal.new()
+
+	---
+
+	self.speed = 1
+
+	---
+
+	self:load_systems(system_dir or "systems")
 end
 
 function World:update(dt)
-	self.ecs:update(dt)
+	self.dt = dt
+	self.ecs:update(dt * self.speed, tiny.rejectAll("isDrawSystem"))
 end
 
 function World:draw()
-
+	self.ecs:update(self.dt * self.speed, tiny.requireAll("isDrawSystem"))
 end
 -- ==== --
 
@@ -83,6 +94,18 @@ end
 
 function World:emit_event(event, ...)
 	self.event.emit(event, self, ...)
+end
+-- ==== --
+
+
+-- Systems --
+function World:load_systems(system_dir)
+	file.diriter(system_dir, function(dir, item)
+		if item:find(".lua$") then
+			local system = love.filesystem.load(dir .. "/" .. item)()
+			self.ecs:addSystem(system)
+		end
+	end)
 end
 -- ==== --
 --- ==== ---
