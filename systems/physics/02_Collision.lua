@@ -11,8 +11,8 @@ local circle = require("util.circle")
 
 
 --- System definition ---
-local Physics = tiny.processingSystem()
-Physics.filter = tiny.requireAll("Position", "Radius", "Velocity")
+local Collision = tiny.processingSystem()
+Collision.filter = tiny.requireAll("Position", "Radius", "Velocity", "Mass")
 --- ==== ---
 
 
@@ -43,8 +43,8 @@ local function resolve_collision(world, e1, e2, mtv)
 
 	else
 		local masses = (e1.Mass + e2.Mass)
-		world:move_entity(e1, e2.Position + (e2.Mass/masses) * mtv)
-		world:move_entity(e1, e2.Position - (e2.Mass/masses) * mtv)
+		world:move_entity(e1, e1.Position + (e2.Mass/masses) * mtv)
+		world:move_entity(e2, e2.Position - (e1.Mass/masses) * mtv)
 	end
 
 	if e2.Velocity then
@@ -112,7 +112,7 @@ end
 
 
 --- System functions ---
-function Physics:onAddToWorld(world)
+function Collision:onAddToWorld(world)
 	local world = world.world
 
 
@@ -138,41 +138,21 @@ function Physics:onAddToWorld(world)
 	---
 
 	-- Resolve collisions.
-	world:register_event("EntityCollision", function(world, e1, e2)
+	world:register_event("EntityCollision", function(world, e1, e2, mtv)
 		local REQ = {
 			"Mass"
 		}
 
-		if util.table.has(ent1, REQ) and util.table.has(ent2, REQ) then
-			world:emit_event("PhysicsCollision", ent1, ent2, mtv)
-			resolve_collision(world, ent1, ent2, mtv)
+		if util.table.has(e1, REQ) and util.table.has(e2, REQ) then
+			world:emit_event("CollisionCollision", e1, e2, mtv)
+			resolve_collision(world, e1, e2, mtv)
 		end
 	end)
 end
 
-function Physics:process(e, dt)
+function Collision:process(e, dt)
 	local world = self.world.world
 
-	--- Apply Velocity to Position.
-	world:move_entity(e, e.Position + e.Velocity * dt)
-
-
-	--- Apply Acceleration to Velocity.
-	if e.Acceleration then
-		e.Velocity = e.Velocity + (e.Acceleration * e.Velocity) * dt
-	end
-
-
-	--- Detect collisions.
-	-- First, check whether any registered collisions have stopped.
-	for other in pairs(get_pairs(e)) do
-		if not are_ents_colliding(e, other) then
-			remove_pair(e, other)
-			world:emit_event("_EntityCollisionStop", e, other)
-		end
-	end
-
-	-- Then, check for collisions.
 	for other in pairs(world.hash:get_objects_in_range(get_entity_aabb(e))) do
 		if other ~= e then
 			local col, mtv = are_entities_colliding(e, other)
@@ -190,4 +170,4 @@ function Physics:process(e, dt)
 end
 --- ==== ---
 
-return Class(Physics)
+return Class(Collision)
