@@ -19,10 +19,10 @@ sys_DrawEntity.isDrawSystem = true
 
 
 --- Constants ---
-local INTENSITY_DECAY_RATE = 1
+local COLOR_INTENSITY_DECAY_RATE = 1
 
-local MIN_INTENSITY = 0.3
-local MAX_INTENSITY = 0.7
+local MIN_COLOR_INTENSITY = 0.3
+local MAX_COLOR_INTENSITY = 0.7
 
 local MAX_PULSE_SPEED = 600
 --- ==== ---
@@ -60,14 +60,14 @@ local function draw_entity_circle(e)
 		e.ColorIntensity = util.math.clamp(0, e.ColorIntensity, 1)
 	end
 
-	local amp = util.math.map(e.ColorIntensity, 0,1, MIN_INTENSITY,MAX_INTENSITY)
+	local amp = util.math.map(e.ColorIntensity, 0,1, MIN_COLOR_INTENSITY,MAX_COLOR_INTENSITY)
 
 	---
 
 	-- Fill radius is based on health.
 	local fill_radius = radius
-	if e.Health and e.MaxHealth then
-		fill_radius = fill_radius * (util.math.clamp(0, e.Health / e.MaxHealth, 1))
+	if e.Health then
+		fill_radius = fill_radius * (util.math.clamp(0, e.Health.current / e.Health.max, 1))
 	end
 	love.graphics.setColor(color[1] * amp, color[2] * amp, color[3] * amp)
 	love.graphics.circle("fill", pos.x, pos.y, fill_radius)
@@ -101,6 +101,10 @@ local function draw_entity_debug_info(e)
 		str_t[#str_t + 1] = ("Velocity: (%.2f, %.2f)"):format(e.Velocity.x, e.Velocity.y)
 	end
 
+	if e.Health then
+		str_t[#str_t + 1] = ("Health: %d/%d"):format(e.Health.current, e.Health.max)
+	end
+
 	if e.ColorIntensity then
 		str_t[#str_t + 1] = ("ColorIntensity: %.2f"):format(e.ColorIntensity)
 	end
@@ -121,7 +125,7 @@ end
 ---
 
 local function restore_color_amp(e, dt)
-	local step = INTENSITY_DECAY_RATE*dt
+	local step = COLOR_INTENSITY_DECAY_RATE*dt
 
 	if e.ColorIntensity < step then
 		e.ColorIntensity = 0
@@ -140,8 +144,8 @@ function sys_DrawEntity:onAddToWorld(world)
 	world:register_event("PhysicsCollision", function(world, e1, e2, mtv)
 		local v1, v2 = calculate_double_entity_pulse(e1, e2)
 
-		e1.ColorIntensity = v1
-		e2.ColorIntensity = v2
+		if e1.pulse then e1:pulse(v1) end
+		if e2.pulse then e2:pulse(v2) end
 	end)
 end
 
