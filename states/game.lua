@@ -26,13 +26,17 @@ local function spawn_test_entities(world)
 
 	---
 
-	world:add_entity(ent_Combatant{
+	local poorguy = world:add_entity(ent_Combatant{
 		Position = vector.new(500, window_h/2),
 		Radius = 60,
 		Force = vector.new(1000000, 0),
 		Color = {255, 100, 100},
 		DesiredAimAngle = 0
 	})
+
+	timer.every(0.1, function()
+		poorguy.Health.current = poorguy.Health.current - 100	
+	end)
 
 	world:add_entity(ent_Combatant{
 		Position = vector.new(window_w - 500, window_h/2),
@@ -41,6 +45,7 @@ local function spawn_test_entities(world)
 		DesiredAimAngle = math.pi
 	})
 
+	--[[
 	world:register_event("EntityCollision", function(world, e1, e2, mtv)
 		world:add_entity(ent_Explosion{
 			position = entity.getmidpoint(e1, e2),
@@ -50,6 +55,7 @@ local function spawn_test_entities(world)
 			force = 0
 		})
 	end)
+	]]--
 end
 
 
@@ -58,7 +64,7 @@ function Game:init()
 	self.world = World()
 
 	self.world.DEBUG = true
-	self.world.speed = 5
+	self.world.speed = 1
 
 	---
 
