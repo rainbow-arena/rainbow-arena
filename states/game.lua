@@ -25,14 +25,17 @@ local function spawn_test_entities(world)
 
 	world:add_entity(ent_Combatant{
 		Position = vector.new(200, window_h/2),
+		Radius = 60,
 		Force = vector.new(1000000, 0),
-		Color = {255, 100, 100}
+		Color = {255, 100, 100},
+		DesiredAimAngle = 0
 	})
 
 	world:add_entity(ent_Combatant{
 		Position = vector.new(window_w - 200, window_h/2),
 		Force = vector.new(-1000000, 0),
-		Color = {100, 100, 255}
+		Color = {100, 100, 255},
+		DesiredAimAngle = math.pi
 	})
 end
 
