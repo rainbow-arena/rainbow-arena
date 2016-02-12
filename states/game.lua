@@ -7,6 +7,8 @@ local circle = require("util.circle")
 
 --- Classes ---
 local World = require("World")
+
+local ent_Combatant = require("entities.Combatant")
 --- ==== ---
 
 
@@ -17,33 +19,26 @@ local Game = {}
 
 --- Gamestate functions ---
 local function spawn_test_entities(world)
-	world:add_entity{
-		Position = vector.new(1280, 720/2),
-		Radius = 30,
+	local window_w, window_h = love.graphics.getDimensions()
 
-		Velocity = vector.new(-400, 1),
-		Mass = circle.area(30),
-
-		Color = {0, 0, 255},
-		AimAngle = 0,
-
-		MaxHealth = 30,
-		Health = 20
-	}
+	---
 
 	world:add_entity{
-		Position = vector.new(0, 720/2),
+		Position = vector.new(100, 100),
 		Radius = 30,
-
-		Velocity = vector.new(400, 0),
-		Mass = circle.area(30),
-
-		Color = {255, 0, 0},
-		AimAngle = 0,
-
-		MaxHealth = 30,
-		Health = 20
+		Color = {255, 255, 255},
+		AimAngle = 4
 	}
+
+	world:add_entity(ent_Combatant{
+		Position = vector.new(200, window_h/2),
+		Force = vector.new(1000000, 0)
+	})
+
+	world:add_entity(ent_Combatant{
+		Position = vector.new(window_w - 200, window_h/2),
+		Force = vector.new(-1000000, 0)
+	})
 end
 
 
@@ -52,7 +47,7 @@ function Game:init()
 	self.world = World()
 
 	self.world.DEBUG = true
-	self.world.speed = 0.25
+	self.world.speed = 1
 
 	---
 
