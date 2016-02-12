@@ -19,9 +19,12 @@ local ent_Combatant = {}
 
 --- Class functions ---
 function ent_Combatant:init(template)
-	assert(util.table.check(template, {"Position"}))
+	assert(util.table.check(template, {
+		"Position"
+	}, "Combatant"))
 
-	local radius = template.Radius or 30
+	local radius = math.floor(template.Radius or 30)
+	local health = radius^2
 
 	util.table.fill(template, {
 		Velocity = vector.new(),
@@ -36,13 +39,18 @@ function ent_Combatant:init(template)
 		DesiredAimAngle = 0,
 		AimSpeed = 4,
 
-		Health = 30,
-		MaxHealth = 30,
+		ColorIntensity = 0,
+
+		Health = {max = health, current = health},
 
 		ExplodeOnDeath = true
 	})
 
 	util.table.fill(self, template)
+end
+
+function ent_Combatant:pulse(amp)
+	self.ColorIntensity = util.math.clamp(0, self.ColorIntensity + amp, 1)
 end
 --- ==== ---
 

@@ -1,5 +1,6 @@
 --- Require ---
 local vector = require("lib.hump.vector")
+local timer = require("lib.hump.timer")
 
 local circle = require("util.circle")
 --- ==== ---
@@ -9,6 +10,7 @@ local circle = require("util.circle")
 local World = require("World")
 
 local ent_Combatant = require("entities.Combatant")
+local ent_Explosion = require("entities.Explosion")
 --- ==== ---
 
 
@@ -24,19 +26,29 @@ local function spawn_test_entities(world)
 	---
 
 	world:add_entity(ent_Combatant{
-		Position = vector.new(200, window_h/2),
+		Position = vector.new(500, window_h/2),
 		Radius = 60,
-		Force = vector.new(1000000, 0),
+		Force = vector.new(100000, 0),
 		Color = {255, 100, 100},
 		DesiredAimAngle = 0
 	})
 
 	world:add_entity(ent_Combatant{
-		Position = vector.new(window_w - 200, window_h/2),
-		Force = vector.new(-1000000, 0),
+		Position = vector.new(window_w - 500, window_h/2),
+		Force = vector.new(-100000, 0),
 		Color = {100, 100, 255},
 		DesiredAimAngle = math.pi
 	})
+
+	world:register_event("EntityCollision", function(world, e1, e2, mtv)
+		world:add_entity(ent_Explosion{
+			position = e1.Position + (e2.Position - e1.Position):normalized() * e1.Radius,
+			radius = 50,
+			duration = 2,
+			damage = 10,
+			force = 0
+		})
+	end)
 end
 
 
@@ -45,7 +57,7 @@ function Game:init()
 	self.world = World()
 
 	self.world.DEBUG = true
-	self.world.speed = 1
+	self.world.speed = 5
 
 	---
 
@@ -64,11 +76,39 @@ end
 
 -- Updating ---
 function Game:update(dt)
+	if not love.keyboard.isDown("space") then
+		--dt = 0
+	end
+
 	self.world:update(dt)
+	timer.update(dt)
+end
+
+---
+
+local function draw_debug_info(self, x, y)
+	local str_t = {}
+
+	---
+
+	--str_t[#str_t + 1] = (""):format()
+
+	str_t[#str_t + 1] = ("Entities: %d"):format(self.ecs:getEntityCount())
+
+	---
+
+	local str = table.concat(str_t, "\n")
+
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.print(str, math.floor(x), math.floor(y))
 end
 
 function Game:draw()
 	self.world:draw()
+
+	if self.world.DEBUG then
+		draw_debug_info(self.world, 10, 10)
+	end
 end
 -- ==== --
 
