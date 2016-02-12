@@ -60,6 +60,8 @@ function World:add_entity(e)
 		self.hash:insert_object(e, circle.aabb(
 			e.Radius, e.Position.x,e.Position.y))
 	end
+
+	return e
 end
 
 function World:move_entity(e, newpos_vec)
@@ -69,10 +71,10 @@ function World:move_entity(e, newpos_vec)
 	e.Position = newpos_vec
 
 	if e.Radius then
-		local old_x1,old_y1, old_x2,old_y2 = circle_aabb(e.Radius, oldpos_vec.x, oldpos_vec.y)
-		local new_x1,new_y1, new_x2,new_y2 = circle_aabb(e.Radius, newpos_vec.x, newpos_vec.y)
+		local old_x1,old_y1, old_x2,old_y2 = circle.aabb(e.Radius, oldpos_vec.x, oldpos_vec.y)
+		local new_x1,new_y1, new_x2,new_y2 = circle.aabb(e.Radius, newpos_vec.x, newpos_vec.y)
 
-		self.hash:move_object(entity, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
+		self.hash:move_object(e, old_x1,old_y1, old_x2,old_y2, new_x1,new_y1, new_x2,new_y2)
 	end
 end
 
@@ -102,6 +104,7 @@ end
 function World:load_systems(system_dir)
 	file.diriter(system_dir, function(dir, item)
 		if item:find(".lua$") then
+			print("Adding system: " .. dir .. "/" .. item)
 			local system = love.filesystem.load(dir .. "/" .. item)()
 			self.ecs:addSystem(system)
 		end
