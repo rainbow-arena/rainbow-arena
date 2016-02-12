@@ -95,8 +95,8 @@ local function draw_entity_debug_info(e)
 
 	local text_w = love.graphics.getFont():getWidth(str)
 
-	local x = e.Position.x
-	local y = e.Position.y
+	local x = e.Position.x - text_w/2
+	local y = e.Position.y + 10
 
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.print(str, math.floor(x), math.floor(y))
