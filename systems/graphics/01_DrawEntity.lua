@@ -19,12 +19,12 @@ sys_DrawEntity.isDrawSystem = true
 
 
 --- Constants ---
-local INTENSITY_DECAY_RATE = 2
+local INTENSITY_DECAY_RATE = 1
 
 local MIN_INTENSITY = 0.3
 local MAX_INTENSITY = 0.7
 
-local MAX_PULSE_SPEED = 500
+local MAX_PULSE_SPEED = 600
 --- ==== ---
 
 
@@ -39,20 +39,12 @@ local function calculate_double_entity_pulse(e1, e2)
 	local v1 = e1.Velocity:projectOn(diff)
 	local v2 = e2.Velocity:projectOn(diff)
 
-	print("e1 was going at", e1.Velocity:len())
-	print("e2 was going at", e2.Velocity:len())
-
-	print("e1's common velocity was", v1:len())
-	print("e2's common velocity was", v2:len())
-
-	local vf = (v1 + v2):len()
-
 	local res1 = calculate_single_entity_pulse(e1, v1:len())
 	local res2 = calculate_single_entity_pulse(e2, v2:len())
 
-	print(res1, res2)
+	local res = (res1 + res2)/2
 
-	return res1, res2
+	return res, res
 end
 
 ---
