@@ -20,4 +20,10 @@ end
 
 ---
 
+function entity.getmidpoint(e1, e2)
+	return e1.Position + (e2.Position - e1.Position):normalized() * e1.Radius
+end
+
+---
+
 return entity

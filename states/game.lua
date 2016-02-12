@@ -3,6 +3,7 @@ local vector = require("lib.hump.vector")
 local timer = require("lib.hump.timer")
 
 local circle = require("util.circle")
+local entity = require("util.entity")
 --- ==== ---
 
 
@@ -28,21 +29,21 @@ local function spawn_test_entities(world)
 	world:add_entity(ent_Combatant{
 		Position = vector.new(500, window_h/2),
 		Radius = 60,
-		Force = vector.new(100000, 0),
+		Force = vector.new(1000000, 0),
 		Color = {255, 100, 100},
 		DesiredAimAngle = 0
 	})
 
 	world:add_entity(ent_Combatant{
 		Position = vector.new(window_w - 500, window_h/2),
-		Force = vector.new(-100000, 0),
+		Force = vector.new(-1000000, 0),
 		Color = {100, 100, 255},
 		DesiredAimAngle = math.pi
 	})
 
 	world:register_event("EntityCollision", function(world, e1, e2, mtv)
 		world:add_entity(ent_Explosion{
-			position = e1.Position + (e2.Position - e1.Position):normalized() * e1.Radius,
+			position = entity.getmidpoint(e1, e2),
 			radius = 50,
 			duration = 2,
 			damage = 10,
