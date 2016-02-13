@@ -15,6 +15,10 @@ local ent_Explosion = require("entities.Explosion")
 --- ==== ---
 
 
+--- Local functions ---
+--- ==== ---
+
+
 --- Gamestate definition ---
 local Game = {}
 --- ==== ---
@@ -26,23 +30,20 @@ local function spawn_test_entities(world)
 
 	---
 
-	local poorguy = world:add_entity(ent_Combatant{
+	world:add_entity(ent_Combatant{
 		Position = vector.new(500, window_h/2),
-		Radius = 60,
-		Force = vector.new(1000000, 0),
+		Radius = 30,
+		Force = vector.new(0, 0),
 		Color = {255, 100, 100},
 		DesiredAimAngle = 0
 	})
 
-	timer.every(0.1, function()
-		poorguy.Health.current = poorguy.Health.current - 100	
-	end)
-
 	world:add_entity(ent_Combatant{
 		Position = vector.new(window_w - 500, window_h/2),
-		Force = vector.new(-1000000, 0),
+		Force = vector.new(0, 0),
 		Color = {100, 100, 255},
-		DesiredAimAngle = math.pi
+		DesiredAimAngle = math.pi,
+		Player = true
 	})
 
 	--[[

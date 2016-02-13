@@ -11,10 +11,10 @@ local circle = require("util.circle")
 
 
 --- System definition ---
-local sys_DrawEntity = tiny.processingSystem()
-sys_DrawEntity.filter = tiny.requireAll("Position", "Radius", "Color")
+local sys_DrawPhysical = tiny.processingSystem()
+sys_DrawPhysical.filter = tiny.requireAll("Position", "Radius", "Color")
 
-sys_DrawEntity.isDrawSystem = true
+sys_DrawPhysical.isDrawSystem = true
 --- ==== ---
 
 
@@ -97,8 +97,20 @@ local function draw_entity_debug_info(e)
 
 	str_t[#str_t + 1] = ("Position: (%.2f, %.2f)"):format(e.Position.x, e.Position.y)
 
+	if e.Mass then
+		str_t[#str_t + 1] = ("Mass: %.2f"):format(e.Mass)
+	end
+
 	if e.Velocity then
 		str_t[#str_t + 1] = ("Velocity: (%.2f, %.2f)"):format(e.Velocity.x, e.Velocity.y)
+	end
+
+	if e.Acceleration then
+		str_t[#str_t + 1] = ("Accel: (%.2f, %.2f)"):format(e.Acceleration.x, e.Acceleration.y)
+	end
+
+	if e.Force then
+		--str_t[#str_t + 1] = ("Force: (%.2f, %.2f)"):format(e.Force.x, e.Force.y)
 	end
 
 	if e.Health then
@@ -137,7 +149,7 @@ end
 
 
 --- System functions ---
-function sys_DrawEntity:onAddToWorld(world)
+function sys_DrawPhysical:onAddToWorld(world)
 	local world = world.world
 
 	-- Combatants blink upon hitting eachother.
@@ -149,7 +161,7 @@ function sys_DrawEntity:onAddToWorld(world)
 	end)
 end
 
-function sys_DrawEntity:process(e, dt)
+function sys_DrawPhysical:process(e, dt)
 	local world = self.world.world
 
 	draw_entity_circle(e)
@@ -166,4 +178,4 @@ function sys_DrawEntity:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_DrawEntity)
+return Class(sys_DrawPhysical)

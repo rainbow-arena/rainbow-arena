@@ -8,8 +8,13 @@ local circle = require("util.circle")
 --- ==== ---
 
 
+--- Classes ---
+local ent_Physical = require("entities.Physical")
+--- ==== ---
+
+
 --- Class definition ---
-local ent_Combatant = {}
+local ent_Combatant = {__include = {ent_Physical}}
 --- ==== ---
 
 
@@ -19,22 +24,10 @@ local ent_Combatant = {}
 
 --- Class functions ---
 function ent_Combatant:init(template)
-	assert(util.table.check(template, {
-		"Position"
-	}, "Combatant"))
-
 	local radius = math.floor(template.Radius or 30)
 	local health = radius^2
 
 	util.table.fill(template, {
-		Velocity = vector.new(),
-		Acceleration = vector.new(),
-		Force = vector.new(),
-
-		Radius = radius,
-		Mass = circle.area(radius),
-		Color = {255, 255, 255},
-
 		AimAngle = 0,
 		DesiredAimAngle = 0,
 		AimSpeed = 4,
@@ -47,6 +40,8 @@ function ent_Combatant:init(template)
 	})
 
 	util.table.fill(self, template)
+
+	return ent_Physical.init(self, template)
 end
 
 function ent_Combatant:pulse(amp)

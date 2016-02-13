@@ -38,8 +38,8 @@ function ent_Explosion:init(arg)
 			if e.pulse then e:pulse(impact) end
 
 			-- Apply explosion force.
-			if e.Mass and e.Velocity and not e.IgnoreExplosion then
-				e.Velocity = e.Velocity + impact * ((arg.force or 10^6) / e.Mass) * dir_vec
+			if e.Forces and not e.IgnoreExplosion then
+				e.Forces[#e.Forces + 1] = impact * (arg.force or 10^7) * dir_vec
 			end
 
 			-- Apply health damage.
