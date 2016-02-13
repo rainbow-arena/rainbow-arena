@@ -1,4 +1,4 @@
-local util = require("lib.self.util")
+local util = require("lib.util")
 
 ---
 

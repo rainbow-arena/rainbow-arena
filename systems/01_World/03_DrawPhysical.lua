@@ -17,7 +17,7 @@ sys_DrawPhysical.filter = tiny.requireAll("Position", "Radius", "Color")
 
 
 --- Constants ---
-local COLOR_INTENSITY_DECAY_RATE = 1
+local COLOR_INTENSITY_DECAY_RATE = 2
 
 local MIN_COLOR_INTENSITY = 0.3
 local MAX_COLOR_INTENSITY = 0.7
@@ -93,6 +93,10 @@ local function draw_entity_debug_info(e)
 
 	--str_t[#str_t + 1] = (""):format()
 
+	if e.Name then
+		str_t[#str_t + 1] = ("Name: %s"):format(e.Name)
+	end
+
 	str_t[#str_t + 1] = ("Position: (%.2f, %.2f)"):format(e.Position.x, e.Position.y)
 
 	if e.Mass then
@@ -107,16 +111,8 @@ local function draw_entity_debug_info(e)
 		str_t[#str_t + 1] = ("Accel: (%.2f, %.2f)"):format(e.Acceleration.x, e.Acceleration.y)
 	end
 
-	if e.Force then
-		--str_t[#str_t + 1] = ("Force: (%.2f, %.2f)"):format(e.Force.x, e.Force.y)
-	end
-
 	if e.Health then
 		str_t[#str_t + 1] = ("Health: %d/%d"):format(e.Health.current, e.Health.max)
-	end
-
-	if e.ColorIntensity then
-		str_t[#str_t + 1] = ("ColorIntensity: %.2f"):format(e.ColorIntensity)
 	end
 
 	---

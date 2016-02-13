@@ -4,6 +4,7 @@ local timer = require("lib.hump.timer")
 
 local circle = require("util.circle")
 local entity = require("util.entity")
+local color = require("util.color")
 --- ==== ---
 
 
@@ -16,6 +17,15 @@ local ent_Explosion = require("entities.Explosion")
 
 
 --- Local functions ---
+local function generate_position(radius)
+	local angle = love.math.random() * 2*math.pi
+	local magnitude = love.math.random(0, radius)
+
+	return vector.new(
+		magnitude * math.cos(angle),
+		magnitude * math.sin(angle)
+	)
+end
 --- ==== ---
 
 
@@ -30,29 +40,27 @@ local function spawn_test_entities(world)
 
 	---
 
-	local poorguy = world:add_entity(ent_Combatant{
-		Position = vector.new(500, window_h/2),
-		Radius = 60,
-		Force = vector.new(0, 0),
-		Color = {255, 100, 100},
-		DesiredAimAngle = 0
-	})
-
-	timer.every(0.01, function()
-		--poorguy.Health.current = poorguy.Health.current - 10
-	end)
-
 	local player = world:add_entity(ent_Combatant{
-		Position = vector.new(window_w - 500, window_h/2),
-		Force = vector.new(0, 0),
-		Color = {100, 100, 255},
+		Name = "Player",
+		Position = vector.new(0, 0),
+		Color = {255, 255, 255},
 		DesiredAimAngle = math.pi,
 		Player = true
 	})
 
 	world.CameraTarget = player
 
-	---[[
+	for i = 1, 200 do
+		world:add_entity(ent_Combatant{
+			Name = "Combatant " .. i,
+			Position = generate_position(1000),
+			Color = {color.hsv_to_rgb(love.math.random(0, 359), 255, 255)},
+			DesiredAimAngle = love.math.random() * 2*math.pi,
+			StareAt = player
+		})
+	end
+
+	--[[
 	world:register_event("EntityCollision", function(world, e1, e2, mtv)
 		world:add_entity(ent_Explosion{
 			position = entity.getmidpoint(e1, e2),
@@ -70,7 +78,7 @@ end
 function Game:init()
 	self.world = World()
 
-	self.world.DEBUG = true
+	self.world.DEBUG = false
 	self.world.speed = 1
 
 	---
@@ -122,7 +130,9 @@ end
 
 -- Input --
 function Game:keypressed(key)
-
+	if key == "t" then
+		self.world.DEBUG = not self.world.DEBUG
+	end
 end
 
 function Game:mousepressed(x, y, b)
