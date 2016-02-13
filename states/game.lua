@@ -30,13 +30,17 @@ local function spawn_test_entities(world)
 
 	---
 
-	world:add_entity(ent_Combatant{
+	local poorguy = world:add_entity(ent_Combatant{
 		Position = vector.new(500, window_h/2),
-		Radius = 30,
+		Radius = 60,
 		Force = vector.new(0, 0),
 		Color = {255, 100, 100},
 		DesiredAimAngle = 0
 	})
+
+	timer.every(0.01, function()
+		poorguy.Health.current = poorguy.Health.current - 10
+	end)
 
 	world:add_entity(ent_Combatant{
 		Position = vector.new(window_w - 500, window_h/2),
