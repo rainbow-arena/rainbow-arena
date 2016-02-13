@@ -135,7 +135,7 @@ end
 ---
 
 local function restore_color_amp(e, dt)
-	local step = COLOR_INTENSITY_DECAY_RATE*dt
+	local step = COLOR_INTENSITY_DECAY_RATE * dt
 
 	if e.ColorIntensity < step then
 		e.ColorIntensity = 0

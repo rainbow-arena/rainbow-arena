@@ -51,7 +51,18 @@ end
 function World:update(dt)
 	local corrected_dt = dt * self.speed
 
-	self.ecs:update(corrected_dt)
+	if self.CameraTarget and self.CameraTarget.Position then
+		local pos = self.CameraTarget.Position
+
+		self.camera:lookAt(math.floor(pos.x), math.floor(pos.y))
+	end
+
+	self.camera:attach()
+	self.ecs:update(corrected_dt, tiny.rejectAll("NoCamera"))
+	self.camera:detach()
+	self.ecs:update(corrected_dt, tiny.requireAll("NoCamera"))
+
+
 	self.timer:update(corrected_dt)
 end
 -- ==== --
