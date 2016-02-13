@@ -13,8 +13,8 @@ local ent_Explosion = require("entities.Explosion")
 
 
 --- System definition ---
-local sys_DieOnNoHealth = tiny.processingSystem()
-sys_DieOnNoHealth.filter = tiny.requireAll("Health")
+local sys_Death = tiny.processingSystem()
+sys_Death.filter = tiny.requireAll("Health")
 --- ==== ---
 
 
@@ -23,7 +23,7 @@ sys_DieOnNoHealth.filter = tiny.requireAll("Health")
 
 
 --- System functions ---
-function sys_DieOnNoHealth:onAddToWorld(world)
+function sys_Death:onAddToWorld(world)
 	local world = world.world
 
 	world:register_event("EntityDied", function(world, e)
@@ -32,7 +32,7 @@ function sys_DieOnNoHealth:onAddToWorld(world)
 			world:add_entity(ent_Explosion{
 				position = e.Position:clone(),
 				color = e.Color,
-				force = 10^4 * e.Radius,
+				force = 10^6 * e.Radius,
 				damage = e.Radius/10,
 				radius = e.Radius/1.5 * 10,
 				duration = 2
@@ -42,7 +42,7 @@ function sys_DieOnNoHealth:onAddToWorld(world)
 
 end
 
-function sys_DieOnNoHealth:process(e, dt)
+function sys_Death:process(e, dt)
 	local world = self.world.world
 
 	if e.Health.current < 0 then
@@ -52,4 +52,4 @@ function sys_DieOnNoHealth:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_DieOnNoHealth)
+return Class(sys_Death)
