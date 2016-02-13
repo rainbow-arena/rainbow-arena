@@ -39,7 +39,7 @@ local function spawn_test_entities(world)
 	})
 
 	timer.every(0.01, function()
-		poorguy.Health.current = poorguy.Health.current - 10
+		--poorguy.Health.current = poorguy.Health.current - 10
 	end)
 
 	world:add_entity(ent_Combatant{
@@ -50,17 +50,17 @@ local function spawn_test_entities(world)
 		Player = true
 	})
 
-	--[[
+	---[[
 	world:register_event("EntityCollision", function(world, e1, e2, mtv)
 		world:add_entity(ent_Explosion{
 			position = entity.getmidpoint(e1, e2),
-			radius = 50,
-			duration = 2,
-			damage = 10,
+			radius = 100,
+			duration = 1,
+			damage = 75,
 			force = 0
 		})
 	end)
-	]]--
+	--]]
 end
 
 
@@ -87,17 +87,6 @@ end
 
 
 -- Updating ---
-function Game:update(dt)
-	if not love.keyboard.isDown("space") then
-		--dt = 0
-	end
-
-	self.world:update(dt)
-	timer.update(dt)
-end
-
----
-
 local function draw_debug_info(self, x, y)
 	local str_t = {}
 
@@ -115,8 +104,12 @@ local function draw_debug_info(self, x, y)
 	love.graphics.print(str, math.floor(x), math.floor(y))
 end
 
+-- Doing all updating in :draw()
 function Game:draw()
-	self.world:draw()
+	local dt = love.timer.getDelta()
+
+	self.world:update(dt)
+	timer.update(dt)
 
 	if self.world.DEBUG then
 		draw_debug_info(self.world, 10, 10)

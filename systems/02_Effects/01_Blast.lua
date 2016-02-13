@@ -11,8 +11,6 @@ local circle = require("util.circle")
 --- System definition ---
 local sys_Blast = tiny.processingSystem()
 sys_Blast.filter = tiny.requireAll("Position", "Blast")
-
-sys_Blast.isDrawSystem = true
 --- ==== ---
 
 

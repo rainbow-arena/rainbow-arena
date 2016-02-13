@@ -8,7 +8,7 @@ local tiny = require("lib.tiny")
 
 --- System definition ---
 local sys_PlayerInput = tiny.processingSystem()
-sys_PlayerInput.filter = tiny.requireAll("Mass", "Forces", "MoveAcceleration", "Player")
+sys_PlayerInput.filter = tiny.requireAll("Mass", "Forces", "MoveForce", "Player")
 --- ==== ---
 
 
@@ -22,7 +22,7 @@ function sys_PlayerInput:process(e, dt)
 	local world = self.world.world
 
 	-- Movement
-	local input_force = e.Mass * e.MoveAcceleration
+	local input_force = e.MoveForce
 
 	local input_x, input_y = 0, 0
 

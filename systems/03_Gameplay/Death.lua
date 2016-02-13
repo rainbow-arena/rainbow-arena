@@ -33,7 +33,7 @@ function sys_Death:onAddToWorld(world)
 				position = e.Position:clone(),
 				color = e.Color,
 				force = 10^6 * e.Radius,
-				damage = e.Radius * 8,
+				damage = e.Radius * 7,
 				radius = 10 * e.Radius/1.5,
 				duration = 2
 			})
