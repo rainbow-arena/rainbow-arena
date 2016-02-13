@@ -1,8 +1,10 @@
 --- Require ---
 local Class = require("lib.hump.class")
+
 local signal = require("lib.hump.signal")
 local vector = require("lib.hump.vector")
 local camera = require("lib.hump.camera")
+local timer = require("lib.hump.timer")
 
 local tiny = require("lib.tiny")
 
@@ -30,7 +32,12 @@ function World:init(system_dir)
 	self.ecs.world = self
 
 	self.hash = SH.new()
+
 	self.event = signal.new()
+	self.timer = timer.new()
+
+	self.camera = camera.new()
+	self.CameraTarget = nil
 
 	---
 
@@ -42,12 +49,10 @@ function World:init(system_dir)
 end
 
 function World:update(dt)
-	self.dt = dt
-	self.ecs:update(dt * self.speed, tiny.rejectAll("isDrawSystem"))
-end
+	local corrected_dt = dt * self.speed
 
-function World:draw()
-	self.ecs:update(self.dt * self.speed, tiny.requireAll("isDrawSystem"))
+	self.ecs:update(corrected_dt)
+	self.timer:update(corrected_dt)
 end
 -- ==== --
 

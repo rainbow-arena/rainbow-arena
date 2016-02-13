@@ -32,7 +32,7 @@ function ent_Physical:init(template)
 	}, "Physical"))
 
 	local radius = math.floor(template.Radius or 30)
-	local area = circle.area(radius)
+	local mass = circle.area(radius)
 
 	util.table.fill(template, {
 		Velocity = vector.new(),
@@ -40,11 +40,11 @@ function ent_Physical:init(template)
 		Force = vector.new(),
 		Forces = {},
 
-		MoveAcceleration = default_accel,
+		MoveForce = 2261947, -- = default_accel [800] * circle.area(30) [mass of radius 30 physicaly]
 		Drag = default_drag,
 
 		Radius = radius,
-		Mass = area,
+		Mass = mass,
 		Color = {255, 255, 255}
 	})
 
