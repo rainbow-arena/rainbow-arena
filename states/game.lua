@@ -42,13 +42,15 @@ local function spawn_test_entities(world)
 		--poorguy.Health.current = poorguy.Health.current - 10
 	end)
 
-	world:add_entity(ent_Combatant{
+	local player = world:add_entity(ent_Combatant{
 		Position = vector.new(window_w - 500, window_h/2),
 		Force = vector.new(0, 0),
 		Color = {100, 100, 255},
 		DesiredAimAngle = math.pi,
 		Player = true
 	})
+
+	world.CameraTarget = player
 
 	---[[
 	world:register_event("EntityCollision", function(world, e1, e2, mtv)
