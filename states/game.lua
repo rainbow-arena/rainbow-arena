@@ -139,7 +139,8 @@ function Game:mousepressed(x, y, b)
 	self.world:add_entity(ent_Explosion{
 		position = vector.new(self.world.camera:mousePosition()),
 		radius = 100,
-		duration = 1
+		duration = 1,
+		damage = 200
 	})
 end
 -- ==== --

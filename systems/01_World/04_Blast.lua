@@ -18,6 +18,7 @@ sys_Blast.filter = tiny.requireAll("Position", "Blast")
 local DEFAULT_BLAST_COLOR = {255, 97, 0}
 --- ==== ---
 
+-- TODO: Make objects be constantly affected by the explosion instead of being a one-off? Make this an option?
 
 --- Local functions ---
 local function update_blast(e, world, dt)
