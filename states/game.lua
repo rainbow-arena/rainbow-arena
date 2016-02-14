@@ -136,8 +136,11 @@ function Game:keypressed(key)
 end
 
 function Game:mousepressed(x, y, b)
-
-
+	self.world:add_entity(ent_Explosion{
+		position = vector.new(self.world.camera:mousePosition()),
+		radius = 100,
+		duration = 1
+	})
 end
 -- ==== --
 --- ==== ---
