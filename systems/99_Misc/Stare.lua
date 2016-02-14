@@ -8,7 +8,7 @@ local util = require("lib.util")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_Stare = tiny.processingSystem()
 sys_Stare.filter = tiny.requireAll("DesiredAimAngle", "StareAt")
 --- ==== ---

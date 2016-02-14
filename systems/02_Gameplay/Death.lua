@@ -12,7 +12,7 @@ local ent_Explosion = require("entities.Explosion")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_Death = tiny.processingSystem()
 sys_Death.filter = tiny.requireAll("Health")
 --- ==== ---

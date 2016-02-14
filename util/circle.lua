@@ -1,16 +1,14 @@
-local circle = {}
-
----
-
+--- Require ---
 local vector = require("lib.hump.vector")
+--- ==== ---
 
----
 
-local abs = math.abs
-local pi = math.pi
+--- Module ---
+local circle = {}
+--- ==== ---
 
----
 
+--- ==== ---
 function circle.colliding(pos1,r1, pos2,r2)
 	-- Circle one -> Circle two
 	local distance_vector = pos2 - pos1
@@ -27,6 +25,8 @@ function circle.colliding(pos1,r1, pos2,r2)
 	return false
 end
 
+---
+
 function circle.aabb(r, x, y)
 	x = x or 0
 	y = y or 0
@@ -35,9 +35,9 @@ function circle.aabb(r, x, y)
 end
 
 function circle.area(r)
-	return pi * r^2
+	return math.pi * r^2
 end
+--- ==== ---
 
----
 
 return circle

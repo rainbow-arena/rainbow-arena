@@ -29,7 +29,7 @@ end
 --- ==== ---
 
 
---- Gamestate definition ---
+--- Gamestate ---
 local Game = {}
 --- ==== ---
 
