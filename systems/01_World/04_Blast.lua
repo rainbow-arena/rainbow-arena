@@ -8,7 +8,7 @@ local circle = require("util.circle")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_Blast = tiny.processingSystem()
 sys_Blast.filter = tiny.requireAll("Position", "Blast")
 --- ==== ---

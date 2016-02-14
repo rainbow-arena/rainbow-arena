@@ -8,7 +8,7 @@ local util = require("lib.util")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_Aim = tiny.processingSystem()
 sys_Aim.filter = tiny.requireAll("AimAngle", "DesiredAimAngle", "AimSpeed")
 --- ==== ---

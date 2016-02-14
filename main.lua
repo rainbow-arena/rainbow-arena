@@ -4,10 +4,7 @@
 
 --[[
 	Stuff to do:
-		Make camera keep reference to a target entity instead of CameraTarget being a component
 		Makes maps not just square arenas - Tiled and STI?
-		
-		Make Combatant subclass of Physical, which is basis for all circle entities (includes :pulse())
 
 
 		Graphics: background

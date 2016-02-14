@@ -1,7 +1,9 @@
+--- Modules ---
 local file = {}
+--- ==== ---
 
----
 
+--- Module functions ---
 function file.diriter(dir, func)
 	local items = {}
 
@@ -19,7 +21,7 @@ function file.diriter(dir, func)
 		end
 	end
 end
+--- ==== ---
 
----
 
 return file

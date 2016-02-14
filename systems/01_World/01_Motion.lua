@@ -8,7 +8,7 @@ local util = require("lib.util")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_Motion = tiny.processingSystem()
 sys_Motion.filter = tiny.requireAll("Position", "Velocity", "Acceleration", "Force", "Forces", "Mass")
 --- ==== ---

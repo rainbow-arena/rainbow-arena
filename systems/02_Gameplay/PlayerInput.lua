@@ -6,7 +6,7 @@ local tiny = require("lib.tiny")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_PlayerInput = tiny.processingSystem()
 sys_PlayerInput.filter = tiny.requireAll("Mass", "Forces", "MoveForce", "Player")
 --- ==== ---

@@ -10,7 +10,7 @@ local circle = require("util.circle")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_Collision = tiny.processingSystem()
 sys_Collision.filter = tiny.requireAll("Position", "Radius", "Velocity", "Mass")
 --- ==== ---

@@ -10,7 +10,7 @@ local circle = require("util.circle")
 --- ==== ---
 
 
---- System definition ---
+--- System ---
 local sys_DrawPhysical = tiny.processingSystem()
 sys_DrawPhysical.filter = tiny.requireAll("Position", "Radius", "Color")
 --- ==== ---
