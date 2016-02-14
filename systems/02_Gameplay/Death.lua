@@ -32,8 +32,8 @@ function sys_Death:onAddToWorld(world)
 			world:add_entity(ent_Explosion{
 				position = e.Position:clone(),
 				color = e.Color,
-				force = 10^6 * e.Radius,
-				damage = e.Radius * 7,
+				force = 2 * 10^5 * e.Radius,
+				damage = e.Radius * 8,
 				radius = 10 * e.Radius/1.5,
 				duration = 2
 			})
