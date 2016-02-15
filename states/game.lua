@@ -2,6 +2,10 @@
 local vector = require("lib.hump.vector")
 local timer = require("lib.hump.timer")
 
+local tiny = require("lib.tiny")
+
+local util = require("lib.util")
+
 local circle = require("util.circle")
 local entity = require("util.entity")
 local color = require("util.color")
@@ -71,6 +75,35 @@ local function spawn_test_entities(world)
 		})
 	end)
 	--]]
+
+	local boombox_source = love.audio.newSource("audio/fluorescent.ogg")
+	boombox_source:setLooping(true)
+
+	local boombox = world:add_entity(ent_Combatant{
+		Name = "Boombox",
+		Position = generate_position(1000),
+		Radius = 60,
+		Color = {color.hsv_to_rgb(love.math.random(0, 359), 255, 255)},
+		hue = 0,
+		DesiredAimAngle = love.math.random() * 2*math.pi,
+		StareAt = player,
+
+		Sound = {
+			source = boombox_source,
+			volume = 1,
+			pitch = 1
+		}
+	})
+
+	world.ecs:addSystem(tiny.system{
+		update = function(self, dt)
+			boombox.hue = boombox.hue + 100 * dt
+			if boombox.hue > 359 then
+				boombox.hue = 0
+			end
+			boombox.Color = {color.hsv_to_rgb(boombox.hue, 255, 255)}
+		end
+	})
 end
 
 
@@ -106,6 +139,8 @@ local function draw_debug_info(self, x, y)
 
 	str_t[#str_t + 1] = ("Entities: %d"):format(self.ecs:getEntityCount())
 
+	str_t[#str_t + 1] = ("Speed: %.2f"):format(self.speed)
+
 	---
 
 	local str = table.concat(str_t, "\n")
@@ -130,7 +165,7 @@ end
 
 -- Input --
 function Game:keypressed(key)
-	if key == "t" then
+	if key == "d" then
 		self.world.DEBUG = not self.world.DEBUG
 	end
 end
@@ -142,6 +177,16 @@ function Game:mousepressed(x, y, b)
 		duration = 1,
 		damage = 200
 	})
+end
+
+function Game:wheelmoved(x, y)
+	if y > 0 then
+		self.world.speed = self.world.speed + 0.1
+	else
+		self.world.speed = self.world.speed - 0.1
+	end
+
+	self.world.speed = util.math.clamp(0, self.world.speed, 7)
 end
 -- ==== --
 --- ==== ---

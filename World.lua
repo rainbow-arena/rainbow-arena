@@ -39,6 +39,9 @@ function World:init(system_dir)
 	self.camera = camera.new()
 	self.CameraTarget = nil
 
+	love.audio.setDopplerScale(1)
+	self.SOUND_POSITION_SCALE = 256
+
 	---
 
 	self.speed = 1
@@ -54,8 +57,21 @@ function World:update(dt)
 	if self.CameraTarget and self.CameraTarget.Position then
 		local pos = self.CameraTarget.Position
 
-		self.camera:lookAt(math.floor(pos.x), math.floor(pos.y))
+		self.camera:lookAt(pos.x, pos.y)
 	end
+
+	love.audio.setPosition(
+		self.camera.x / self.SOUND_POSITION_SCALE,
+		self.camera.y / self.SOUND_POSITION_SCALE, 0)
+
+	---[[
+	if self.CameraTarget and self.CameraTarget.Velocity then
+		local e = self.CameraTarget
+		love.audio.setVelocity(
+			e.Velocity.x / self.SOUND_POSITION_SCALE,
+			e.Velocity.y / self.SOUND_POSITION_SCALE, 0)
+	end
+	--]]
 
 	self.camera:attach()
 	self.ecs:update(corrected_dt, tiny.rejectAll("NoCamera"))
@@ -100,6 +116,10 @@ function World:remove_entity(e)
 			e.Radius, e.Position.x, e.Position.y))
 	end
 
+	if e.Sound then
+		e.Sound.source:stop()
+	end
+
 	self.ecs:removeEntity(e)
 end
 -- ==== --
@@ -122,7 +142,7 @@ function World:load_systems(system_dir)
 		if item:find(".lua$") then
 			print("INFO: Adding system: " .. dir .. "/" .. item)
 			local system = love.filesystem.load(dir .. "/" .. item)()
-			self.ecs:addSystem(system)
+			self.ecs:addSystem(system())
 		end
 	end)
 end

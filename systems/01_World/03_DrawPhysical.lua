@@ -21,32 +21,10 @@ local COLOR_INTENSITY_DECAY_RATE = 2
 
 local MIN_COLOR_INTENSITY = 0.3
 local MAX_COLOR_INTENSITY = 0.7
-
-local MAX_PULSE_SPEED = 600
 --- ==== ---
 
 
 --- Local functions ---
-local function calculate_single_entity_pulse(e, velocity)
-	return (velocity or e.Velocity:len()) / MAX_PULSE_SPEED
-end
-
-local function calculate_double_entity_pulse(e1, e2)
-	local diff = e1.Position - e2.Position
-
-	local v1 = e1.Velocity:projectOn(diff)
-	local v2 = e2.Velocity:projectOn(diff)
-
-	local res1 = calculate_single_entity_pulse(e1, v1:len())
-	local res2 = calculate_single_entity_pulse(e2, v2:len())
-
-	local res = (res1 + res2)/2
-
-	return res, res
-end
-
----
-
 local function draw_entity_circle(e)
 	local pos = e.Position
 	local radius = e.Radius
@@ -143,18 +121,6 @@ end
 
 
 --- System functions ---
-function sys_DrawPhysical:onAddToWorld(world)
-	local world = world.world
-
-	-- Combatants blink upon hitting eachother.
-	world:register_event("PhysicsCollision", function(world, e1, e2, mtv)
-		local v1, v2 = calculate_double_entity_pulse(e1, e2)
-
-		if e1.pulse then e1:pulse(v1) end
-		if e2.pulse then e2:pulse(v2) end
-	end)
-end
-
 function sys_DrawPhysical:process(e, dt)
 	local world = self.world.world
 
