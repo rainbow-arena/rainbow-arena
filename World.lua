@@ -96,6 +96,10 @@ function World:add_entity(e)
 	return e
 end
 
+function World:update_entity_components(e)
+	return self.ecs:addEntity(e)
+end
+
 function World:move_entity(e, newpos_vec)
 	assert(vector.isvector(newpos_vec), "Entity destination must be a vector!")
 
