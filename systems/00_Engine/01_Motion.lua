@@ -23,9 +23,11 @@ function sys_Motion:process(e, dt)
 	local world = self.world.world
 
 	-- Add drag force.
-	e.Forces[#e.Forces + 1] = {
-		vector = e.Drag * -e.Velocity
-	}
+	if e.Drag then
+		e.Forces[#e.Forces + 1] = {
+			vector = e.Drag * -e.Velocity
+		}
+	end
 
 	---
 
