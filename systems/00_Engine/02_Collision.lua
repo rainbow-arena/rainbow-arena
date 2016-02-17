@@ -140,7 +140,8 @@ function sys_Collision:onAddToWorld(world)
 	-- Resolve collisions.
 	world:register_event("EntityColliding", function(world, e1, e2, mtv)
 		local REQ = {
-			"Mass"
+			"Mass",
+			"CollisionPhysics"
 		}
 
 		if util.table.has(e1, REQ) and util.table.has(e2, REQ) then

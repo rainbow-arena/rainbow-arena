@@ -15,8 +15,11 @@ local color = require("util.color")
 --- Classes ---
 local World = require("World")
 
+local ent_Physical = require("entities.Physical")
 local ent_Combatant = require("entities.Combatant")
 local ent_Explosion = require("entities.Explosion")
+
+local wep_Pistol = require("weapons.Pistol")
 --- ==== ---
 
 
@@ -49,7 +52,18 @@ local function spawn_test_entities(world)
 		Position = vector.new(0, 0),
 		Color = {255, 255, 255},
 		DesiredAimAngle = math.pi,
-		Player = true
+		Player = true,
+
+		Weapon = wep_Pistol{
+			projectile = ent_Physical{
+				Position = vector.new(0, 0), -- doesn't matter
+				Radius = 3
+			},
+
+			muzzleVelocity = 1000,
+			spread = math.pi/16,
+			cooldown = 0
+		}
 	})
 
 	world.CameraTarget = player
@@ -76,6 +90,7 @@ local function spawn_test_entities(world)
 	end)
 	--]]
 
+	--[[
 	local boombox_source = love.audio.newSource("audio/fluorescent.ogg")
 	boombox_source:setLooping(true)
 
@@ -104,6 +119,7 @@ local function spawn_test_entities(world)
 			boombox.Color = {color.hsv_to_rgb(boombox.hue, 255, 255)}
 		end
 	})
+	--]]
 end
 
 

@@ -45,7 +45,9 @@ function ent_Physical:init(template)
 
 		Radius = radius,
 		Mass = mass,
-		Color = {255, 255, 255}
+		Color = {255, 255, 255},
+
+		CollisionPhysics = true
 	})
 
 	util.table.fill(self, template)
