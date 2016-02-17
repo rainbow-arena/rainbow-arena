@@ -8,6 +8,9 @@ local angle = require("util.angle")
 --- ==== ---
 
 
+-- TODO: Recoil
+
+
 --- Classes ---
 local wep_Base = require("weapons.Base")
 --- ==== ---
@@ -26,8 +29,6 @@ local function fire_projectile(world, proj_template, from_vec, from_vel, dir_vec
 
 	proj.Position = from_vec:clone()
 	proj.Velocity = dir_vec * vel + (from_vel or vector.zero)
-	proj.Drag = 0
-	proj.CollisionPhysics = true
 
 	return proj
 end

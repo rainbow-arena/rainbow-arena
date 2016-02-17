@@ -47,7 +47,7 @@ function ent_Explosion:init(template)
 			end
 
 			-- Apply health damage.
-			if e.Health and template.damage then
+			if not e.IgnoreExplosion and e.Health and template.damage then
 				e.Health.current = e.Health.current - math.ceil(impact * template.damage)
 			end
 		end
