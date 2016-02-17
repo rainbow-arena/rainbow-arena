@@ -18,21 +18,22 @@ local ent_Explosion = Class{}
 
 
 --- Class functions ---
-function ent_Explosion:init(arg)
-	assert(util.table.check(arg, {
-		"position",
+function ent_Explosion:init(template)
+	assert(util.table.check(template, {
+		"Position",
 		"radius",
 		"duration"
-	}, "Explosion init"))
+	}, "Explosion"))
 
-	self.Color = arg.color or {255, 97, 0}
+	util.table.fill(template, {
+		Color = {255, 97, 0}
+	})
 
-	self.Position = arg.position:clone()
-	self.Lifetime = arg.duration
+	util.table.fill(self, template)
 
 	self.Blast = {
-		radius = arg.radius,
-		duration = arg.duration,
+		radius = template.radius,
+		duration = template.duration,
 		func = function(e, impact, dir_vec)
 			-- Pulse entity.
 			if e.pulse then e:pulse(impact) end
@@ -40,14 +41,14 @@ function ent_Explosion:init(arg)
 			-- Apply explosion force.
 			if e.Forces and not e.IgnoreExplosion then
 				e.Forces[#e.Forces + 1] = {
-					vector = impact * (arg.force or 8 * 10^6) * dir_vec,
+					vector = impact * (template.force or 8 * 10^6) * dir_vec,
 					duration = 0.1
 				}
 			end
 
 			-- Apply health damage.
-			if e.Health and arg.damage then
-				e.Health.current = e.Health.current - math.ceil(impact * arg.damage)
+			if e.Health and template.damage then
+				e.Health.current = e.Health.current - math.ceil(impact * template.damage)
 			end
 		end
 	}

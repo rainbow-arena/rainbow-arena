@@ -30,7 +30,7 @@ function sys_Death:onAddToWorld(world)
 		if e.ExplodeOnDeath and e.Position and e.Radius then
 			-- TODO: Make death explosion configurable.
 			world:add_entity(ent_Explosion{
-				position = e.Position:clone(),
+				Position = e.Position:clone(),
 				color = e.Color,
 				force = 2 * 10^5 * e.Radius,
 				damage = e.Radius * 8,
