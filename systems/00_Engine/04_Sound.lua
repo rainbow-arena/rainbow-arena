@@ -74,6 +74,7 @@ function sys_Sound:process(e, dt)
 	if not sound.source:isLooping() and sound.source:isStopped() and sound.played then
 		if sound.removeOnFinish then
 			world:remove_entity(e)
+			return
 		end
 	end
 

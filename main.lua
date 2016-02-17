@@ -5,6 +5,7 @@
 --[[
 	Stuff to do:
 		Makes maps not just square arenas - Tiled and STI?
+		Abstract out camera stuff into camera objects.
 
 
 		Graphics: background
