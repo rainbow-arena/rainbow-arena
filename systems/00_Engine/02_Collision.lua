@@ -137,6 +137,18 @@ function sys_Collision:onAddToWorld(world)
 
 	---
 
+	world:register_event("EntityCollision", function(world, e1, e2, mtv)
+		if e1.onCollision then
+			e1:onCollision(world, e2, mtv)
+		end
+
+		if e2.onCollision then
+			e2:onCollision(world, e1, -mtv)
+		end
+	end)
+
+	---
+
 	-- Resolve collisions.
 	world:register_event("EntityColliding", function(world, e1, e2, mtv)
 		local REQ = {

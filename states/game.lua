@@ -55,9 +55,28 @@ local function spawn_test_entities(world)
 		Player = true,
 
 		Weapon = wep_Pistol{
-			projectile = ent_Physical{
+			projectile = ent_Physical{ -- TODO: Hit recoil, use CollisionPhysics with force but without actual collision?
+				Name = "A projectile",
+
 				Position = vector.new(0, 0), -- doesn't matter
-				Radius = 3
+				Radius = 3,
+
+				Drag = 0,
+
+				CollisionPhysics = false,
+				IgnoreExplosion = true,
+
+				onCollision = function(self, world, other, mtv)
+					world:add_entity(ent_Explosion{
+						Position = self.Position:clone(),
+						radius = 25,
+						duration = 0.5,
+						damage = 50,
+						force = 8 * 10^6
+					})
+
+					world:remove_entity(self)
+				end
 			},
 
 			muzzleVelocity = 1000,
