@@ -17,7 +17,7 @@ local wep_Base = Class{}
 
 
 --- Class functions ---
-function wep_Base:init()
+function wep_Base:init(args)
 
 end
 
