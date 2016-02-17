@@ -1,6 +1,7 @@
 --- Require ---
 local Class = require("lib.hump.class")
 local vector = require("lib.hump.vector")
+local timer = require("lib.hump.timer")
 
 local tiny = require("lib.tiny")
 
@@ -12,6 +13,7 @@ local entity = require("util.entity")
 
 --- Classes ---
 local ent_Sound = require("entities.Sound")
+local ent_Screenshake = require("entities.Screenshake")
 --- ==== ---
 
 
@@ -21,6 +23,10 @@ local sys_CollisionEffects = tiny.system()
 
 
 --- Constants ---
+local EFFECT_SPAWN_DELAY = 0.05
+
+---
+
 local MAX_PULSE_SPEED = 800
 
 ---
@@ -30,7 +36,9 @@ local MAX_VOLUME_SPEED = 1000
 local COLLISION_SPEED_THRESHOLD = 1
 local COLLISION_MAX_VOLUME = 0.5
 
-local SOUND_SPAWN_DELAY = 0.05
+---
+
+local SHAKE_STEP_SPEED = 300
 --- ==== ---
 
 
@@ -57,7 +65,10 @@ end
 
 --- System functions ---
 function sys_CollisionEffects:init()
-	self.collision_sound_timer = 0
+	self.timer = timer.new()
+
+	self.collision_sound_ok = true
+	self.collision_shake_ok = true
 end
 
 function sys_CollisionEffects:onAddToWorld(world)
@@ -69,32 +80,40 @@ function sys_CollisionEffects:onAddToWorld(world)
 		if e1.pulse then e1:pulse(v1) end
 		if e2.pulse then e2:pulse(v2) end
 
-		-- Collision sound
-		if
-			self.collision_sound_timer == 0
-			and (e1.Velocity - e2.Velocity):len() > COLLISION_SPEED_THRESHOLD
-		then
-			world:add_entity(ent_Sound{
-				Position = entity.getmidpoint(e1, e2),
-				soundpath = COLLISION_SOUND,
-				volume = util.math.clamp(0,
-					(e1.Velocity + e2.Velocity):len() / MAX_VOLUME_SPEED,
-					COLLISION_MAX_VOLUME),
-				removeOnFinish = true
-			})
+		-- Sound and screenshake
+		if (e1.Velocity - e2.Velocity):len() > COLLISION_SPEED_THRESHOLD then
+			if self.collision_sound_ok then
+				world:add_entity(ent_Sound{
+					Position = entity.getmidpoint(e1, e2),
+					soundpath = COLLISION_SOUND,
+					volume = util.math.clamp(0,
+						(e1.Velocity + e2.Velocity):len() / MAX_VOLUME_SPEED,
+						COLLISION_MAX_VOLUME),
+					removeOnFinish = true
+				})
 
-			self.collision_sound_timer = SOUND_SPAWN_DELAY
+				self.collision_sound_ok = false
+				self.timer.after(EFFECT_SPAWN_DELAY, function() self.collision_sound_ok = true end)
+			end
+
+			if self.collision_shake_ok then
+				world:add_entity(ent_Screenshake{
+					Position = entity.getmidpoint(e1, e2),
+					intensity = (e1.Velocity + e2.Velocity):len() / SHAKE_STEP_SPEED,
+					radius = 100,
+					duration = 0.1,
+					removeOnFinish = true
+				})
+
+				self.collision_shake_ok = false
+				self.timer.after(EFFECT_SPAWN_DELAY, function() self.collision_shake_ok = true end)
+			end
 		end
 	end)
 end
 
 function sys_CollisionEffects:update(dt)
-	if self.collision_sound_timer > 0 then
-		self.collision_sound_timer = self.collision_sound_timer - dt
-		if self.collision_sound_timer <= 0 then
-			self.collision_sound_timer = 0
-		end
-	end
+	self.timer.update(dt)
 end
 --- ==== ---
 

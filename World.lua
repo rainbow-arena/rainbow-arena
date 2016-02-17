@@ -22,6 +22,17 @@ local World = {}
 
 
 --- Local functions ---
+local function apply_screenshake(xamp, yamp)
+	yamp = yamp or xamp
+	xamp, yamp = math.ceil(xamp), math.ceil(yamp)
+
+	if xamp >= 1 and yamp >= 1 then
+		love.graphics.translate(
+			love.math.random(0, xamp*2) - xamp,
+			love.math.random(0, yamp*2) - yamp
+		)
+	end
+end
 --- ==== ---
 
 
@@ -73,10 +84,14 @@ function World:update(dt)
 	end
 	--]]
 
+	self.ecs:update(corrected_dt, tiny.requireAll("NoCamera"))
+
 	self.camera:attach()
+	if self.camera.screenshake then
+		apply_screenshake(self.camera.screenshake)
+	end
 	self.ecs:update(corrected_dt, tiny.rejectAll("NoCamera"))
 	self.camera:detach()
-	self.ecs:update(corrected_dt, tiny.requireAll("NoCamera"))
 
 
 	self.timer:update(corrected_dt)
