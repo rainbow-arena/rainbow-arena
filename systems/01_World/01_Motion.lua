@@ -23,7 +23,9 @@ function sys_Motion:process(e, dt)
 	local world = self.world.world
 
 	-- Add drag force.
-	--e.Forces[#e.Forces + 1] = (e.Drag * -e.Velocity)
+	e.Forces[#e.Forces + 1] = {
+		vector = e.Drag * -e.Velocity
+	}
 
 	---
 
@@ -31,7 +33,7 @@ function sys_Motion:process(e, dt)
 	-- Reset Force
 	e.Force = vector.new(0, 0)
 
-
+	-- Sum the forces and remove as needed.
 	local i = 1
 	while i <= #e.Forces do
 		local force = e.Forces[i]
@@ -67,7 +69,7 @@ function sys_Motion:process(e, dt)
 	e.Acceleration = e.Force / e.Mass
 
 	-- Apply Acceleration (and Drag) to Velocity.
-	e.Velocity = e.Velocity + (e.Acceleration - (e.Drag or 0) * e.Velocity) * dt
+	e.Velocity = e.Velocity + e.Acceleration * dt
 
 	-- Apply Velocity to Position.
 	world:move_entity(e, e.Position + e.Velocity * dt)
