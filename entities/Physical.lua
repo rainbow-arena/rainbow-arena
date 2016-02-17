@@ -42,7 +42,7 @@ function ent_Physical:init(template)
 
 		MoveForce = 1.4 * 10^8, -- force per second
 		--MoveForce = 2261947, -- = default_accel [800] * circle.area(30) [mass of radius 30 physical] - This assume the force isn't multiplied by dt but is just applied straight every frame, which means you go faster on faster computers.
-		Drag = default_drag,
+		Drag = 2 * 10^5,
 
 		Radius = radius,
 		Mass = mass,
