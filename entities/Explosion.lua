@@ -40,7 +40,7 @@ function ent_Explosion:init(arg)
 			-- Apply explosion force.
 			if e.Forces and not e.IgnoreExplosion then
 				e.Forces[#e.Forces + 1] = {
-					vector = impact * (arg.force or 10^7) * dir_vec,
+					vector = impact * (arg.force or 8 * 10^6) * dir_vec,
 					duration = 0.1
 				}
 			end

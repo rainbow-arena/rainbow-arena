@@ -44,7 +44,6 @@ function sys_PlayerInput:process(e, dt)
 
 	e.Forces[#e.Forces + 1] = {
 		vector = input_force * vector.new(input_x, input_y):normalized()
-		-- TODO: Is having this be an instantaneous force make it work different with different dt?
 	}
 
 
