@@ -3,8 +3,12 @@ local Class = require("lib.hump.class")
 --- ==== ---
 
 
+--- Classes ---
+--- ==== ---
+
+
 --- Class definition ---
-local wep_Base = {}
+local wep_Base = Class{}
 --- ==== ---
 
 
@@ -16,10 +20,9 @@ local wep_Base = {}
 function wep_Base:init()
 
 end
---- ==== ---
 
 
---- Weapon callbacks ---
+-- Weapon callbacks --
 -- Called once when the combatant begins firing, ie. when they press the fire button.
 function wep_Base:fire_begin(world, wielder)
 
@@ -40,7 +43,8 @@ end
 function wep_Base:update(world, wielder, dt)
 
 end
+-- ==== --
 --- ==== ---
 
 
-return Class(wep_Base)
+return wep_Base

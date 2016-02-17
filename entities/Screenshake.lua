@@ -11,7 +11,7 @@ local util = require("lib.util")
 
 
 --- Class definition ---
-local ent_Screenshake = {}
+local ent_Screenshake = Class{}
 --- ==== ---
 
 
@@ -39,4 +39,4 @@ end
 --- ==== ---
 
 
-return Class(ent_Screenshake)
+return ent_Screenshake

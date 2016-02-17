@@ -9,7 +9,7 @@ local util = require("lib.util")
 
 
 --- System ---
-local sys_Motion = tiny.processingSystem()
+local sys_Motion = Class(tiny.processingSystem())
 sys_Motion.filter = tiny.requireAll("Position", "Velocity", "Acceleration", "Force", "Forces", "Mass")
 --- ==== ---
 
@@ -78,4 +78,4 @@ function sys_Motion:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Motion)
+return sys_Motion

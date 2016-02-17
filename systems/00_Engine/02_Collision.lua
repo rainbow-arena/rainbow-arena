@@ -11,7 +11,7 @@ local circle = require("util.circle")
 
 
 --- System ---
-local sys_Collision = tiny.processingSystem()
+local sys_Collision = Class(tiny.processingSystem())
 sys_Collision.filter = tiny.requireAll("Position", "Radius", "Velocity", "Mass")
 --- ==== ---
 
@@ -179,4 +179,4 @@ function sys_Collision:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Collision)
+return sys_Collision

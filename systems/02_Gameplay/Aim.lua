@@ -9,7 +9,7 @@ local util = require("lib.util")
 
 
 --- System ---
-local sys_Aim = tiny.processingSystem()
+local sys_Aim = Class(tiny.processingSystem())
 sys_Aim.filter = tiny.requireAll("AimAngle", "DesiredAimAngle", "AimSpeed")
 --- ==== ---
 
@@ -47,4 +47,4 @@ function sys_Aim:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Aim)
+return sys_Aim

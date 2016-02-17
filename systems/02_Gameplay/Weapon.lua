@@ -7,7 +7,7 @@ local tiny = require("lib.tiny")
 
 
 --- System ---
-local sys_Weapon = tiny.processingSystem()
+local sys_Weapon = Class(tiny.processingSystem())
 sys_Weapon.filter = tiny.requireAll("Weapon", "AimAngle") -- TODO: Weapons which aren't aimed?
 --- ==== ---
 
@@ -40,4 +40,4 @@ function sys_Weapon:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Weapon)
+return sys_Weapon

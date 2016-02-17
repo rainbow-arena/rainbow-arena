@@ -13,7 +13,7 @@ local ent_Explosion = require("entities.Explosion")
 
 
 --- System ---
-local sys_Death = tiny.processingSystem()
+local sys_Death = Class(tiny.processingSystem())
 sys_Death.filter = tiny.requireAll("Health")
 --- ==== ---
 
@@ -52,4 +52,4 @@ function sys_Death:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Death)
+return sys_Death

@@ -9,7 +9,7 @@ local util = require("lib.util")
 
 
 --- System ---
-local sys_Screenshake = tiny.processingSystem()
+local sys_Screenshake = Class(tiny.processingSystem())
 sys_Screenshake.filter = tiny.requireAll("Position", "Screenshake")
 --- ==== ---
 
@@ -100,4 +100,4 @@ function sys_Screenshake:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Screenshake)
+return sys_Screenshake

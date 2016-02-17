@@ -9,7 +9,7 @@ local circle = require("util.circle")
 
 
 --- System ---
-local sys_Blast = tiny.processingSystem()
+local sys_Blast = Class(tiny.processingSystem())
 sys_Blast.filter = tiny.requireAll("Position", "Blast")
 --- ==== ---
 
@@ -116,4 +116,4 @@ function sys_Blast:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Blast)
+return sys_Blast
