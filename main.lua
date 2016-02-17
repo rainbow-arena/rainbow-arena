@@ -1,5 +1,5 @@
 --[[
-	Rainbow Arena, a game by LegoSpacy
+	Rainbow Arena v2, a game by LegoSpacy
 ]]
 
 --[[
