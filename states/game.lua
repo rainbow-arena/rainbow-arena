@@ -65,9 +65,9 @@ local function spawn_test_entities(world)
 	end
 
 	--[[
-	world:register_event("EntityCollision", function(world, e1, e2, mtv)
+	world:register_event("PhysicsCollision", function(world, e1, e2, mtv)
 		world:add_entity(ent_Explosion{
-			position = entity.getmidpoint(e1, e2),
+			Position = entity.getmidpoint(e1, e2),
 			radius = 100,
 			duration = 1,
 			damage = 75,
