@@ -9,7 +9,7 @@ local circle = require("util.circle")
 
 
 --- Class definition ---
-local ent_Physical = {}
+local ent_Physical = Class{}
 --- ==== ---
 
 
@@ -53,4 +53,4 @@ end
 --- ==== ---
 
 
-return Class(ent_Physical)
+return ent_Physical

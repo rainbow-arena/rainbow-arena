@@ -11,7 +11,7 @@ local util = require("lib.util")
 
 
 --- Class definition ---
-local ent_Sound = {}
+local ent_Sound = Class{}
 --- ==== ---
 
 
@@ -42,4 +42,4 @@ end
 --- ==== ---
 
 
-return Class(ent_Sound)
+return ent_Sound

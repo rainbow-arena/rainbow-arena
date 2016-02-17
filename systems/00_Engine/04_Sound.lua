@@ -9,7 +9,7 @@ local util = require("lib.util")
 
 
 --- System ---
-local sys_Sound = tiny.processingSystem()
+local sys_Sound = Class(tiny.processingSystem())
 sys_Sound.filter = tiny.requireAll("Position", "Sound")
 --- ==== ---
 
@@ -105,4 +105,4 @@ function sys_Sound:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Sound)
+return sys_Sound

@@ -7,7 +7,7 @@ local tiny = require("lib.tiny")
 
 
 --- System ---
-local sys_PlayerInput = tiny.processingSystem()
+local sys_PlayerInput = Class(tiny.processingSystem())
 sys_PlayerInput.filter = tiny.requireAll("Mass", "Forces", "MoveForce", "Player")
 --- ==== ---
 
@@ -59,4 +59,4 @@ function sys_PlayerInput:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_PlayerInput)
+return sys_PlayerInput

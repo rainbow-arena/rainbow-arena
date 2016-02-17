@@ -9,7 +9,7 @@ local util = require("lib.util")
 
 
 --- System ---
-local sys_Stare = tiny.processingSystem()
+local sys_Stare = Class(tiny.processingSystem())
 sys_Stare.filter = tiny.requireAll("DesiredAimAngle", "StareAt")
 --- ==== ---
 
@@ -34,4 +34,4 @@ function sys_Stare:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_Stare)
+return sys_Stare

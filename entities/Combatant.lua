@@ -14,7 +14,7 @@ local ent_Physical = require("entities.Physical")
 
 
 --- Class definition ---
-local ent_Combatant = {__include = {ent_Physical}}
+local ent_Combatant = Class{__includes = ent_Physical}
 --- ==== ---
 
 
@@ -50,4 +50,4 @@ end
 --- ==== ---
 
 
-return Class(ent_Combatant)
+return ent_Combatant

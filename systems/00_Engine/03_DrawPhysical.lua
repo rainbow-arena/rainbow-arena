@@ -11,7 +11,7 @@ local circle = require("util.circle")
 
 
 --- System ---
-local sys_DrawPhysical = tiny.processingSystem()
+local sys_DrawPhysical = Class(tiny.processingSystem())
 sys_DrawPhysical.filter = tiny.requireAll("Position", "Radius", "Color")
 --- ==== ---
 
@@ -138,4 +138,4 @@ function sys_DrawPhysical:process(e, dt)
 end
 --- ==== ---
 
-return Class(sys_DrawPhysical)
+return sys_DrawPhysical

@@ -18,7 +18,7 @@ local ent_Screenshake = require("entities.Screenshake")
 
 
 --- System ---
-local sys_CollisionEffects = tiny.system()
+local sys_CollisionEffects = Class(tiny.system())
 --- ==== ---
 
 
@@ -117,4 +117,4 @@ function sys_CollisionEffects:update(dt)
 end
 --- ==== ---
 
-return Class(sys_CollisionEffects)
+return sys_CollisionEffects
