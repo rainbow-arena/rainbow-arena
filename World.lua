@@ -51,7 +51,7 @@ function World:init(system_dir)
 	self.CameraTarget = nil
 
 	love.audio.setDopplerScale(1)
-	self.SOUND_POSITION_SCALE = 256
+	self.SOUND_POSITION_SCALE = 128
 
 	---
 
