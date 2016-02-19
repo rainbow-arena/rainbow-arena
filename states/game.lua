@@ -60,13 +60,15 @@ local function spawn_test_entities(world)
 
 				Position = vector.new(0, 0), -- doesn't matter
 				Radius = 3,
+				Mass = 15^2,
 
 				Drag = 0,
 
-				CollisionPhysics = false,
+				CollisionPhysics = true,
 				IgnoreExplosion = true,
 
-				onCollision = function(self, world, other, mtv)
+				onPostPhysicsCollision = function(self, world, other)
+					--[[
 					world:add_entity(ent_Explosion{
 						Position = self.Position:clone(),
 						radius = 25,
@@ -74,6 +76,7 @@ local function spawn_test_entities(world)
 						damage = 50,
 						force = 8 * 10^6
 					})
+					--]]
 
 					world:remove_entity(self)
 				end

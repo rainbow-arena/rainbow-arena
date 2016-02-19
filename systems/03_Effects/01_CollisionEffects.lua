@@ -74,7 +74,7 @@ end
 function sys_CollisionEffects:onAddToWorld(world)
 	local world = world.world
 
-	world:register_event("PhysicsCollision", function(world, e1, e2, mtv)
+	world:register_event("PostPhysicsCollision", function(world, e1, e2, mtv)
 		-- Color pulse
 		local v1, v2 = calculate_double_entity_pulse(e1, e2)
 		if e1.pulse then e1:pulse(v1) end
