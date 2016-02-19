@@ -17,6 +17,18 @@ sys_Collision.filter = tiny.requireAll("Position", "Radius", "Velocity", "Mass")
 
 
 --- Local functions ---
+local function call_on_both(func_name, world, e1, e2, ...)
+	if e1[func_name] then
+		e1[func_name](e1, world, e2, ...)
+	end
+
+	if e2[func_name] then
+		e2[func_name](e2, world, e1, ...)
+	end
+end
+
+---
+
 local function get_entity_aabb(e)
 	return circle.aabb(e.Radius, e.Position.x, e.Position.y)
 end
@@ -138,13 +150,7 @@ function sys_Collision:onAddToWorld(world)
 	---
 
 	world:register_event("EntityCollision", function(world, e1, e2, mtv)
-		if e1.onCollision then
-			e1:onCollision(world, e2, mtv)
-		end
-
-		if e2.onCollision then
-			e2:onCollision(world, e1, -mtv)
-		end
+		call_on_both("onCollision", world, e1, e2)
 	end)
 
 	---
@@ -157,9 +163,20 @@ function sys_Collision:onAddToWorld(world)
 		}
 
 		if util.table.has(e1, REQ) and util.table.has(e2, REQ) then
-			world:emit_event("PhysicsCollision", e1, e2, mtv)
+			world:emit_event("PrePhysicsCollision", e1, e2)
 			resolve_collision(world, e1, e2, mtv)
+			world:emit_event("PostPhysicsCollision", e1, e2)
 		end
+	end)
+
+	---
+
+	world:register_event("PrePhysicsCollision", function(world, e1, e2)
+		call_on_both("onPrePhysicsCollision", world, e1, e2)
+	end)
+
+	world:register_event("PostPhysicsCollision", function(world, e1, e2)
+		call_on_both("onPostPhysicsCollision", world, e1, e2)
 	end)
 end
 
