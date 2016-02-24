@@ -64,10 +64,10 @@ local function spawn_test_entities(world)
 
 				Drag = 0,
 
-				CollisionPhysics = true,
+				CollisionPhysics = false,
 				IgnoreExplosion = true,
 
-				onPostPhysicsCollision = function(self, world, other)
+				onCollision = function(self, world, other)
 					--[[
 					world:add_entity(ent_Explosion{
 						Position = self.Position:clone(),
