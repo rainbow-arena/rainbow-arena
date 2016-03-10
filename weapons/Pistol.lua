@@ -63,7 +63,7 @@ function wep_Pistol:fire_projectile(world, wielder)
 
 	---
 
-	local shot_force_duration = 0.05
+	local shot_force_duration = 0.0001
 	local shot_force_vector = shot_spread_dir_vec *
 		(proj.Mass * (self.muzzleVelocity / shot_force_duration)) -- f = m * (v / t)
 
