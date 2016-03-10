@@ -4,7 +4,8 @@ local vector = require("lib.hump.vector")
 
 local util = require("lib.util")
 
-local angle = require("util.angle")
+local angleutil = require("util.angle")
+local entutil = require("util.entity")
 --- ==== ---
 
 
@@ -41,10 +42,10 @@ end
 ---
 
 function wep_Projectile:fire_projectile(world, wielder)
-	local wielder_facing_vec = angle.angle_to_vector(wielder.AimAngle)
+	local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
 
 	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
-	local shot_spread_dir_vec = angle.angle_to_vector(wielder.AimAngle + shot_spread_angle)
+	local shot_spread_dir_vec = angleutil.angle_to_vector(wielder.AimAngle + shot_spread_angle)
 
 	local muzzle_length = self.projectile.Radius or 0
 
@@ -52,12 +53,9 @@ function wep_Projectile:fire_projectile(world, wielder)
 
 	---
 
-	local proj = world:add_entity(Class.clone(self.projectile))
+	local proj = world:add_entity(entutil.clone(self.projectile))
 
 	proj.Position = firing_from_vec
-
-	-- TODO: Why is this needed?
-	proj.Velocity = vector.new(0, 0)
 
 	---
 
