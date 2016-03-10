@@ -24,7 +24,7 @@ function ent_Sound:init(template)
 	assert(util.table.check(template, {
 		"Position",
 		"soundpath",
-	}, "Sound"))
+	}, "ent_Sound"))
 
 	util.table.fill(self, template)
 
