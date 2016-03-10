@@ -23,7 +23,7 @@ function ent_Explosion:init(template)
 		"Position",
 		"radius",
 		"duration"
-	}, "Explosion"))
+	}, "ent_Explosion"))
 
 	util.table.fill(template, {
 		Color = {255, 97, 0}

@@ -25,7 +25,7 @@ function ent_Screenshake:init(template)
 		"Position",
 		"radius",
 		"intensity"
-	}, "Screenshake"))
+	}, "ent_Screenshake"))
 
 	util.table.fill(self, template)
 

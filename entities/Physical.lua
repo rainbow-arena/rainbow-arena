@@ -29,7 +29,7 @@ local default_drag, default_accel = calculate_drag_accel(800, 5)
 function ent_Physical:init(template)
 	assert(util.table.check(template, {
 		"Position"
-	}, "Physical"))
+	}, "ent_Physical"))
 
 	local radius = math.floor(template.Radius or 30)
 	local mass = circle.area(radius)
