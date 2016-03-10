@@ -1,6 +1,7 @@
 --- Require ---
 local vector = require("lib.hump.vector")
 local timer = require("lib.hump.timer")
+local camera = require("lib.hump.camera")
 
 local tiny = require("lib.tiny")
 
@@ -64,7 +65,7 @@ local function spawn_test_entities(world)
 
 				Drag = 0,
 
-				CollisionPhysics = false,
+				CollisionPhysics = true,
 				IgnoreExplosion = true,
 
 				onCollision = function(self, world, other)
@@ -78,7 +79,7 @@ local function spawn_test_entities(world)
 					})
 					--]]
 
-					world:remove_entity(self)
+					--world:remove_entity(self)
 				end
 			},
 
@@ -154,6 +155,18 @@ function Game:init()
 
 	---
 
+	self.game_scale = 2
+
+	local window_w, window_h = 1280 * self.game_scale, 720 * self.game_scale
+
+	love.window.setMode(window_w, window_h)
+
+	self.scale_cam = camera.new()
+	self.scale_cam:lookAt(window_w/2, window_h/2)
+	self.scale_cam:zoom(self.game_scale)
+
+	---
+
 	spawn_test_entities(self.world)
 end
 
@@ -191,12 +204,15 @@ end
 function Game:draw()
 	local dt = love.timer.getDelta()
 
+	self.scale_cam:attach()
 	self.world:update(dt)
 	timer.update(dt)
 
 	if self.world.DEBUG then
 		draw_debug_info(self.world, 10, 10)
 	end
+
+	self.scale_cam:detach()
 end
 -- ==== --
 
