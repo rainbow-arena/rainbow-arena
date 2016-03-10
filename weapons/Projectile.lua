@@ -65,6 +65,7 @@ function wep_Projectile:fire_projectile(world, wielder)
 
 	table.insert(proj.Forces, {vector = shot_force_vector, duration = shot_force_duration})
 	table.insert(wielder.Forces, {vector = -shot_force_vector, duration = shot_force_duration})
+	proj.hitForce = {vector = shot_force_vector, duration = shot_force_duration}
 
 	return proj
 end
