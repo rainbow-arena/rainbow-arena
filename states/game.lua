@@ -60,7 +60,7 @@ local function spawn_test_entities(world)
 
 				Position = vector.new(0, 0), -- doesn't matter
 				Radius = 3,
-				Mass = 15^2,
+				Mass = 20^2,
 
 				Drag = 0,
 

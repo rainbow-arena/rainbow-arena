@@ -8,9 +8,6 @@ local angle = require("util.angle")
 --- ==== ---
 
 
--- TODO: Recoil
-
-
 --- Classes ---
 local wep_Base = require("weapons.Base")
 --- ==== ---
@@ -22,16 +19,6 @@ local wep_Pistol = Class{__includes = wep_Base}
 
 
 --- Local functions ---
-local function fire_projectile(world, proj_template, from_vec, from_vel, dir_vec, vel)
-	local proj = world:add_entity(Class.clone(proj_template))
-
-	dir_vec = dir_vec:normalized()
-
-	proj.Position = from_vec:clone()
-	proj.Velocity = dir_vec * vel + (from_vel or vector.zero)
-
-	return proj
-end
 --- ==== ---
 
 
@@ -55,20 +42,42 @@ function wep_Pistol:init(args)
 end
 
 
--- Weapon callbacks --
+---
+
+function wep_Pistol:fire_projectile(world, wielder)
+	local wielder_facing_vec = angle.angle_to_vector(wielder.AimAngle)
+
+	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
+	local shot_spread_dir_vec = angle.angle_to_vector(wielder.AimAngle + shot_spread_angle)
+
+	local muzzle_length = self.projectile.Radius or 0
+
+	local firing_from_vec = wielder.Position + wielder_facing_vec * ((wielder.Radius or 0) + muzzle_length)
+
+	---
+
+	local proj = world:add_entity(Class.clone(self.projectile))
+
+	proj.Position = firing_from_vec
+	proj.Velocity = vector.new(0, 0)
+
+	---
+
+	local shot_force_duration = 0.05
+	local shot_force_vector = shot_spread_dir_vec *
+		(proj.Mass * (self.muzzleVelocity / shot_force_duration)) -- f = m * (v / t)
+
+	table.insert(proj.Forces, {vector = shot_force_vector, duration = shot_force_duration})
+	table.insert(wielder.Forces, {vector = -shot_force_vector, duration = shot_force_duration})
+
+	return proj
+end
+
+---
+
 function wep_Pistol:fire_begin(world, wielder)
 	if self.heat == 0 then
-		local dir_vec = angle.angle_to_vector(wielder.AimAngle)
-
-		local spread_angle = (love.math.random() * self.spread) - self.spread/2
-		local spread_dir_vec = angle.angle_to_vector(wielder.AimAngle + spread_angle)
-
-		local muzzle_length = self.projectile.Radius or 0
-
-		fire_projectile(world, self.projectile,
-			wielder.Position + dir_vec * ((wielder.Radius or 0) + muzzle_length),
-			wielder.Velocity,
-			spread_dir_vec, self.muzzleVelocity)
+		local proj = self:fire_projectile(world, wielder)
 
 		self.heat = self.cooldown
 	end
@@ -88,7 +97,6 @@ function wep_Pistol:update(world, wielder, dt)
 		self.heat = 0
 	end
 end
--- ==== --
 --- ==== ---
 
 
