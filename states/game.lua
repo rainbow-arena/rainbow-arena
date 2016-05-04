@@ -208,11 +208,11 @@ function Game:draw()
 	self.world:update(dt)
 	timer.update(dt)
 
+	self.scale_cam:detach()
+
 	if self.world.DEBUG then
 		draw_debug_info(self.world, 10, 10)
 	end
-
-	self.scale_cam:detach()
 end
 -- ==== --
 
