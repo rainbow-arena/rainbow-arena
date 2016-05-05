@@ -69,7 +69,7 @@ local function spawn_test_entities(world)
 				IgnoreExplosion = true,
 
 				onCollision = function(self, world, other)
-					--[[
+					---[[
 					world:add_entity(ent_Explosion{
 						Position = self.Position:clone(),
 						radius = 25,
