@@ -155,7 +155,24 @@ function Game:init()
 
 	---
 
-	self.game_scale = 2
+	self.game_scale = 1
+
+	-- Hack for adjusting mouse position for scaling.
+	do
+		local mouseX, mouseY = love.mouse.getX, love.mouse.getY
+
+		function love.mouse.getX()
+			return mouseX()
+		end
+
+		function love.mouse.getY()
+			return mouseY()
+		end
+
+		function love.mouse.getPosition()
+			return love.mouse.getX(), love.mouse.getY()
+		end
+	end
 
 	local window_w, window_h = 1280 * self.game_scale, 720 * self.game_scale
 
@@ -171,11 +188,11 @@ function Game:init()
 end
 
 function Game:enter(prev, ...)
-
+	love.mouse.setVisible(false)
 end
 
 function Game:leave()
-
+	love.mouse.setVisible(true)
 end
 -- ==== --
 
