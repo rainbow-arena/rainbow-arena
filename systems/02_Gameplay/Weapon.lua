@@ -8,7 +8,7 @@ local tiny = require("lib.tiny")
 
 --- System ---
 local sys_Weapon = Class(tiny.processingSystem())
-sys_Weapon.filter = tiny.requireAll("Weapon", "AimAngle") -- TODO: Weapons which aren't aimed?
+sys_Weapon.filter = tiny.requireAll("Weapon", "AimAngle")
 --- ==== ---
 
 
@@ -37,6 +37,22 @@ function sys_Weapon:process(e, dt)
 	end
 
 	weapon:update(world, e, dt)
+
+	---
+
+	if e.Player then
+		-- Temporarily disable the camera so we can draw directly on the screen.
+		world.camera:detach()
+
+		local mx, my = love.mouse.getPosition()
+		love.graphics.push()
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.translate(mx, my)
+		weapon:draw_reticule()
+		love.graphics.pop()
+
+		world.camera:attach()
+	end
 end
 --- ==== ---
 

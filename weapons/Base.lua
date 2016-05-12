@@ -44,6 +44,13 @@ function wep_Base:update(world, wielder, dt)
 
 end
 -- ==== --
+
+
+-- Reticule --
+function wep_Base:draw_reticule()
+
+end
+-- ==== --
 --- ==== ---
 
 
