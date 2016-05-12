@@ -52,6 +52,20 @@ function ent_Physical:init(template)
 
 	util.table.fill(self, template)
 end
+
+---
+
+function ent_Physical:set_parent(parent, remove_with_parent)
+	if parent then
+		e.Parent = parent
+		e.AttachmentOffset = e.Position - parent.Position
+		e.RemoveWithParent = remove_with_parent
+	else
+		e.Parent = nil
+		e.AttachmentOffset = nil
+		e.RemoveWithParent = nil
+	end
+end
 --- ==== ---
 
 
