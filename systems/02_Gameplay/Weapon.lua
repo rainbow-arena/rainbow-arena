@@ -48,7 +48,7 @@ function sys_Weapon:process(e, dt)
 		love.graphics.push()
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.translate(mx, my)
-		weapon:draw_reticule()
+		weapon:draw_reticle()
 		love.graphics.pop()
 
 		world.camera:attach()
