@@ -14,7 +14,7 @@ local angle = require("util.angle")
 
 --- Classes ---
 local wep_Projectile = require("weapons.Projectile")
-local ret_EnergyReticule = require("weapons.reticules.EnergyReticule")
+local ret_EnergyReticle = require("weapons.reticles.EnergyReticle")
 --- ==== ---
 
 
@@ -36,7 +36,7 @@ function wep_EnergyPistol:init(args)
 	self.cooldown = args.cooldown
 	self.heat = 0
 
-	self.reticule = ret_EnergyReticule()
+	self.reticle = ret_EnergyReticle()
 
 	return wep_Projectile.init(self, args)
 end
@@ -67,8 +67,8 @@ end
 
 ---
 
-function wep_EnergyPistol:draw_reticule()
-	self.reticule.draw(self, self.heat / self.cooldown)
+function wep_EnergyPistol:draw_reticle()
+	self.reticle.draw(self, self.heat / self.cooldown)
 end
 --- ==== ---
 

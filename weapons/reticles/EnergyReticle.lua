@@ -11,7 +11,7 @@ local util = require("lib.util")
 
 
 --- System ---
-local ret_EnergyReticule = Class{}
+local ret_EnergyReticle = Class{}
 --- ==== ---
 
 
@@ -24,7 +24,7 @@ local ret_EnergyReticule = Class{}
 
 
 --- Class functions ---
-function ret_EnergyReticule:draw(self, level)
+function ret_EnergyReticle:draw(self, level)
 	-- Point.
 	love.graphics.circle("fill", 0,0, 2)
 
@@ -33,4 +33,4 @@ function ret_EnergyReticule:draw(self, level)
 end
 --- ==== ---
 
-return ret_EnergyReticule
+return ret_EnergyReticle
