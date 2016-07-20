@@ -24,12 +24,9 @@ local ret_EnergyReticle = Class{}
 
 
 --- Class functions ---
-function ret_EnergyReticle:draw(self, level)
+function ret_EnergyReticle:draw()
 	-- Point.
 	love.graphics.circle("fill", 0,0, 2)
-
-	-- Bar outline
-	--love.graphics.arc("line")
 end
 --- ==== ---
 
