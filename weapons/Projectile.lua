@@ -1,3 +1,8 @@
+-- Abstract class for projectile weapons.
+-- Provides the methods for firing projectiles and delay between that, but
+-- doesn't use them.
+
+
 --- Require ---
 local Class = require("lib.hump.class")
 local vector = require("lib.hump.vector")
@@ -29,19 +34,26 @@ function wep_Projectile:init(args)
 		"projectile", -- Projectile entity template
 		"muzzleVelocity",
 		"spread", -- Maximum bullet spread in radians
+		"shotDelay",
 	}, "wep_Projectile"))
 
 	self.projectile = args.projectile
 	self.muzzleVelocity = args.muzzleVelocity
 	self.spread = args.spread
 
+	self.shotDelay = args.shotDelay
+	self.shotDelayTimer = 0
+
 	return wep_Base.init(self, args)
 end
-
 
 ---
 
 function wep_Projectile:fire_projectile(world, wielder)
+	self.shotDelayTimer = self.shotDelay
+
+	---
+
 	local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
 
 	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
@@ -67,25 +79,24 @@ function wep_Projectile:fire_projectile(world, wielder)
 	table.insert(wielder.Forces, {vector = -shot_force_vector, duration = shot_force_duration})
 	proj.hitForce = {vector = shot_force_vector, duration = shot_force_duration}
 
+	---
+
 	return proj
+end
+
+function wep_Projectile:can_fire_shot_delay()
+	return self.shotDelayTimer == 0
 end
 
 ---
 
-function wep_Projectile:fire_begin(world, wielder)
-
-end
-
-function wep_Projectile:firing(world, wielder, dt)
-
-end
-
-function wep_Projectile:fire_end(world, wielder)
-
+function wep_Projectile:can_fire()
+	return self:can_fire_shot_delay()
 end
 
 function wep_Projectile:update(world, wielder, dt)
-
+	self.shotDelayTimer = self.shotDelayTimer - dt
+	if self.shotDelayTimer < 0 then self.shotDelayTimer = 0 end
 end
 --- ==== ---
 

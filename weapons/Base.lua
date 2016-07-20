@@ -46,7 +46,7 @@ end
 -- ==== --
 
 
--- Reticule --
+-- Other --
 function wep_Base:draw_reticule()
 
 end

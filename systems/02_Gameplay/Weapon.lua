@@ -44,6 +44,7 @@ function sys_Weapon:process(e, dt)
 		-- Temporarily disable the camera so we can draw directly on the screen.
 		world.camera:detach()
 
+		-- Draw reticle.
 		local mx, my = love.mouse.getPosition()
 		love.graphics.push()
 		love.graphics.setColor(255, 255, 255)
