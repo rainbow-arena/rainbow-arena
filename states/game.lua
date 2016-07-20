@@ -155,32 +155,8 @@ function Game:init()
 
 	---
 
-	self.game_scale = 1
-
-	-- Hack for adjusting mouse position for scaling.
-	do
-		local mouseX, mouseY = love.mouse.getX, love.mouse.getY
-
-		function love.mouse.getX()
-			return mouseX()
-		end
-
-		function love.mouse.getY()
-			return mouseY()
-		end
-
-		function love.mouse.getPosition()
-			return love.mouse.getX(), love.mouse.getY()
-		end
-	end
-
-	local window_w, window_h = 1280 * self.game_scale, 720 * self.game_scale
-
+	local window_w, window_h = 1280, 720
 	love.window.setMode(window_w, window_h)
-
-	self.scale_cam = camera.new()
-	self.scale_cam:lookAt(window_w/2, window_h/2)
-	self.scale_cam:zoom(self.game_scale)
 
 	---
 
@@ -221,11 +197,8 @@ end
 function Game:draw()
 	local dt = love.timer.getDelta()
 
-	self.scale_cam:attach()
 	self.world:update(dt)
 	timer.update(dt)
-
-	self.scale_cam:detach()
 
 	if self.world.DEBUG then
 		draw_debug_info(self.world, 10, 10)
