@@ -47,6 +47,7 @@ end
 
 
 -- Other --
+-- NOTE: Reticles are drawn immediate mode.
 function wep_Base:draw_reticule()
 
 end

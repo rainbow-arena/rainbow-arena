@@ -19,6 +19,8 @@
 			Destroy all enemies/get to exit?
 
 		Weapons:
+			All weapons should be Mass Effect heat style.
+
 			Pistol
 			Burst rifle
 			Minigun, and triple barreled

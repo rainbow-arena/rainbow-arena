@@ -4,13 +4,13 @@ local Class = require("lib.hump.class")
 
 
 --- Classes ---
-local wep_Projectile = require("weapons.Projectile")
+local wep_Projectile = require("weapons.projectile.Projectile")
 local ret_DotReticle = require("weapons.components.reticles.DotReticle")
 --- ==== ---
 
 
 --- Class definition ---
-local wep_InfinitePistol = Class{__includes = wep_Projectile}
+local wep_Pistol = Class{__includes = wep_Projectile}
 --- ==== ---
 
 
@@ -19,26 +19,26 @@ local wep_InfinitePistol = Class{__includes = wep_Projectile}
 
 
 --- Class functions ---
-function wep_InfinitePistol:init(args)
-	self.reticle = ret_DotReticle()
-
+function wep_Pistol:init(args)
 	return wep_Projectile.init(self, args)
 end
 
 ---
 
-function wep_InfinitePistol:fire_begin(world, wielder)
+function wep_Pistol:fire_begin(world, wielder)
 	if self:can_fire() then
-		self:fire_projectile(world, wielder)
+		self:shot_fire_projectile(world, wielder)
+		self:shot_add_delay()
+		self:shot_add_heat()
 	end
 end
 
 ---
 
-function wep_InfinitePistol:draw_reticle()
-	self.reticle:draw()
+function wep_Pistol:draw_reticle()
+	ret_DotReticle.draw()
 end
 --- ==== ---
 
 
-return wep_InfinitePistol
+return wep_Pistol
