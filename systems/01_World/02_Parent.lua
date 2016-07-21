@@ -1,3 +1,5 @@
+-- FIXME: I don't think this works with tiny-ecs.
+
 --- Require ---
 local Class = require("lib.hump.class")
 local vector = require("lib.hump.vector")
