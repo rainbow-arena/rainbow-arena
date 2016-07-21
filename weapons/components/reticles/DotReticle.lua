@@ -1,4 +1,7 @@
 --- Require ---
+local Class = require("lib.hump.class")
+local vector = require("lib.hump.vector")
+
 local util = require("lib.util")
 --- ==== ---
 
@@ -8,8 +11,8 @@ local ret_DotReticle = {}
 --- ==== ---
 
 
---- Functions ---
-function ret_DotReticle.draw(args)
+--- Class functions ---
+function ret_DotReticle.draw(weapon)
 	-- Point.
 	love.graphics.circle("fill", 0,0, 2)
 end

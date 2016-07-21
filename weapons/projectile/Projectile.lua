@@ -39,7 +39,6 @@ function wep_Projectile:init(args)
 		"shotDelay",
 
 		"shotHeat", -- How much heat (in seconds) each shot adds.
-		"heatLimit", -- The maximum heat before overheat.
 	}, "wep_Projectile"))
 
 	self.projectile = args.projectile
@@ -49,17 +48,14 @@ function wep_Projectile:init(args)
 	self.shotDelay = args.shotDelay
 	self.shotDelayTimer = 0
 
-	self.heat = 0
 	self.shotHeat = args.shotHeat
-	self.heatLimit = args.heatLimit
-	self.overheat = false
 
 	return wep_Base.init(self, args)
 end
 
 ---
 
-function wep_Projectile:shot_fire_projectile(world, wielder)
+function wep_Projectile:shot_fire_projectile(world, wielder, muzzle_offset)
 	local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
 
 	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
@@ -100,10 +96,6 @@ end
 
 ---
 
-function wep_Projectile:can_fire_heat()
-	return not self.overheat
-end
-
 function wep_Projectile:can_fire_shot_delay()
 	return self.shotDelayTimer <= 0
 end
@@ -111,7 +103,7 @@ end
 ---
 
 function wep_Projectile:can_fire()
-	return self:can_fire_shot_delay() and self:can_fire_heat()
+	return wep_Base.can_fire(self) and self:can_fire_shot_delay()
 end
 
 -- THOUGHT: Should the numbers be updated before or after the check?
@@ -120,14 +112,7 @@ function wep_Projectile:update(world, wielder, dt)
 	if self.shotDelayTimer < 0 then self.shotDelayTimer = 0 end
 	self.shotDelayTimer = self.shotDelayTimer - dt
 
-	-- Heat/overheat.
-	if self.heat > self.heatLimit then
-		self.overheat = true
-	elseif self.heat <= 0 then
-		self.overheat = false
-		self.heat = 0
-	end
-	self.heat = self.heat - dt
+	wep_Base.update(self, world, wielder, dt)
 end
 --- ==== ---
 
