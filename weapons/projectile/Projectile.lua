@@ -31,10 +31,15 @@ local wep_Projectile = Class{__includes = wep_Base}
 --- Class functions ---
 function wep_Projectile:init(args)
 	assert(util.table.check(args, {
-		"projectile", -- Projectile entity template
+		"projectile", -- Projectile entity template.
+
 		"muzzleVelocity",
-		"spread", -- Maximum bullet spread in radians
+		"spread", -- Maximum bullet spread in radians.
+
 		"shotDelay",
+
+		"shotHeat", -- How much heat (in seconds) each shot adds.
+		"heatLimit", -- The maximum heat before overheat.
 	}, "wep_Projectile"))
 
 	self.projectile = args.projectile
@@ -44,16 +49,17 @@ function wep_Projectile:init(args)
 	self.shotDelay = args.shotDelay
 	self.shotDelayTimer = 0
 
+	self.heat = 0
+	self.shotHeat = args.shotHeat
+	self.heatLimit = args.heatLimit
+	self.overheat = false
+
 	return wep_Base.init(self, args)
 end
 
 ---
 
-function wep_Projectile:fire_projectile(world, wielder)
-	self.shotDelayTimer = self.shotDelay
-
-	---
-
+function wep_Projectile:shot_fire_projectile(world, wielder)
 	local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
 
 	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
@@ -84,19 +90,44 @@ function wep_Projectile:fire_projectile(world, wielder)
 	return proj
 end
 
+function wep_Projectile:shot_add_delay()
+	self.shotDelayTimer = self.shotDelay
+end
+
+function wep_Projectile:shot_add_heat()
+	self.heat = self.heat + self.shotHeat
+end
+
+---
+
+function wep_Projectile:can_fire_heat()
+	return not self.overheat
+end
+
 function wep_Projectile:can_fire_shot_delay()
-	return self.shotDelayTimer == 0
+	return self.shotDelayTimer <= 0
 end
 
 ---
 
 function wep_Projectile:can_fire()
-	return self:can_fire_shot_delay()
+	return self:can_fire_shot_delay() and self:can_fire_heat()
 end
 
+-- THOUGHT: Should the numbers be updated before or after the check?
 function wep_Projectile:update(world, wielder, dt)
-	self.shotDelayTimer = self.shotDelayTimer - dt
+	-- Shot delay.
 	if self.shotDelayTimer < 0 then self.shotDelayTimer = 0 end
+	self.shotDelayTimer = self.shotDelayTimer - dt
+
+	-- Heat/overheat.
+	if self.heat > self.heatLimit then
+		self.overheat = true
+	elseif self.heat <= 0 then
+		self.overheat = false
+		self.heat = 0
+	end
+	self.heat = self.heat - dt
 end
 --- ==== ---
 
