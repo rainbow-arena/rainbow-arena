@@ -20,7 +20,7 @@ local wep_Pistol = Class{__includes = wep_Projectile}
 
 --- Class functions ---
 function wep_Pistol:init(args)
-	args.reticle = ret_DotReticle.draw
+	args.shotSound = "audio/weapons/laser_shot.wav"
 
 	return wep_Projectile.init(self, args)
 end
@@ -29,9 +29,13 @@ end
 
 function wep_Pistol:fire_begin(world, wielder)
 	if self:can_fire() then
-		self:shot_fire_projectile(world, wielder)
+		local proj = self:shot_fire_projectile(world, wielder)
+
 		self:shot_add_delay()
 		self:shot_add_heat()
+
+		self:shot_play_sound(world, proj.Position:clone())
+		self:shot_apply_screenshake(world, proj.Position:clone())
 	end
 end
 

@@ -16,6 +16,9 @@ local entutil = require("util.entity")
 
 --- Classes ---
 local wep_Base = require("weapons.Base")
+
+local ent_Sound = require("entities.Sound")
+local ent_Screenshake = require("entities.Screenshake")
 --- ==== ---
 
 
@@ -49,6 +52,15 @@ function wep_Projectile:init(args)
 	self.shotDelayTimer = 0
 
 	self.shotHeat = args.shotHeat
+
+	if args.shotSound then
+		self.shotSound = args.shotSound
+	end
+
+	if args.screenshake then
+		self.screenshake = args.screenshake
+		self.screenshake.removeOnFinish = true
+	end
 
 	return wep_Base.init(self, args)
 end
@@ -92,6 +104,21 @@ end
 
 function wep_Projectile:shot_add_heat()
 	self.heat = self.heat + self.shotHeat
+end
+
+function wep_Projectile:shot_play_sound(world, position)
+	if self.shotSound then
+		 local sound_ent = ent_Sound{
+			Position = position,
+			soundpath = self.shotSound
+		 }
+
+		 world:add_entity(sound_ent)
+	end
+end
+
+function wep_Projectile:shot_apply_screenshake(world, position)
+	-- TODO
 end
 
 ---
