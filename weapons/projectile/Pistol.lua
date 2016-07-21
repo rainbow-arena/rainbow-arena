@@ -20,6 +20,8 @@ local wep_Pistol = Class{__includes = wep_Projectile}
 
 --- Class functions ---
 function wep_Pistol:init(args)
+	args.reticle = ret_DotReticle.draw
+
 	return wep_Projectile.init(self, args)
 end
 
@@ -31,12 +33,6 @@ function wep_Pistol:fire_begin(world, wielder)
 		self:shot_add_delay()
 		self:shot_add_heat()
 	end
-end
-
----
-
-function wep_Pistol:draw_reticle()
-	ret_DotReticle.draw()
 end
 --- ==== ---
 
