@@ -22,14 +22,11 @@ local wep_Base = Class{}
 function wep_Base:init(args)
 	assert(util.table.check(args, {
 		"heatLimit", -- The maximum heat before overheat.
-		"reticle", -- The reticle function to use.
 	}, "wep_Base"))
 
 	self.heat = 0
 	self.heatLimit = args.heatLimit
 	self.overheat = false
-
-	self.reticle = args.reticle
 end
 
 
@@ -77,7 +74,7 @@ end
 ---
 
 function wep_Base:draw_reticule()
-	self.reticle(self)
+
 end
 -- ==== --
 --- ==== ---
