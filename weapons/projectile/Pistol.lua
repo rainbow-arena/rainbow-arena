@@ -34,6 +34,12 @@ function wep_Pistol:fire_begin(world, wielder)
 		self:shot_add_heat()
 	end
 end
+
+---
+
+function wep_Pistol:draw_reticle()
+	ret_DotReticle.draw()
+end
 --- ==== ---
 
 

@@ -12,7 +12,7 @@ local ret_DotReticle = {}
 
 
 --- Class functions ---
-function ret_DotReticle.draw(weapon)
+function ret_DotReticle.draw(args)
 	-- Point.
 	love.graphics.circle("fill", 0,0, 2)
 end
