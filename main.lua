@@ -38,6 +38,11 @@
 
 		Weapons:
 			All weapons should be Mass Effect heat style.
+			Have offense, defense and support weapons?
+				eg. Support weapon could be telekinetic beam;
+				can't kill on its own, but helps others kill target.
+
+			---
 
 			Pistol
 			Burst rifle
