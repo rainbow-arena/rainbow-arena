@@ -31,7 +31,7 @@ function sys_Death:onAddToWorld(world)
 			-- TODO: Make death explosion configurable.
 			world:add_entity(ent_Explosion{
 				Position = e.Position:clone(),
-				color = e.Color,
+				Color = e.Color,
 				force = 2 * 10^5 * e.Radius,
 				damage = e.Radius * 8,
 				radius = 10 * e.Radius/1.5,
