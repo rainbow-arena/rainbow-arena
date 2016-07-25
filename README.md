@@ -3,6 +3,8 @@ A game made with LÖVE (http://love2d.org/) in which circles shoot each other.
 
 Or at least, that's the goal.
 
+Released into the public domain via CC0 - see `main.lua` for details.
+
 
 ## About
 Rainbow Arena is a game that I've worked on on and off since 2014. The engine
