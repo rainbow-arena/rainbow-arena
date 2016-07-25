@@ -21,7 +21,7 @@ local ent_Combatant = require("entities.Combatant")
 local ent_Explosion = require("entities.Explosion")
 
 local wep_Pistol = require("weapons.projectile.Pistol")
-local wep_MachineGun = require("weapons.projectile.MachineGun")
+local wep_Machinegun = require("weapons.projectile.Machinegun")
 --- ==== ---
 
 
@@ -56,7 +56,7 @@ local function spawn_test_entities(world)
 		DesiredAimAngle = math.pi,
 		Player = true,
 
-		Weapon = wep_MachineGun{
+		Weapon = wep_Machinegun{
 			projectile = ent_Physical{ -- TODO: Hit recoil, use CollisionPhysics with force but without actual collision?
 				Name = "A projectile",
 
