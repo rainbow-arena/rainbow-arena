@@ -2,9 +2,6 @@
 -- Provides the methods for firing projectiles and delay between that, but
 -- doesn't use them.
 
--- TODO: Make it so when the thing overheats, it won't fire again until you
--- release fire button?
-
 
 --- Require ---
 local Class = require("lib.hump.class")
