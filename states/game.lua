@@ -99,9 +99,9 @@ local function spawn_test_entities(world)
 			heatLimit = 4,
 
 			screenshake = {
-				radius = 30,
-				intensity = 4,
-				duration = 0.2,
+				radius = 20,
+				intensity = 2,
+				duration = 1,
 				removeOnFinish = true,
 			}
 		}
