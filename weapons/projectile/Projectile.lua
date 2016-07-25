@@ -62,7 +62,6 @@ function wep_Projectile:init(args)
 
 	if args.screenshake then
 		self.screenshake = args.screenshake
-		self.screenshake.removeOnFinish = true
 	end
 
 	return wep_Base.init(self, args)
@@ -113,7 +112,8 @@ function wep_Projectile:shot_play_sound(world, position)
 	if self.shotSound then
 		 local sound_ent = ent_Sound{
 			Position = position,
-			soundpath = self.shotSound
+			soundpath = self.shotSound,
+			removeOnFinish = true
 		 }
 
 		 world:add_entity(sound_ent)
@@ -121,7 +121,13 @@ function wep_Projectile:shot_play_sound(world, position)
 end
 
 function wep_Projectile:shot_apply_screenshake(world, position)
-	-- TODO
+	if self.screenshake then
+		local screenshake_ent = entutil.clone(self.screenshake)
+
+		screenshake_ent.Position = position
+
+		world:add_entity(screenshake_ent)
+	end
 end
 
 ---

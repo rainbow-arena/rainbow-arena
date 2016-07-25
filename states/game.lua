@@ -63,7 +63,7 @@ local function spawn_test_entities(world)
 
 				Position = vector.new(0, 0), -- doesn't matter
 				Radius = 3,
-				Mass = 20^2,
+				Mass = 10^2,
 
 				Drag = 0,
 
@@ -85,10 +85,10 @@ local function spawn_test_entities(world)
 				end
 			},
 
-			muzzleVelocity = 1000,
-			spread = math.pi/16,
+			muzzleVelocity = 800,
+			spread = math.pi/20,
 
-			--shotDelay = 0.2,
+			shotDelay = 0.2,
 
 			initialShotDelay = 0.3,
 			finalShotDelay = 0.05,
@@ -96,7 +96,14 @@ local function spawn_test_entities(world)
 			spinupTime = 2,
 
 			shotHeat = 0.1,
-			heatLimit = 10
+			heatLimit = 10,
+
+			screenshake = {
+				radius = 10,
+				intensity = 10,
+				duration = 0.2,
+				removeOnFinish = true,
+			}
 		}
 	})
 
