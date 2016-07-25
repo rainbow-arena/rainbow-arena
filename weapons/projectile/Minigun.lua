@@ -26,7 +26,7 @@ function wep_Minigun:init(args)
 		"initialShotDelay", -- Time between shots initially.
 		"finalShotDelay", -- Time between shots after the spinup time.
 
-		"spinupTime"
+		"spinupTime" -- Time it takes to get to full firerate.
 	}, "wep_Minigun"))
 
 	args.shotSound = "audio/weapons/laser_shot.wav"
@@ -60,6 +60,7 @@ function wep_Minigun:firing(world, wielder, dt)
 	self.shotDelay = util.math.map(self.spinupTimer,
 		0,self.spinupTime, self.initialShotDelay, self.finalShotDelay)
 
+	-- self:can_fire() handles shot delay, so we don't have to manually here.
 	if self:can_fire() then
 		local proj = self:shot_fire_projectile(world, wielder)
 
