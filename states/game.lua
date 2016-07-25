@@ -95,12 +95,12 @@ local function spawn_test_entities(world)
 
 			spinupTime = 2,
 
-			shotHeat = 0.1,
-			heatLimit = 10,
+			shotHeat = 0.0,
+			heatLimit = 4,
 
 			screenshake = {
-				radius = 10,
-				intensity = 10,
+				radius = 30,
+				intensity = 4,
 				duration = 0.2,
 				removeOnFinish = true,
 			}
