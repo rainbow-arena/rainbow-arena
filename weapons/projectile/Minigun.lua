@@ -23,13 +23,15 @@ local wep_Minigun = Class{__includes = wep_Projectile}
 --- Class functions ---
 function wep_Minigun:init(args)
 	assert(util.table.check(args, {
-		"intialShotDelay", -- Time between shots initially.
+		"initialShotDelay", -- Time between shots initially.
 		"finalShotDelay", -- Time between shots after the spinup time.
 
 		"spinupTime"
 	}, "wep_Minigun"))
 
 	args.shotSound = "audio/weapons/laser_shot.wav"
+
+	args.shotDelay = args.initialShotDelay
 
 	self.initialShotDelay = args.initialShotDelay
 	self.finalShotDelay = args.finalShotDelay
@@ -43,10 +45,21 @@ end
 ---
 
 function wep_Minigun:fire_begin(world, wielder)
+	self.shotDelay = self.initialShotDelay
+	self.spinupTimer = 0
+
 	wep_Projectile.fire_begin(self, world, wielder)
 end
 
 function wep_Minigun:firing(world, wielder, dt)
+	self.spinupTimer = self.spinupTimer + dt
+	if self.spinupTimer > self.spinupTime then
+		self.spinupTimer = self.spinupTime
+	end
+
+	self.shotDelay = util.math.map(self.spinupTimer,
+		0,self.spinupTime, self.initialShotDelay, self.finalShotDelay)
+
 	if self:can_fire() then
 		local proj = self:shot_fire_projectile(world, wielder)
 

@@ -25,6 +25,7 @@ function sys_Weapon:process(e, dt)
 	if e.Firing then
 		if not e.is_firing then
 			e.is_firing = true
+			weapon.isFiring = true
 			weapon:fire_begin(world, e)
 		else
 			weapon:firing(world, e, dt)
@@ -32,6 +33,7 @@ function sys_Weapon:process(e, dt)
 	else -- if not e.Firing then
 		if e.is_firing then
 			e.is_firing = false
+			weapon.isFiring = false
 			weapon:fire_end(world, e)
 		end
 	end
