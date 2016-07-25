@@ -39,7 +39,7 @@ function wep_Projectile:init(args)
 		"muzzleVelocity",
 		"spread", -- Maximum bullet spread in radians.
 
-		"shotDelay",
+		"shotDelay", -- Time between shots.
 
 		"shotHeat", -- How much heat (in seconds) each shot adds.
 	}, "wep_Projectile"))

@@ -37,6 +37,8 @@ function wep_Pistol:fire_begin(world, wielder)
 		self:shot_play_sound(world, proj.Position:clone())
 		self:shot_apply_screenshake(world, proj.Position:clone())
 	end
+
+	wep_Projectile.fire_begin(self, world, wielder)
 end
 
 ---
