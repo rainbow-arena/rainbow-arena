@@ -122,10 +122,10 @@ end
 
 function wep_Projectile:shot_apply_screenshake(world, position)
 	if self.screenshake then
-		local screenshake_ent = entutil.clone(self.screenshake)
+		local screenshake_template = util.table.clone(self.screenshake)
+		screenshake_template.Position = position
 
-		screenshake_ent.Position = position
-
+		local screenshake_ent = ent_Screenshake(screenshake_template)
 		world:add_entity(screenshake_ent)
 	end
 end
