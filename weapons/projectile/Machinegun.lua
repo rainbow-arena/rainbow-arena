@@ -35,7 +35,7 @@ function wep_Machinegun:firing(world, wielder, dt)
 		self:shot_add_heat()
 
 		self:shot_play_sound(world, proj.Position:clone())
-		self:shot_apply_screenshake(world, proj.Position:clone())
+		self:shot_apply_screenshake(world, wielder.Position:clone())
 	end
 
 	wep_Projectile.firing(self, world, wielder, dt)

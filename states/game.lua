@@ -23,6 +23,7 @@ local ent_Explosion = require("entities.Explosion")
 local wep_Pistol = require("weapons.projectile.Pistol")
 local wep_Machinegun = require("weapons.projectile.Machinegun")
 local wep_Minigun = require("weapons.projectile.Minigun")
+local wep_Shotgun = require("weapons.projectile.Shotgun")
 --- ==== ---
 
 
@@ -57,7 +58,7 @@ local function spawn_test_entities(world)
 		DesiredAimAngle = math.pi,
 		Player = true,
 
-		Weapon = wep_Minigun{
+		Weapon = wep_Shotgun{
 			projectile = ent_Physical{ -- TODO: Hit recoil, use CollisionPhysics with force but without actual collision?
 				Name = "A projectile",
 
@@ -88,6 +89,8 @@ local function spawn_test_entities(world)
 			muzzleVelocity = 800,
 			spread = math.pi/20,
 
+			shotPellets = 5,
+
 			shotDelay = 0.2,
 
 			initialShotDelay = 0.3,
@@ -98,8 +101,10 @@ local function spawn_test_entities(world)
 			shotHeat = 0.0,
 			heatLimit = 4,
 
+			shotSound = "audio/weapons/laser_shot.wav",
+
 			screenshake = {
-				radius = 20,
+				radius = 60,
 				intensity = 2,
 				duration = 1,
 				removeOnFinish = true,

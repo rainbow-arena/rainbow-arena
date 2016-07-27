@@ -1,5 +1,7 @@
 --- Require ---
 local Class = require("lib.hump.class")
+
+local util = require("lib.util")
 --- ==== ---
 
 
@@ -10,7 +12,7 @@ local ret_DotReticle = require("weapons.components.reticles.DotReticle")
 
 
 --- Class definition ---
-local wep_Pistol = Class{__includes = wep_Projectile}
+local wep_Shotgun = Class{__includes = wep_Projectile}
 --- ==== ---
 
 
@@ -19,17 +21,24 @@ local wep_Pistol = Class{__includes = wep_Projectile}
 
 
 --- Class functions ---
-function wep_Pistol:init(args)
-	args.shotSound = "audio/weapons/laser_shot.wav"
+function wep_Shotgun:init(args)
+	assert(util.table.check(args, {
+		"shotPellets" -- How many projectiles are fired per shot.
+	}, "wep_Shotgun"))
+
+	self.shotPellets = args.shotPellets
 
 	return wep_Projectile.init(self, args)
 end
 
 ---
 
-function wep_Pistol:fire_begin(world, wielder)
+function wep_Shotgun:fire_begin(world, wielder)
 	if self:can_fire() then
-		local proj = self:shot_fire_projectile(world, wielder)
+		local proj
+		for i = 1, self.shotPellets do
+			proj = self:shot_fire_projectile(world, wielder)
+		end
 
 		self:shot_add_delay()
 		self:shot_add_heat()
@@ -43,10 +52,10 @@ end
 
 ---
 
-function wep_Pistol:draw_reticle()
+function wep_Shotgun:draw_reticle()
 	ret_DotReticle.draw()
 end
 --- ==== ---
 
 
-return wep_Pistol
+return wep_Shotgun

@@ -97,6 +97,8 @@ function wep_Projectile:shot_fire_projectile(world, wielder, muzzle_offset)
 	return proj
 end
 
+---
+
 function wep_Projectile:shot_add_delay()
 	self.shotDelayTimer = self.shotDelay
 end
@@ -104,6 +106,8 @@ end
 function wep_Projectile:shot_add_heat()
 	self.heat = self.heat + self.shotHeat
 end
+
+---
 
 function wep_Projectile:shot_play_sound(world, position)
 	if self.shotSound then
