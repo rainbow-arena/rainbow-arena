@@ -67,6 +67,8 @@ end
 ---
 
 function wep_Projectile:shot_fire_projectile(world, wielder, muzzle_offset)
+	muzzle_offset = muzzle_offset or vector.zero
+
 	local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
 
 	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
@@ -74,7 +76,7 @@ function wep_Projectile:shot_fire_projectile(world, wielder, muzzle_offset)
 
 	local muzzle_length = self.projectile.Radius or 0
 
-	local firing_from_vec = wielder.Position + wielder_facing_vec * ((wielder.Radius or 0) + muzzle_length)
+	local firing_from_vec = wielder.Position + wielder_facing_vec * ((wielder.Radius or 0) + muzzle_length) + muzzle_offset
 
 	---
 
