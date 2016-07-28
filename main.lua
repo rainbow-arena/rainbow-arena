@@ -36,14 +36,20 @@
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
 
-		Weapons:
+		Weapon ideas:
 			All weapons should be Mass Effect heat style.
 			Have offense, defense and support weapons?
 				eg. Support weapon could be telekinetic beam;
 				can't kill on its own, but helps others kill target.
 
-			---
+			Teleport projectile
+				teleports shooter to where projectile dies/hits
+				allow enemy projectiles to prematurely trigger teleport
 
+			Make triple-barrelledness easy to add to projectile weapons.
+			Other weapon mods?
+
+		Weapons:
 			Pistol
 			Burst rifle
 			Minigun, and triple barreled
@@ -56,11 +62,6 @@
 			Gravity ball launcher
 			Multi-lock missile launcher
 			Firework gun - weak bomb-launching shotgun
-
-		Weapon ideas:
-			Teleport projectile
-				teleports shooter to where projectile dies/hits
-				allow enemy projectiles to prematurely trigger teleport
 
 		Game modifiers/stages:
 			Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
