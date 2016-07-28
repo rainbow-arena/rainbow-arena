@@ -74,14 +74,6 @@ function wep_Minigun:firing(world, wielder, dt)
 	wep_Projectile.firing(self, world, wielder, dt)
 end
 
-function wep_Minigun:fire_end(world, wielder)
-	wep_Projectile.fire_end(self, world, wielder)
-end
-
-function wep_Minigun:update(world, wielder, dt)
-	wep_Projectile.update(self, world, wielder, dt)
-end
-
 ---
 
 function wep_Minigun:draw_reticle()
