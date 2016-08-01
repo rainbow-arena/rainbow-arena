@@ -63,6 +63,8 @@
 			Multi-lock missile launcher
 			Firework gun - weak bomb-launching shotgun
 
+			Tractor beam, drawable shield (like BSF) - make generated electricity effect
+
 		Game modifiers/stages:
 			Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
 			Ice - no drag

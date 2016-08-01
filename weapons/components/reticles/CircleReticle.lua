@@ -6,6 +6,10 @@ local util = require("lib.util")
 --- ==== ---
 
 
+-- TODO: Make reticle size show spread, changing as you move away from the
+-- player/source of the weapon.
+
+
 --- Module ---
 local ret_DotReticle = {}
 --- ==== ---
