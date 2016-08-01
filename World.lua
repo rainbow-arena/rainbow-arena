@@ -159,7 +159,6 @@ end
 function World:load_systems(system_dir)
 	file.diriter(system_dir, function(dir, item)
 		if item:find(".lua$") then
-			print("INFO: Adding system: " .. dir .. "/" .. item)
 			local system = love.filesystem.load(dir .. "/" .. item)()
 			self.ecs:addSystem(system())
 		end
