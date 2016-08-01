@@ -13,11 +13,12 @@ local ret_DotReticle = {}
 
 --- Class functions ---
 function ret_DotReticle.draw(radius)
-	radius = radius or 2
+	radius = radius or 16
 
 	-- Point.
-	love.graphics.circle("fill", 0,0, radius)
+	love.graphics.circle("line", 0,0, radius)
 end
+--- ===
 --- ==== ---
 
 

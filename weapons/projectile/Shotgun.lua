@@ -7,7 +7,7 @@ local util = require("lib.util")
 
 --- Classes ---
 local wep_Projectile = require("weapons.projectile.Projectile")
-local ret_DotReticle = require("weapons.components.reticles.DotReticle")
+local ret_CircleReticle = require("weapons.components.reticles.CircleReticle")
 --- ==== ---
 
 
@@ -53,7 +53,7 @@ end
 ---
 
 function wep_Shotgun:draw_reticle()
-	ret_DotReticle.draw()
+	ret_CircleReticle.draw()
 end
 --- ==== ---
 
