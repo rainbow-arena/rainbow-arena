@@ -6,6 +6,9 @@ local tiny = require("lib.tiny")
 --- ==== ---
 
 
+-- TODO: Allow weapons to know where the cursor is relative to the firer as well as the aim angle, or even just distance from the firer (might be better). Useful for eg. tractor beams, drawing a shield.
+
+
 --- System ---
 local sys_Weapon = Class(tiny.processingSystem())
 sys_Weapon.filter = tiny.requireAll("Weapon", "AimAngle")

@@ -180,7 +180,7 @@ function Game:init()
 
 	---
 
-	local window_w, window_h = 1280, 720
+	local window_w, window_h = 2400, 1600
 	love.window.setMode(window_w, window_h)
 
 	---
