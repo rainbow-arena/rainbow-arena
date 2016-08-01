@@ -40,7 +40,7 @@ function sys_Motion:process(e, dt)
 	while i <= #e.Forces do
 		local force = e.Forces[i]
 
-		assert(vector.isvector(force.vector), "ERROR: e.Forces[x].vector must be a vector!")
+		assert(vector.isvector(force.vector), "e.Forces[x].vector must be a vector!")
 
 		local remove_force = false
 
