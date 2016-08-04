@@ -65,27 +65,34 @@ end
 function World:update(dt)
 	local corrected_dt = dt * self.speed
 
-	if self.CameraTarget and self.CameraTarget.Position then
-		local pos = self.CameraTarget.Position
+	-- Move camera.
+	if self.CameraTarget then
+		if self.CameraTarget.Position then
+			local pos = self.CameraTarget.Position
+			self.camera:lookAt(pos.x, pos.y)
 
-		self.camera:lookAt(pos.x, pos.y)
+			love.audio.setPosition(
+				self.camera.x / self.SOUND_POSITION_SCALE,
+				self.camera.y / self.SOUND_POSITION_SCALE,
+				0
+			)
+		end
+
+		if self.CameraTarget.Velocity then
+			local vel = self.CameraTarget.Velocity
+
+			love.audio.setVelocity(
+				vel.x / self.SOUND_POSITION_SCALE,
+				vel.y / self.SOUND_POSITION_SCALE,
+				0
+			)
+		end
 	end
 
-	love.audio.setPosition(
-		self.camera.x / self.SOUND_POSITION_SCALE,
-		self.camera.y / self.SOUND_POSITION_SCALE, 0)
-
-	---[[
-	if self.CameraTarget and self.CameraTarget.Velocity then
-		local e = self.CameraTarget
-		love.audio.setVelocity(
-			e.Velocity.x / self.SOUND_POSITION_SCALE,
-			e.Velocity.y / self.SOUND_POSITION_SCALE, 0)
-	end
-	--]]
-
+	-- Update systems which draw in screen coordinates (eg. GUIs).
 	self.ecs:update(corrected_dt, tiny.requireAll("NoCamera"))
 
+	-- Update systems which draw in world coordinates.
 	self.camera:attach()
 	if self.camera.screenshake then
 		apply_screenshake(self.camera.screenshake)
@@ -94,6 +101,7 @@ function World:update(dt)
 	self.camera:detach()
 
 
+	-- Update world timer.
 	self.timer:update(corrected_dt)
 end
 -- ==== --
