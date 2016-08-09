@@ -52,7 +52,7 @@ local function spawn_test_entities(world)
 
 	---
 
-	local player = world:add_entity(ent_Combatant{
+	player = world:add_entity(ent_Combatant{
 		Name = "Player",
 		Position = vector.new(0, 0),
 		Color = {255, 255, 255},
@@ -238,6 +238,8 @@ end
 function Game:keypressed(key)
 	if key == "d" then
 		self.world.DEBUG = not self.world.DEBUG
+	elseif key == "k" then
+		player.Health.current = 0
 	end
 end
 
