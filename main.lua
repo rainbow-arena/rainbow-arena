@@ -36,6 +36,9 @@
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
 
+		Singleplayer, have to hit/collide with correct color combatant?
+		Rhythm component, like Guitar Hero?
+
 		Weapon ideas:
 			All weapons should be Mass Effect heat style.
 			Have offense, defense and support weapons?
