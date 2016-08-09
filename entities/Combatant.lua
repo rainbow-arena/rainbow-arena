@@ -28,9 +28,10 @@ function ent_Combatant:init(template)
 	local health = radius^2
 
 	util.table.fill(template, {
+		AimVector = vector.new(0, 0),
+
 		AimAngle = 0,
-		DesiredAimAngle = 0,
-		AimSpeed = 4,
+		AimSpeed = 4, -- Radians per second (I think).
 
 		ColorIntensity = 0,
 
