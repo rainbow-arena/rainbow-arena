@@ -27,10 +27,7 @@ function sys_Stare:process(e, dt)
 	local world = self.world.world
 
 	local target = e.StareAt
-	e.DesiredAimAngle = math.atan2(
-		target.Position.y - e.Position.y,
-		target.Position.x - e.Position.x
-	)
+	e.AimVector = target.Position - e.Position
 end
 --- ==== ---
 

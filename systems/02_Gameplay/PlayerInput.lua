@@ -51,7 +51,7 @@ function sys_PlayerInput:process(e, dt)
 	local mx, my = love.mouse.getPosition()
 	local psx, psy = world.camera:cameraCoords(e.Position.x, e.Position.y) -- TODO: Generic camera mechanism
 
-	e.DesiredAimAngle = math.atan2(my - psy, mx - psx)
+	e.AimVector = vector.new(mx - psx, my - psy)
 
 
 	-- Firing

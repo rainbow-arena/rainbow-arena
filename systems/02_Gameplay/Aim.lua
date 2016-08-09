@@ -8,9 +8,13 @@ local util = require("lib.util")
 --- ==== ---
 
 
+-- TODO: Have AimVector be speed-limited like AimAngle, and base AimAngle
+-- solely on this?
+
+
 --- System ---
 local sys_Aim = Class(tiny.processingSystem())
-sys_Aim.filter = tiny.requireAll("AimAngle", "DesiredAimAngle", "AimSpeed")
+sys_Aim.filter = tiny.requireAll("AimVector", "AimAngle", "AimSpeed")
 --- ==== ---
 
 
@@ -21,7 +25,7 @@ sys_Aim.filter = tiny.requireAll("AimAngle", "DesiredAimAngle", "AimSpeed")
 --- System functions ---
 function sys_Aim:process(e, dt)
 	local current = e.AimAngle
-	local target = e.DesiredAimAngle
+	local target = math.atan2(e.AimVector.y, e.AimVector.x)
 
 	local vec = math.atan2(
 		math.sin(target - current),
@@ -32,6 +36,10 @@ function sys_Aim:process(e, dt)
 	local dist = math.abs(vec)
 
 	---
+
+	-- When AimAngle is within GUARD_DIST of the target angle, the effective
+	-- AimSpeed is slowed linearly, to smooth the aim movement as it reaches the
+	-- target.
 
 	local GUARD_DIST = math.pi/6
 	local step = (dist / GUARD_DIST) * e.AimSpeed * dt
