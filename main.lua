@@ -52,6 +52,10 @@
 			Make triple-barrelledness easy to add to projectile weapons.
 			Other weapon mods?
 
+			Tractor beam, drawable shield (like BSF) - make generated electricity effect
+
+			Implosion bomb - use shaders for cool visual effect.
+
 		Weapons:
 			Pistol
 			Burst rifle
@@ -65,8 +69,6 @@
 			Gravity ball launcher
 			Multi-lock missile launcher
 			Firework gun - weak bomb-launching shotgun
-
-			Tractor beam, drawable shield (like BSF) - make generated electricity effect
 
 		Game modifiers/stages:
 			Invisibility - combtatant only shown when it lights up - firing, hitting wall, heartbeat
