@@ -8,7 +8,7 @@ local util = require("lib.util")
 --- ==== ---
 
 
--- TODO: Have AimVector be speed-limited like AimAngle, and base AimAngle
+-- IDEA: Have AimVector be speed-limited like AimAngle, and base AimAngle
 -- solely on this?
 
 
