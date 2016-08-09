@@ -154,11 +154,11 @@ end
 
 -- Events --
 function World:register_event(event, func)
-	self.event.register(event, func)
+	self.event:register(event, func)
 end
 
 function World:emit_event(event, ...)
-	self.event.emit(event, self, ...)
+	self.event:emit(event, self, ...)
 end
 -- ==== --
 
