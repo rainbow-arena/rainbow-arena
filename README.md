@@ -1,10 +1,35 @@
 # Rainbow Arena
-A game made with LÖVE (http://love2d.org/) in which circles shoot each other.
+A (work-in-progress) game made with LÖVE (http://love2d.org/) in which circles shoot each other.
 
 Or at least, that's the goal.
 
 Released into the public domain via CC0 - see `main.lua` for details.
 
+
+## Running
+Rainbow Arena runs on LÖVE 0.10.1. It has some dependencies as Git submodules.
+
+### Linux
+If you have Git installed, just do this:
+
+```bash
+git clone https://github.com/mirrexagon/rainbow-arena
+cd rainbow-arena
+git submodule update --init
+```
+
+Then, if you have LÖVE installed, you can run the game like this:
+
+```bash
+love .
+```
+
+### Windows
+If you have commandline Git (eg. MSYS Git), you can run the Linux Git instructions.
+
+If you don't, you could download a snapshot from GitHub as a `.zip` file. It doesn't come with the submodules, though. `TODO: What to do here?`
+
+To run it, you can drag the `rainbow-arena` directory onto the LÖVE executable or a shortcut to it.
 
 ## About
 Rainbow Arena is a game that I've worked on on and off since 2014. The engine
@@ -47,8 +72,7 @@ We'll see how it turns out.
 
 ## Technical information
 ### Overview
-The underlying core to Rainbow Arena is an Entity-Component System, or ECS (or
-CES, if you like). It is supported by an event system, using the Observer pattern.
+The underlying core to Rainbow Arena is an Entity-Component System, or ECS. It is supported by an event system, using the Observer pattern.
 
 The game has always made good use of HUMP by vrld
 (https://github.com/vrld/hump); for example `hump.vector` is used pervasively
@@ -59,10 +83,10 @@ throughout the game.
 
 ### History
 #### First version
-In the initial version of Rainbow Arena, I rolled my own ECS, since I was in the mindset of doing most things myself. I think that was good in the long run, because it helped me understand ECSs. What wasn't good was that I avoided object-orientation as much as possible.
+In the initial version of Rainbow Arena, I rolled my own ECS, `ces.lua`, since I was in the mindset of doing most things myself. I think that was good in the long run, because it helped me understand ECSs. What wasn't good was that I avoided object-orientation as much as possible.
 
 The event system complements the ECS well. It was (and still is) implemented with `hump.signal`.
 
-#### Now (second version)
+#### Now
 Currently, the ECS is handled by tiny-ecs. It has more flexibility than my own
 system, and it's probably just better anyway. The event system still uses `hump.signal`.
