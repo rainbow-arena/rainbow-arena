@@ -93,7 +93,7 @@ function sys_CollisionEffects:onAddToWorld(world)
 				})
 
 				self.collision_sound_ok = false
-				self.timer.after(EFFECT_SPAWN_DELAY, function() self.collision_sound_ok = true end)
+				self.timer:after(EFFECT_SPAWN_DELAY, function() self.collision_sound_ok = true end)
 			end
 
 			if self.collision_shake_ok then
@@ -106,14 +106,14 @@ function sys_CollisionEffects:onAddToWorld(world)
 				})
 
 				self.collision_shake_ok = false
-				self.timer.after(EFFECT_SPAWN_DELAY, function() self.collision_shake_ok = true end)
+				self.timer:after(EFFECT_SPAWN_DELAY, function() self.collision_shake_ok = true end)
 			end
 		end
 	end)
 end
 
 function sys_CollisionEffects:update(dt)
-	self.timer.update(dt)
+	self.timer:update(dt)
 end
 --- ==== ---
 
