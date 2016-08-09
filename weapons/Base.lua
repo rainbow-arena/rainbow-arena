@@ -1,5 +1,6 @@
 --- Require ---
 local Class = require("lib.hump.class")
+local timer = require("lib.hump.timer")
 
 local util = require("lib.util")
 --- ==== ---
@@ -27,6 +28,8 @@ function wep_Base:init(args)
 	self.heat = 0
 	self.heatLimit = args.heatLimit
 	self.overheat = false
+
+	self.timer = timer.new()
 end
 
 
@@ -58,6 +61,9 @@ function wep_Base:update(world, wielder, dt)
 		self.heat = 0
 	end
 	self.heat = self.heat - dt
+
+	-- Timer.
+	self.timer:update(dt)
 end
 -- ==== --
 

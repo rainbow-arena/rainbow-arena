@@ -30,19 +30,22 @@ function wep_Burstgun:init(args)
 	self.shotPellets = args.shotPellets
 	self.shotBurstDelay = args.shotBurstDelay
 
+	self._burst_firing = false
+
 	return wep_Projectile.init(self, args)
 end
 
 ---
 
-function wep_Burstgun:fire_begin(world, wielder)
+function wep_Burstgun:firing(world, wielder)
 	if self:can_fire() then
-		world.timer:script(function(wait)
+		self.timer:script(function(wait)
+			self._burst_firing = true
+
 			local proj
 			for i = 1, self.shotPellets do
 				proj = self:shot_fire_projectile(world, wielder)
 
-				self:shot_add_delay()
 				self:shot_add_heat()
 
 				self:shot_play_sound(world, proj.Position:clone())
@@ -50,10 +53,17 @@ function wep_Burstgun:fire_begin(world, wielder)
 
 				wait(self.shotBurstDelay)
 			end
+
+			self:shot_add_delay()
+			self._burst_firing = false
 		end)
 	end
 
 	wep_Projectile.fire_begin(self, world, wielder)
+end
+
+function wep_Burstgun:can_fire()
+	return wep_Projectile.can_fire(self) and not self._burst_firing
 end
 
 ---

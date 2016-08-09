@@ -45,7 +45,7 @@ end
 function sys_Death:process(e, dt)
 	local world = self.world.world
 
-	if e.Health.current < 0 then
+	if e.Health.current <= 0 then
 		world:emit_event("EntityDied", e)
 		world:remove_entity(e)
 	end
