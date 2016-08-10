@@ -32,6 +32,14 @@
 		Menus: main, weapon select, colour select
 
 
+		Multiplayer:
+			Make Session object that has a World and all the data needed,
+			eg. is a client or server, players, weapon choices, scores, ...
+
+			Define how to sync each component somewhere?
+			How to sync Sound, since they're a source?
+
+
 	IDEAS:
 		Make this a single-player game where the player goes through levels.
 			Destroy all enemies/get to exit?
