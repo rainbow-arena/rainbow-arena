@@ -59,13 +59,13 @@ local function spawn_test_entities(world)
 		DesiredAimAngle = math.pi,
 		Player = true,
 
-		Weapon = wep_Burstgun{
+		Weapon = wep_Minigun{
 			projectile = ent_Physical{ -- TODO: Hit recoil, use CollisionPhysics with force but without actual collision?
 				Name = "A projectile",
 
 				Position = vector.new(0, 0), -- doesn't matter
 				Radius = 3,
-				Mass = 10^2,
+				Mass = 10,
 
 				Drag = 0,
 
@@ -98,7 +98,7 @@ local function spawn_test_entities(world)
 			shotDelay = 0.2,
 
 			initialShotDelay = 0.3,
-			finalShotDelay = 0.05,
+			finalShotDelay = 0.01,
 
 			spinupTime = 2,
 
