@@ -64,6 +64,8 @@
 
 			Implosion bomb - use shaders for cool visual effect.
 
+			Multi-directional gun - fire forward, and 60 degrees to either side?.
+
 		Weapons:
 			Pistol
 			Burst rifle
