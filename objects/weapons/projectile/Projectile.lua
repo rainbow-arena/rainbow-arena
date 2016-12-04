@@ -15,10 +15,10 @@ local entutil = require("util.entity")
 
 
 --- Classes ---
-local wep_Base = require("weapons.Base")
+local wep_Base = require("objects.weapons.Base")
 
-local ent_Sound = require("entities.Sound")
-local ent_Screenshake = require("entities.Screenshake")
+local ent_Sound = require("objects.entities.Sound")
+local ent_Screenshake = require("objects.entities.Screenshake")
 --- ==== ---
 
 

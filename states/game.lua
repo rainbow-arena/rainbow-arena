@@ -14,17 +14,17 @@ local color = require("util.color")
 
 
 --- Classes ---
-local World = require("World")
+local World = require("objects.World")
 
-local ent_Physical = require("entities.Physical")
-local ent_Combatant = require("entities.Combatant")
-local ent_Explosion = require("entities.Explosion")
+local ent_Physical = require("objects.entities.Physical")
+local ent_Combatant = require("objects.entities.Combatant")
+local ent_Explosion = require("objects.entities.Explosion")
 
-local wep_Pistol = require("weapons.projectile.Pistol")
-local wep_Machinegun = require("weapons.projectile.Machinegun")
-local wep_Minigun = require("weapons.projectile.Minigun")
-local wep_Shotgun = require("weapons.projectile.Shotgun")
-local wep_Burstgun = require("weapons.projectile.Burstgun")
+local wep_Pistol = require("objects.weapons.projectile.Pistol")
+local wep_Machinegun = require("objects.weapons.projectile.Machinegun")
+local wep_Minigun = require("objects.weapons.projectile.Minigun")
+local wep_Shotgun = require("objects.weapons.projectile.Shotgun")
+local wep_Burstgun = require("objects.weapons.projectile.Burstgun")
 --- ==== ---
 
 
@@ -105,7 +105,7 @@ local function spawn_test_entities(world)
 			shotHeat = 0.0,
 			heatLimit = 4,
 
-			shotSound = "audio/weapons/laser_shot.wav",
+			shotSound = "assets/audio/laser_shot.wav",
 
 			screenshake = {
 				radius = 60,
@@ -140,8 +140,8 @@ local function spawn_test_entities(world)
 	end)
 	--]]
 
-	--[[
-	local boombox_source = love.audio.newSource("audio/fluorescent.ogg")
+	---[[
+	local boombox_source = love.audio.newSource("assets/audio/fluorescent.ogg")
 	boombox_source:setLooping(true)
 
 	local boombox = world:add_entity(ent_Combatant{
