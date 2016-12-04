@@ -83,7 +83,7 @@ throughout the game.
 
 ### History
 #### First version
-In the initial version of Rainbow Arena, I rolled my own ECS, `ces.lua`, since I was in the mindset of doing most things myself. I think that was good in the long run, because it helped me understand ECSs. What wasn't good was that I avoided object-orientation as much as possible.
+In the initial version of Rainbow Arena, I rolled my own ECS, `ces.lua`, since I was in the mindset of doing most things myself. I think that was good in the long run, because it helped me understand ECSs. What wasn't good was that I avoided classes and object orientation as much as possible.
 
 The event system complements the ECS well. It was (and still is) implemented with `hump.signal`.
 
