@@ -23,6 +23,9 @@
 --[[
 	Stuff to do:
 		Makes maps not just square arenas - Tiled and STI?
+		I'd prefer not to have tile-based maps.
+		Simplest arena is a circle.
+		
 		Abstract out camera stuff into camera objects.
 
 
