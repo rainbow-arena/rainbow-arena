@@ -8,7 +8,7 @@ local util = require("lib.util")
 
 
 --- Classes ---
-local ent_Explosion = require("entities.Explosion")
+local ent_Explosion = require("objects.entities.Explosion")
 --- ==== ---
 
 

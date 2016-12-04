@@ -4,8 +4,8 @@ local Class = require("lib.hump.class")
 
 
 --- Classes ---
-local wep_Projectile = require("weapons.projectile.Projectile")
-local ret_DotReticle = require("weapons.components.reticles.DotReticle")
+local wep_Projectile = require("objects.weapons.projectile.Projectile")
+local ret_DotReticle = require("objects.weapons.components.reticles.DotReticle")
 --- ==== ---
 
 
@@ -20,7 +20,7 @@ local wep_Pistol = Class{__includes = wep_Projectile}
 
 --- Class functions ---
 function wep_Pistol:init(args)
-	args.shotSound = "audio/weapons/laser_shot.wav"
+	args.shotSound = "assets/audio/laser_shot.wav"
 
 	return wep_Projectile.init(self, args)
 end

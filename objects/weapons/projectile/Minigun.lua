@@ -6,8 +6,8 @@ local util = require("lib.util")
 
 
 --- Classes ---
-local wep_Projectile = require("weapons.projectile.Projectile")
-local ret_CircleReticle = require("weapons.components.reticles.CircleReticle")
+local wep_Projectile = require("objects.weapons.projectile.Projectile")
+local ret_CircleReticle = require("objects.weapons.components.reticles.CircleReticle")
 --- ==== ---
 
 
@@ -29,7 +29,7 @@ function wep_Minigun:init(args)
 		"spinupTime" -- Time it takes to get to full firerate.
 	}, "wep_Minigun"))
 
-	args.shotSound = "audio/weapons/laser_shot.wav"
+	args.shotSound = "assets/audio/laser_shot.wav"
 
 	args.shotDelay = args.initialShotDelay
 

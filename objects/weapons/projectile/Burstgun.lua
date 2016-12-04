@@ -6,8 +6,8 @@ local util = require("lib.util")
 
 
 --- Classes ---
-local wep_Projectile = require("weapons.projectile.Projectile")
-local ret_CircleReticle = require("weapons.components.reticles.CircleReticle")
+local wep_Projectile = require("objects.weapons.projectile.Projectile")
+local ret_CircleReticle = require("objects.weapons.components.reticles.CircleReticle")
 --- ==== ---
 
 

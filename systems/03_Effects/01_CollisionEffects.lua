@@ -12,8 +12,8 @@ local entity = require("util.entity")
 
 
 --- Classes ---
-local ent_Sound = require("entities.Sound")
-local ent_Screenshake = require("entities.Screenshake")
+local ent_Sound = require("objects.entities.Sound")
+local ent_Screenshake = require("objects.entities.Screenshake")
 --- ==== ---
 
 
@@ -31,7 +31,7 @@ local MAX_PULSE_SPEED = 800
 
 ---
 
-local COLLISION_SOUND = "audio/collision.wav"
+local COLLISION_SOUND = "assets/audio/collision.wav"
 local MAX_VOLUME_SPEED = 1000
 local COLLISION_SPEED_THRESHOLD = 1
 local COLLISION_MAX_VOLUME = 0.5

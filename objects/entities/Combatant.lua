@@ -9,7 +9,7 @@ local circle = require("util.circle")
 
 
 --- Classes ---
-local ent_Physical = require("entities.Physical")
+local ent_Physical = require("objects.entities.Physical")
 --- ==== ---
 
 
