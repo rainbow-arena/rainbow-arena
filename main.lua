@@ -21,11 +21,29 @@
 ]]
 
 --[[
+	Milestones:
+		- Singleplayer
+			- Matches against dumb bots
+				- Menus
+					- Match setup
+						- Combatant color/weapon select
+						- Number of bots, their weapons, etc.
+						- Arena
+				- Scoring (kills)
+				- Game over screen
+			- Make bots smarter
+			- Campaign (eh, maybe)?
+		- Multiplayer
+			- Device-local multiplayer?
+			- LAN multiplayer
+			- Internet multiplayer
+
+
 	Stuff to do:
 		Makes maps not just square arenas - Tiled and STI?
 		I'd prefer not to have tile-based maps.
 		Simplest arena is a circle.
-		
+
 		Abstract out camera stuff into camera objects.
 
 
@@ -48,7 +66,11 @@
 			Destroy all enemies/get to exit?
 
 		Singleplayer, have to hit/collide with correct color combatant?
+
 		Rhythm component, like Guitar Hero?
+		Or just the background and visual elements react to the music.
+
+		Gameplay replays.
 
 		Weapon ideas:
 			All weapons should be Mass Effect heat style.
