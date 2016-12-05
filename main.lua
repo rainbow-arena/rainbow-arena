@@ -33,6 +33,11 @@
 				- Game over screen
 			- Make bots smarter
 			- Campaign (eh, maybe)?
+			- Match types
+				- FFA
+				- Team Deathmatch
+				- CTF
+				- KotH?
 		- Multiplayer
 			- Device-local multiplayer?
 			- LAN multiplayer
