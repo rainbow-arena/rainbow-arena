@@ -51,13 +51,6 @@
 
 		Abstract out camera stuff into camera objects.
 
-
-		Graphics: background
-		Content: weapons, powerups?
-		Matches: Actual match/level logic, bot AI
-		Menus: main, weapon select, colour select
-
-
 		Multiplayer:
 			Make Session object that has a World and all the data needed,
 			eg. is a client or server, players, weapon choices, scores, ...
@@ -76,6 +69,12 @@
 		Or just the background and visual elements react to the music.
 
 		Gameplay replays.
+
+		When picking your weapon, have a testing arena running
+		in which you can test each weapon against combatants with no AI.
+
+		Along with a weapon (or maybe multiple weapons), you can also pick
+		a powerup.
 
 		Weapon ideas:
 			All weapons should be Mass Effect heat style.
