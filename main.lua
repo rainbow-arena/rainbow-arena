@@ -76,6 +76,14 @@
 		Along with a weapon (or maybe multiple weapons), you can also pick
 		a powerup.
 
+		Reticles:
+			Dynamic.
+			eg. Projectile reticles are a circle that changes size
+			to show spread depending on how far it is from you.
+			eg. Beam laser reticle is a line with bars |-----|
+			that rotates to always be perpendicular to look vector
+			and shows beam width.
+
 		Weapon ideas:
 			All weapons should be Mass Effect heat style.
 			Have offense, defense and support weapons?
