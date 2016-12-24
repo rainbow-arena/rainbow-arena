@@ -10,7 +10,7 @@ local util = require("lib.util")
 
 --- System ---
 local sys_Motion = Class(tiny.processingSystem())
-sys_Motion.filter = tiny.requireAll("Position", "Velocity", "Acceleration", "Force", "Forces", "Mass")
+sys_Motion.filter = tiny.requireAll("Position", "Velocity", "Forces", "Mass")
 --- ==== ---
 
 
@@ -32,29 +32,25 @@ function sys_Motion:process(e, dt)
 	---
 
 	--- Aggregate all forces applied this frame.
-	-- Reset Force
-	e.Force = vector.new(0, 0)
+	local force_sum = vector.new(0, 0)
 
 	-- Sum the forces and remove as needed.
 	local i = 1
 	while i <= #e.Forces do
 		local force = e.Forces[i]
-
-		assert(vector.isvector(force.vector), "e.Forces[x].vector must be a vector!")
-
 		local remove_force = false
 
 		if not force.duration then
 			-- Apply force for one frame only.
-			e.Force = e.Force + force.vector * dt
+			force_sum = force_sum + force.vector * dt
 			remove_force = true
 		elseif force.duration < dt then
 			-- Force has less than dt duration left.
-			e.Force = e.Force + force.vector * force.duration/dt
+			force_sum = force_sum + force.vector * force.duration/dt
 			remove_force = true
 		else
 			-- Force has more than dt duration left.
-			e.Force = e.Force + force.vector
+			force_sum = force_sum + force.vector
 			force.duration = force.duration - dt
 		end
 
@@ -68,10 +64,10 @@ function sys_Motion:process(e, dt)
 	---
 
 	-- Convert Force into Acceleration.
-	e.Acceleration = e.Force / e.Mass
+	local accel = force_sum / e.Mass
 
 	-- Apply Acceleration (and Drag) to Velocity.
-	e.Velocity = e.Velocity + e.Acceleration * dt
+	e.Velocity = e.Velocity + accel * dt
 
 	-- Apply Velocity to Position.
 	world:move_entity(e, e.Position + e.Velocity * dt)

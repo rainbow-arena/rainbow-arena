@@ -140,7 +140,7 @@ local function spawn_test_entities(world)
 	end)
 	--]]
 
-	---[[
+	--[[
 	local boombox_source = love.audio.newSource("assets/audio/fluorescent.ogg")
 	boombox_source:setLooping(true)
 
