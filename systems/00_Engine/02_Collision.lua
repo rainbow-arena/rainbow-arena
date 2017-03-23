@@ -40,6 +40,7 @@ end
 ---
 
 -- TODO: Add functionality.
+-- TODO: Make short-lived projectiles not collide with owner (eg. bullets, but not miniturrets).
 local function can_entities_collide(world, e1, e2)
 	return true
 end
