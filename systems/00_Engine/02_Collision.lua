@@ -1,3 +1,5 @@
+-- TODO: Objects spawned inside each other don't always realise they are colliding (try shooting combatants out of a minigun).
+
 --- Require ---
 local Class = require("lib.hump.class")
 local vector = require("lib.hump.vector")
