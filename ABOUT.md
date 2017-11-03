@@ -27,8 +27,9 @@ to make the collision detection and resolution code a lot easier. Thus, Rainbow
 Arena was born! This was in 2014.
 
 Of course, the game still got pretty complex, and it has been rewritten once
-already (this is the first rewrite). But now I'm pretty happy with the
-underlying engine, and now I can concentrate more on the actual gamey bits.
+already (this is the first rewrite). ~~But now I'm pretty happy with the
+underlying engine, and now I can concentrate more on the actual gamey bits.~~ Nope.
+Now I want to rewrite it in Moonscript.
 
 This is the second version of the game, started in February 2016. I wrote the
 core engine back then, then took a long break. Now I work on it occasionally,
