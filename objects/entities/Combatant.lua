@@ -24,29 +24,29 @@ local ent_Combatant = Class{__includes = ent_Physical}
 
 --- Class functions ---
 function ent_Combatant:init(template)
-	local radius = math.floor(template.Radius or 30)
-	local health = radius^2
+    local radius = math.floor(template.Radius or 30)
+    local health = radius^2
 
-	util.table.fill(template, {
-		AimVector = vector.new(0, 0),
+    util.table.fill(template, {
+        AimVector = vector.new(0, 0),
 
-		AimAngle = 0,
-		AimSpeed = 4, -- Radians per second (I think).
+        AimAngle = 0,
+        AimSpeed = 4, -- Radians per second (I think).
 
-		ColorIntensity = 0,
+        ColorIntensity = 0,
 
-		Health = {max = health, current = health},
+        Health = {max = health, current = health},
 
-		ExplodeOnDeath = true
-	})
+        ExplodeOnDeath = true
+    })
 
-	util.table.fill(self, template)
+    util.table.fill(self, template)
 
-	return ent_Physical.init(self, template)
+    return ent_Physical.init(self, template)
 end
 
 function ent_Combatant:pulse(amp)
-	self.ColorIntensity = util.math.clamp(0, self.ColorIntensity + amp, 1)
+    self.ColorIntensity = util.math.clamp(0, self.ColorIntensity + amp, 1)
 end
 --- ==== ---
 

@@ -24,10 +24,10 @@ sys_Stare.filter = tiny.requireAll("DesiredAimAngle", "StareAt")
 
 --- System functions ---
 function sys_Stare:process(e, dt)
-	local world = self.world.world
+    local world = self.world.world
 
-	local target = e.StareAt
-	e.AimVector = target.Position - e.Position
+    local target = e.StareAt
+    e.AimVector = target.Position - e.Position
 end
 --- ==== ---
 

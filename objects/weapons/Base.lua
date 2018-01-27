@@ -21,15 +21,15 @@ local wep_Base = Class{}
 
 --- Class functions ---
 function wep_Base:init(args)
-	assert(util.table.check(args, {
-		"heatLimit", -- The maximum heat before overheat.
-	}, "wep_Base"))
+    assert(util.table.check(args, {
+        "heatLimit", -- The maximum heat before overheat.
+    }, "wep_Base"))
 
-	self.heat = 0
-	self.heatLimit = args.heatLimit
-	self.overheat = false
+    self.heat = 0
+    self.heatLimit = args.heatLimit
+    self.overheat = false
 
-	self.timer = timer.new()
+    self.timer = timer.new()
 end
 
 
@@ -53,28 +53,28 @@ end
 -- Called once per frame, always.
 -- THOUGHT: Should the numbers be updated before or after the check?
 function wep_Base:update(world, wielder, dt)
-	-- Heat/overheat.
-	if self.heat > self.heatLimit then
-		self.overheat = true
-	elseif self.heat <= 0 then
-		self.overheat = false
-		self.heat = 0
-	end
-	self.heat = self.heat - dt
+    -- Heat/overheat.
+    if self.heat > self.heatLimit then
+        self.overheat = true
+    elseif self.heat <= 0 then
+        self.overheat = false
+        self.heat = 0
+    end
+    self.heat = self.heat - dt
 
-	-- Timer.
-	self.timer:update(dt)
+    -- Timer.
+    self.timer:update(dt)
 end
 -- ==== --
 
 
 -- Other --
 function wep_Base:can_fire_heat()
-	return not self.overheat
+    return not self.overheat
 end
 
 function wep_Base:can_fire()
-	return self:can_fire_heat()
+    return self:can_fire_heat()
 end
 
 ---

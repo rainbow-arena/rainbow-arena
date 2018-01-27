@@ -21,20 +21,20 @@ local ent_Screenshake = Class{}
 
 --- Class functions ---
 function ent_Screenshake:init(template)
-	assert(util.table.check(template, {
-		"Position",
-		"radius",
-		"intensity"
-	}, "ent_Screenshake"))
+    assert(util.table.check(template, {
+        "Position",
+        "radius",
+        "intensity"
+    }, "ent_Screenshake"))
 
-	util.table.fill(self, template)
+    util.table.fill(self, template)
 
-	self.Screenshake = {
-		radius = template.radius,
-		intensity = template.intensity,
-		duration = template.duration,
-		removeOnFinish = template.removeOnFinish
-	}
+    self.Screenshake = {
+        radius = template.radius,
+        intensity = template.intensity,
+        duration = template.duration,
+        removeOnFinish = template.removeOnFinish
+    }
 end
 --- ==== ---
 
