@@ -10,7 +10,7 @@ local angle = {}
 
 --- ==== ---
 function angle.angle_to_vector(a)
-	return vector.new(math.cos(a), math.sin(a))
+    return vector.new(math.cos(a), math.sin(a))
 end
 --- ==== ---
 

@@ -19,43 +19,43 @@ local lkd = love.keyboard.isDown
 
 --- System functions ---
 function sys_PlayerInput:process(e, dt)
-	local world = self.world.world
+    local world = self.world.world
 
-	-- Movement
-	local input_force = e.MoveForce
+    -- Movement
+    local input_force = e.MoveForce
 
-	local input_x, input_y = 0, 0
+    local input_x, input_y = 0, 0
 
-	if lkd("up") then
-		input_y = input_y - 1
-	end
+    if lkd("up") then
+        input_y = input_y - 1
+    end
 
-	if lkd("down") then
-		input_y = input_y + 1
-	end
+    if lkd("down") then
+        input_y = input_y + 1
+    end
 
-	if lkd("left") then
-		input_x = input_x - 1
-	end
+    if lkd("left") then
+        input_x = input_x - 1
+    end
 
-	if lkd("right") then
-		input_x = input_x + 1
-	end
+    if lkd("right") then
+        input_x = input_x + 1
+    end
 
-	e.Forces[#e.Forces + 1] = {
-		vector = input_force * vector.new(input_x, input_y):normalized()
-	}
-
-
-	-- Aiming
-	local mx, my = love.mouse.getPosition()
-	local psx, psy = world.camera:cameraCoords(e.Position.x, e.Position.y) -- TODO: Generic camera mechanism
-
-	e.AimVector = vector.new(mx - psx, my - psy)
+    e.Forces[#e.Forces + 1] = {
+        vector = input_force * vector.new(input_x, input_y):normalized()
+    }
 
 
-	-- Firing
-	e.Firing = love.mouse.isDown(1)
+    -- Aiming
+    local mx, my = love.mouse.getPosition()
+    local psx, psy = world.camera:cameraCoords(e.Position.x, e.Position.y) -- TODO: Generic camera mechanism
+
+    e.AimVector = vector.new(mx - psx, my - psy)
+
+
+    -- Firing
+    e.Firing = love.mouse.isDown(1)
 end
 --- ==== ---
 

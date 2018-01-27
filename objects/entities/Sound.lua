@@ -21,23 +21,23 @@ local ent_Sound = Class{}
 
 --- Class functions ---
 function ent_Sound:init(template)
-	assert(util.table.check(template, {
-		"Position",
-		"soundpath",
-	}, "ent_Sound"))
+    assert(util.table.check(template, {
+        "Position",
+        "soundpath",
+    }, "ent_Sound"))
 
-	util.table.fill(self, template)
+    util.table.fill(self, template)
 
-	self.Sound = {
-		source = love.audio.newSource(template.soundpath),
-		volume = template.volume or 1,
-		pitch = template.pitch or 1,
-		removeOnFinish = template.removeOnFinish
-	}
+    self.Sound = {
+        source = love.audio.newSource(template.soundpath),
+        volume = template.volume or 1,
+        pitch = template.pitch or 1,
+        removeOnFinish = template.removeOnFinish
+    }
 
-	if template.looping then
-		self.Sound.source:setLooping(true)
-	end
+    if template.looping then
+        self.Sound.source:setLooping(true)
+    end
 end
 --- ==== ---
 

@@ -16,9 +16,9 @@ local ent_Physical = Class{}
 --- Local functions ---
 -- https://stackoverflow.com/questions/667034/simple-physics-based-movement
 local function calculate_drag_accel(max_speed, accel_time)
-	local drag = 5/accel_time -- drag = 5/t_max
-	local accel = max_speed * drag -- acc = v_max * drag
-	return drag, accel
+    local drag = 5/accel_time -- drag = 5/t_max
+    local accel = max_speed * drag -- acc = v_max * drag
+    return drag, accel
 end
 
 local default_drag, default_accel = calculate_drag_accel(800, 5)
@@ -27,44 +27,44 @@ local default_drag, default_accel = calculate_drag_accel(800, 5)
 
 --- Class functions ---
 function ent_Physical:init(template)
-	assert(util.table.check(template, {
-		"Position"
-	}, "ent_Physical"))
+    assert(util.table.check(template, {
+        "Position"
+    }, "ent_Physical"))
 
-	local radius = math.floor(template.Radius or 30)
-	local mass = circle.area(radius)
+    local radius = math.floor(template.Radius or 30)
+    local mass = circle.area(radius)
 
-	util.table.fill(template, {
-		Velocity = vector.new(),
-		Acceleration = vector.new(),
-		Force = vector.new(),
-		Forces = {},
+    util.table.fill(template, {
+        Velocity = vector.new(),
+        Acceleration = vector.new(),
+        Force = vector.new(),
+        Forces = {},
 
-		MoveForce = 1.4 * 10^8, -- force per second
-		Drag = 2 * 10^5, -- force per second, proportional to velocity
+        MoveForce = 1.4 * 10^8, -- force per second
+        Drag = 2 * 10^5, -- force per second, proportional to velocity
 
-		Radius = radius,
-		Mass = mass,
-		Color = {255, 255, 255},
+        Radius = radius,
+        Mass = mass,
+        Color = {255, 255, 255},
 
-		CollisionPhysics = true
-	})
+        CollisionPhysics = true
+    })
 
-	util.table.fill(self, template)
+    util.table.fill(self, template)
 end
 
 ---
 
 function ent_Physical:set_parent(parent, remove_with_parent)
-	if parent then
-		e.Parent = parent
-		e.AttachmentOffset = e.Position - parent.Position
-		e.RemoveWithParent = remove_with_parent
-	else
-		e.Parent = nil
-		e.AttachmentOffset = nil
-		e.RemoveWithParent = nil
-	end
+    if parent then
+        e.Parent = parent
+        e.AttachmentOffset = e.Position - parent.Position
+        e.RemoveWithParent = remove_with_parent
+    else
+        e.Parent = nil
+        e.AttachmentOffset = nil
+        e.RemoveWithParent = nil
+    end
 end
 --- ==== ---
 

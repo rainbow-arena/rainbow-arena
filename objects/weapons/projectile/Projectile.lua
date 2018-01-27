@@ -33,125 +33,125 @@ local wep_Projectile = Class{__includes = wep_Base}
 
 --- Class functions ---
 function wep_Projectile:init(args)
-	assert(util.table.check(args, {
-		"projectile", -- Projectile entity template.
+    assert(util.table.check(args, {
+        "projectile", -- Projectile entity template.
 
-		"muzzleVelocity",
-		"spread", -- Maximum bullet spread in radians.
+        "muzzleVelocity",
+        "spread", -- Maximum bullet spread in radians.
 
-		"shotDelay", -- Time between shots.
+        "shotDelay", -- Time between shots.
 
-		"shotHeat", -- How much heat (in seconds) each shot adds.
-	}, "wep_Projectile"))
+        "shotHeat", -- How much heat (in seconds) each shot adds.
+    }, "wep_Projectile"))
 
-	self.projectile = args.projectile
-	self.muzzleVelocity = args.muzzleVelocity
-	self.spread = args.spread
+    self.projectile = args.projectile
+    self.muzzleVelocity = args.muzzleVelocity
+    self.spread = args.spread
 
-	self.shotDelay = args.shotDelay
-	self.shotDelayTimer = 0
+    self.shotDelay = args.shotDelay
+    self.shotDelayTimer = 0
 
-	self.shotHeat = args.shotHeat
+    self.shotHeat = args.shotHeat
 
-	if args.shotSound then
-		self.shotSound = args.shotSound
-	end
+    if args.shotSound then
+        self.shotSound = args.shotSound
+    end
 
-	if args.screenshake then
-		self.screenshake = args.screenshake
-	end
+    if args.screenshake then
+        self.screenshake = args.screenshake
+    end
 
-	return wep_Base.init(self, args)
+    return wep_Base.init(self, args)
 end
 
 ---
 
 function wep_Projectile:shot_fire_projectile(world, wielder, muzzle_offset)
-	muzzle_offset = muzzle_offset or vector.zero
+    muzzle_offset = muzzle_offset or vector.zero
 
-	local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
+    local wielder_facing_vec = angleutil.angle_to_vector(wielder.AimAngle)
 
-	local shot_spread_angle = (love.math.random() - 0.5) * self.spread
-	local shot_spread_dir_vec = angleutil.angle_to_vector(wielder.AimAngle + shot_spread_angle)
+    local shot_spread_angle = (love.math.random() - 0.5) * self.spread
+    local shot_spread_dir_vec = angleutil.angle_to_vector(wielder.AimAngle + shot_spread_angle)
 
-	local muzzle_length = self.projectile.Radius or 0
+    local muzzle_length = self.projectile.Radius or 0
 
-	local firing_from_vec = wielder.Position + wielder_facing_vec * ((wielder.Radius or 0) + muzzle_length) + muzzle_offset
+    local firing_from_vec = wielder.Position + wielder_facing_vec * ((wielder.Radius or 0) + muzzle_length) + muzzle_offset
 
-	---
+    ---
 
-	local proj = world:add_entity(entutil.clone(self.projectile))
+    local proj = world:add_entity(entutil.clone(self.projectile))
 
-	proj.Position = firing_from_vec
+    proj.Position = firing_from_vec
 
-	---
+    ---
 
-	local shot_force_duration = 0.0001
-	local shot_force_vector = shot_spread_dir_vec *
-		(proj.Mass * (self.muzzleVelocity / shot_force_duration)) -- f = m * (v / t)
+    local shot_force_duration = 0.0001
+    local shot_force_vector = shot_spread_dir_vec *
+        (proj.Mass * (self.muzzleVelocity / shot_force_duration)) -- f = m * (v / t)
 
-	table.insert(proj.Forces, {vector = shot_force_vector, duration = shot_force_duration})
-	table.insert(wielder.Forces, {vector = -shot_force_vector, duration = shot_force_duration})
-	proj.hitForce = {vector = shot_force_vector, duration = shot_force_duration}
+    table.insert(proj.Forces, {vector = shot_force_vector, duration = shot_force_duration})
+    table.insert(wielder.Forces, {vector = -shot_force_vector, duration = shot_force_duration})
+    proj.hitForce = {vector = shot_force_vector, duration = shot_force_duration}
 
-	---
+    ---
 
-	return proj
+    return proj
 end
 
 ---
 
 function wep_Projectile:shot_add_delay()
-	self.shotDelayTimer = self.shotDelay
+    self.shotDelayTimer = self.shotDelay
 end
 
 function wep_Projectile:shot_add_heat()
-	self.heat = self.heat + self.shotHeat
+    self.heat = self.heat + self.shotHeat
 end
 
 ---
 
 function wep_Projectile:shot_play_sound(world, position)
-	if self.shotSound then
-		 local sound_ent = ent_Sound{
-			Position = position,
-			soundpath = self.shotSound,
-			removeOnFinish = true
-		 }
+    if self.shotSound then
+         local sound_ent = ent_Sound{
+            Position = position,
+            soundpath = self.shotSound,
+            removeOnFinish = true
+         }
 
-		 world:add_entity(sound_ent)
-	end
+         world:add_entity(sound_ent)
+    end
 end
 
 function wep_Projectile:shot_apply_screenshake(world, position)
-	if self.screenshake then
-		local screenshake_template = util.table.clone(self.screenshake)
-		screenshake_template.Position = position
+    if self.screenshake then
+        local screenshake_template = util.table.clone(self.screenshake)
+        screenshake_template.Position = position
 
-		local screenshake_ent = ent_Screenshake(screenshake_template)
-		world:add_entity(screenshake_ent)
-	end
+        local screenshake_ent = ent_Screenshake(screenshake_template)
+        world:add_entity(screenshake_ent)
+    end
 end
 
 ---
 
 function wep_Projectile:can_fire_shot_delay()
-	return self.shotDelayTimer <= 0
+    return self.shotDelayTimer <= 0
 end
 
 ---
 
 function wep_Projectile:can_fire()
-	return wep_Base.can_fire(self) and self:can_fire_shot_delay()
+    return wep_Base.can_fire(self) and self:can_fire_shot_delay()
 end
 
 -- THOUGHT: Should the numbers be updated before or after the check?
 function wep_Projectile:update(world, wielder, dt)
-	-- Shot delay.
-	if self.shotDelayTimer < 0 then self.shotDelayTimer = 0 end
-	self.shotDelayTimer = self.shotDelayTimer - dt
+    -- Shot delay.
+    if self.shotDelayTimer < 0 then self.shotDelayTimer = 0 end
+    self.shotDelayTimer = self.shotDelayTimer - dt
 
-	wep_Base.update(self, world, wielder, dt)
+    wep_Base.update(self, world, wielder, dt)
 end
 --- ==== ---
 
