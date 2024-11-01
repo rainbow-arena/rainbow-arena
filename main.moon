@@ -10,14 +10,9 @@
 -- - lib/hump is HUMP by vrld (https://github.com/vrld/hump)
 -- - lib/tiny.lua is tiny-ecs by bakpakin (https://github.com/bakpakin/tiny-ecs)
 
+gs = require "lib.hump.gamestate"
 
 love.load = ->
+    gs.registerEvents!
+    gs.switch (require "states.game")
 
-
-love.update = (dt) ->
-    print dt
-
-love.draw = ->
-    love.graphics.setColor 1, 1, 1
-    love.graphics.circle "line", 300, 300, 30
-    love.graphics.print "Potato", 100, 100
