@@ -9,6 +9,29 @@ The end goal is for Rainbow Arena to be a chaotic match-based multiplayer arena 
 ## Running
 Rainbow Arena runs on LÖVE 11.5. It has some dependencies as Git submodules.
 
+### Linux
+You need:
+- Git
+- LÖVE 11.5
+- GNU Make
+- MoonScript
+
+Install and build (compile MoonScript files into Lua files):
+
+```bash
+git clone https://github.com/rainbow-arena/rainbow-arena.git
+cd rainbow-arena
+git submodule update --init
+make
+```
+
+Run:
+
+```bash
+love .
+```
+
 ## License
-- The code is under the MIT license (see `LICENSE-MIT`).
+- The code is under the 0BSD license (see `LICENSE-0BSD`).
 - Sounds, music, and graphics are under the Creative Commons CC-BY 4.0 license (see `LICENSE-CC-BY-4.0`).
+

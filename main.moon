@@ -1,6 +1,6 @@
 -- Rainbow Arena, a game by Mirrexagon.
 --
--- The code is under the 0BSD license (see `LICENSE`).
+-- The code is under the 0BSD license (see `LICENSE-0BSD`).
 --
 -- Sounds, music, and graphics are under the Creative Commons CC-BY 4.0 license (see `LICENSE-CC-BY-4.0`).
 -- - Sound effects made with Bfxr (http://www.bfxr.net) and Audacity (http://www.audacityteam.org).
