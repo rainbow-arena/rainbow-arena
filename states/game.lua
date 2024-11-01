@@ -12,7 +12,6 @@ local entity = require("util.entity")
 local color = require("util.color")
 --- ==== ---
 
-
 --- Classes ---
 local World = require("objects.World")
 
@@ -27,108 +26,102 @@ local wep_Shotgun = require("objects.weapons.projectile.Shotgun")
 local wep_Burstgun = require("objects.weapons.projectile.Burstgun")
 --- ==== ---
 
-
 --- Local functions ---
 local function generate_position(radius)
-    local angle = love.math.random() * 2*math.pi
-    local magnitude = love.math.random(0, radius)
+	local angle = love.math.random() * 2 * math.pi
+	local magnitude = love.math.random(0, radius)
 
-    return vector.new(
-        magnitude * math.cos(angle),
-        magnitude * math.sin(angle)
-    )
+	return vector.new(magnitude * math.cos(angle), magnitude * math.sin(angle))
 end
 --- ==== ---
-
 
 --- Gamestate ---
 local Game = {}
 --- ==== ---
 
-
 --- Gamestate functions ---
 local function spawn_test_entities(world)
-    local window_w, window_h = love.graphics.getDimensions()
+	local window_w, window_h = love.graphics.getDimensions()
 
-    ---
+	---
 
-    player = world:add_entity(ent_Combatant{
-        Name = "Player",
-        Position = vector.new(0, 0),
-        Color = {255, 255, 255},
-        DesiredAimAngle = math.pi,
-        Player = true,
+	player = world:add_entity(ent_Combatant({
+		Name = "Player",
+		Position = vector.new(0, 0),
+		Color = { 1, 1, 1 },
+		DesiredAimAngle = math.pi,
+		Player = true,
 
-        Weapon = wep_Minigun{
-            projectile = ent_Physical{ -- TODO: Hit recoil, use CollisionPhysics with force but without actual collision?
-                Name = "A projectile",
+		Weapon = wep_Minigun({
+			projectile = ent_Physical({ -- TODO: Hit recoil, use CollisionPhysics with force but without actual collision?
+				Name = "A projectile",
 
-                Position = vector.new(0, 0), -- doesn't matter
-                Radius = 3,
-                Mass = 10,
+				Position = vector.new(0, 0), -- doesn't matter
+				Radius = 3,
+				Mass = 10,
 
-                Drag = 0,
+				Drag = 0,
 
-                CollisionPhysics = true,
-                IgnoreExplosion = true,
+				CollisionPhysics = true,
+				IgnoreExplosion = true,
 
-                Lifetime = 2,
+				Lifetime = 2,
 
-                onCollision = function(self, world, other)
-                    ---[[
-                    world:add_entity(ent_Explosion{
-                        Position = self.Position:clone(),
-                        radius = 25,
-                        duration = 0.5,
-                        damage = 50,
-                        force = 8 * 10^6
-                    })
-                    --]]
+				onCollision = function(self, world, other)
+					---[[
+					world:add_entity(ent_Explosion({
+						Position = self.Position:clone(),
+						radius = 25,
+						duration = 0.5,
+						damage = 50,
+						force = 8 * 10 ^ 6,
+					}))
+					--]]
 
-                    --world:remove_entity(self)
-                end
-            },
+					--world:remove_entity(self)
+				end,
+			}),
 
-            muzzleVelocity = 800,
-            spread = math.pi/20,
+			muzzleVelocity = 800,
+			spread = math.pi / 20,
 
-            shotPellets = 3,
-            shotBurstDelay = 0.1,
+			shotPellets = 3,
+			shotBurstDelay = 0.1,
 
-            shotDelay = 0.2,
+			shotDelay = 0.2,
 
-            initialShotDelay = 0.3,
-            finalShotDelay = 0.01,
+			initialShotDelay = 0.3,
+			finalShotDelay = 0.01,
 
-            spinupTime = 2,
+			spinupTime = 2,
 
-            shotHeat = 0.0,
-            heatLimit = 4,
+			shotHeat = 0.0,
+			heatLimit = 4,
 
-            shotSound = "assets/audio/laser_shot.wav",
+			shotSound = "assets/audio/laser_shot.wav",
 
-            screenshake = {
-                radius = 60,
-                intensity = 2,
-                duration = 1,
-                removeOnFinish = true,
-            }
-        }
-    })
+			screenshake = {
+				radius = 60,
+				intensity = 2,
+				duration = 1,
+				removeOnFinish = true,
+			},
+		}),
+	}))
 
-    world.CameraTarget = player
+	world.CameraTarget = player
 
-    for i = 1, 200 do
-        world:add_entity(ent_Combatant{
-            Name = "Combatant " .. i,
-            Position = generate_position(1000),
-            Color = {color.hsv_to_rgb(love.math.random(0, 359), 255, 255)},
-            DesiredAimAngle = love.math.random() * 2*math.pi,
-            StareAt = player
-        })
-    end
+	for i = 1, 200 do
+		world:add_entity(ent_Combatant({
+			Name = "Combatant " .. i,
+			Position = generate_position(1000),
+			Color = { color.hsv_to_rgb(love.math.random(0, 359), 1, 1) },
+			DesiredAimAngle = love.math.random() * 2 * math.pi,
+			StareAt = player,
+		}))
+	end
 
-    --[[
+	--[[
     world:register_event("PhysicsCollision", function(world, e1, e2, mtv)
         world:add_entity(ent_Explosion{
             Position = entity.getmidpoint(e1, e2),
@@ -140,7 +133,7 @@ local function spawn_test_entities(world)
     end)
     --]]
 
-    --[[
+	--[[
     local boombox_source = love.audio.newSource("assets/audio/fluorescent.ogg")
     boombox_source:setLooping(true)
 
@@ -172,93 +165,86 @@ local function spawn_test_entities(world)
     --]]
 end
 
-
 -- Entering and leaving ---
 function Game:init()
-    self.world = World()
+	self.world = World()
 
-    self.world.DEBUG = false
-    self.world.speed = 1
+	self.world.DEBUG = false
+	self.world.speed = 1
 
-    ---
+	---
 
-    local window_w, window_h = 1280, 1024
-    love.window.setMode(window_w, window_h)
+	local window_w, window_h = 1280, 1024
+	love.window.setMode(window_w, window_h)
 
-    ---
+	---
 
-    spawn_test_entities(self.world)
+	spawn_test_entities(self.world)
 end
 
 function Game:enter(prev, ...)
-    love.mouse.setVisible(false)
+	love.mouse.setVisible(false)
 end
 
 function Game:leave()
-    love.mouse.setVisible(true)
+	love.mouse.setVisible(true)
 end
 -- ==== --
 
-
 -- Updating ---
 local function draw_debug_info(self, x, y)
-    local str_t = {}
+	local str_t = {}
 
-    ---
+	---
 
-    --str_t[#str_t + 1] = (""):format()
+	--str_t[#str_t + 1] = (""):format()
 
-    str_t[#str_t + 1] = ("Entities: %d"):format(self.ecs:getEntityCount())
+	str_t[#str_t + 1] = ("Entities: %d"):format(self.ecs:getEntityCount())
 
-    str_t[#str_t + 1] = ("Speed: %.2f"):format(self.speed)
+	str_t[#str_t + 1] = ("Speed: %.2f"):format(self.speed)
 
-    ---
+	---
 
-    local str = table.concat(str_t, "\n")
+	local str = table.concat(str_t, "\n")
 
-    love.graphics.setColor(255, 255, 255)
-    love.graphics.print(str, math.floor(x), math.floor(y))
+	love.graphics.setColor(1, 1, 1)
+	love.graphics.print(str, math.floor(x), math.floor(y))
 end
 
 -- Doing all updating in :draw()
 function Game:draw()
-    local dt = love.timer.getDelta()
+	local dt = love.timer.getDelta()
 
-    self.world:update(dt)
-    timer.update(dt)
+	self.world:update(dt)
+	timer.update(dt)
 
-    if self.world.DEBUG then
-        draw_debug_info(self.world, 10, 10)
-    end
+	if self.world.DEBUG then
+		draw_debug_info(self.world, 10, 10)
+	end
 end
 -- ==== --
 
-
 -- Input --
 function Game:keypressed(key)
-    if key == "d" then
-        self.world.DEBUG = not self.world.DEBUG
-    elseif key == "k" then
-        player.Health.current = 0
-    end
+	if key == "d" then
+		self.world.DEBUG = not self.world.DEBUG
+	elseif key == "k" then
+		player.Health.current = 0
+	end
 end
 
-function Game:mousepressed(x, y, b)
-
-end
+function Game:mousepressed(x, y, b) end
 
 function Game:wheelmoved(x, y)
-    if y > 0 then
-        self.world.speed = self.world.speed + 0.1
-    else
-        self.world.speed = self.world.speed - 0.1
-    end
+	if y > 0 then
+		self.world.speed = self.world.speed + 0.1
+	else
+		self.world.speed = self.world.speed - 0.1
+	end
 
-    self.world.speed = util.math.clamp(0, self.world.speed, 7)
+	self.world.speed = util.math.clamp(0, self.world.speed, 7)
 end
 -- ==== --
 --- ==== ---
 
-
 return Game
-
