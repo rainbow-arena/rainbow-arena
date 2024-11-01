@@ -12,9 +12,9 @@ Rainbow Arena runs on LÖVE 11.5. It has some dependencies as Git submodules.
 ### Linux
 You need:
 - Git
-- LÖVE 11.5
-- GNU Make
-- MoonScript
+- LÖVE 11.5 (https://love2d.org/)
+- MoonScript, specifically the `moonc` command in your path (https://moonscript.org)
+- just (https://github.com/casey/just)
 
 Install and build (compile MoonScript files into Lua files):
 
@@ -22,13 +22,13 @@ Install and build (compile MoonScript files into Lua files):
 git clone https://github.com/rainbow-arena/rainbow-arena.git
 cd rainbow-arena
 git submodule update --init
-make
+just build
 ```
 
 Run:
 
 ```bash
-love .
+just run
 ```
 
 ## License
