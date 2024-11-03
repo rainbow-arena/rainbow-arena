@@ -1,1 +1,2 @@
 - Fixed physics timestep: https://gafferongames.com/post/fix_your_timestep/
+- For each match you can pick up to two weapons/usables to carry, even things like hold fire to zoom out (tradeoff is you can't zoom out and also use another weapon at the same time)
