@@ -118,14 +118,14 @@ spawn_test_entities = (world) ->
             force: 0
         }
 
-    boombox_source = love.audio.newSource "assets/audio/mirrexagon_-_fluorescent.ogg", "stream"
+    boombox_source = love.audio.newSource "assets/audio/mirrexagon_-_fluorescent_-_mono.ogg", "stream"
     boombox_source\setLooping true
 
     boombox = ent_Combatant {
         Name: "Boombox",
         Position: generate_position 1000,
         Radius: 60,
-        Color: { color.hsv_to_rgb (love.math.random0, 359), 1, 1 },
+        Color: { color.hsv_to_rgb (love.math.random 0, 359), 1, 1 },
         hue: 0,
         DesiredAimAngle: love.math.random! * 2 * math.pi,
         StareAt: player,
@@ -166,7 +166,7 @@ Game.leave = =>
 draw_debug_info = (x, y) =>
     str_t = {}
 
-    str_t[#str_t + 1] = ("Entities: %d")\format self.ecs:getEntityCount!
+    str_t[#str_t + 1] = ("Entities: %d")\format self.ecs\getEntityCount!
     str_t[#str_t + 1] = ("Speed: %.2f")\format self.speed
 
     str = table.concat str_t, "\n"
@@ -174,7 +174,7 @@ draw_debug_info = (x, y) =>
     love.graphics.print str, math.floor x, math.floor y
 
 -- Doing all updating in .draw()
-Game\draw =>
+Game.draw = =>
     dt = love.timer.getDelta!
 
     self.world\update dt
@@ -183,15 +183,15 @@ Game\draw =>
     if self.world.DEBUG
         draw_debug_info self.world, 10, 10
 
-Game\keypressed = (key) =>
+Game.keypressed = (key) =>
     if key == "d"
         self.world.DEBUG = not self.world.DEBUG
     elseif key == "k"
         player.Health.current = 0
 
-Game\mousepressed = (x, y, b) =>
+Game.mousepressed = (x, y, b) =>
 
-Game\wheelmoved = (x, y) =>
+Game.wheelmoved = (x, y) =>
     if y > 0 then
         self.world.speed = self.world.speed + 0.1
     else
