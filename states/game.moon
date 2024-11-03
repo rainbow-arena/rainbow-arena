@@ -130,11 +130,11 @@ spawn_test_entities = (world) ->
         DesiredAimAngle: love.math.random! * 2 * math.pi,
         StareAt: player,
 
-        Sound: {
-            source: boombox_source,
-            volume: 1,
-            pitch: 1
-        }
+        --Sound: {
+        --    source: boombox_source,
+        --    volume: 1,
+        --    pitch: 1
+        --}
     }
     world\add_entity boombox
 
