@@ -141,7 +141,7 @@ spawn_test_entities = (world) ->
     world.ecs\addSystem tiny.system {
         update: (dt) =>
             boombox.hue = boombox.hue + 100 * dt
-            if boombox.hue > 359 then
+            if boombox.hue > 359
                 boombox.hue = 0
             boombox.Color = { color.hsv_to_rgb boombox.hue, 1, 1 }
     }
@@ -161,7 +161,7 @@ Game.enter = (prev, ...) =>
     love.mouse.setVisible false
 
 Game.leave = =>
-    love.mouse.setVisible(true)
+    love.mouse.setVisible true
 
 draw_debug_info = (x, y) =>
     str_t = {}
@@ -192,7 +192,7 @@ Game.keypressed = (key) =>
 Game.mousepressed = (x, y, b) =>
 
 Game.wheelmoved = (x, y) =>
-    if y > 0 then
+    if y > 0
         self.world.speed = self.world.speed + 0.1
     else
         self.world.speed = self.world.speed - 0.1
