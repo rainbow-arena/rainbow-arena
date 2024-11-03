@@ -17,45 +17,45 @@ sys_Lifetime.filter = tiny.requireAll("Position", "Lifetime")
 
 --- Local functions ---
 local function draw_entity_debug_info(e)
-	local str_t = {}
+   local str_t = {}
 
-	---
+   ---
 
-	--str_t[#str_t + 1] = (""):format()
+   --str_t[#str_t + 1] = (""):format()
 
-	str_t[#str_t + 1] = ("Lifetime: %.2f"):format(e.Lifetime)
+   str_t[#str_t + 1] = ("Lifetime: %.2f"):format(e.Lifetime)
 
-	---
+   ---
 
-	local str = table.concat(str_t, "\n")
+   local str = table.concat(str_t, "\n")
 
-	local text_w = love.graphics.getFont():getWidth(str)
+   local text_w = love.graphics.getFont():getWidth(str)
 
-	local x = e.Position.x - text_w / 2
-	local y = e.Position.y + 10
+   local x = e.Position.x - text_w / 2
+   local y = e.Position.y + 10
 
-	love.graphics.setColor(1, 1, 1)
-	love.graphics.print(str, math.floor(x), math.floor(y))
+   love.graphics.setColor(1, 1, 1)
+   love.graphics.print(str, math.floor(x), math.floor(y))
 end
 --- ==== ---
 
 --- System functions ---
 function sys_Lifetime:process(e, dt)
-	local world = self.world.world
+   local world = self.world.world
 
-	---
+   ---
 
-	e.Lifetime = e.Lifetime - dt
+   e.Lifetime = e.Lifetime - dt
 
-	if e.Lifetime < 0 then
-		world:remove_entity(e)
-	end
+   if e.Lifetime < 0 then
+      world:remove_entity(e)
+   end
 
-	---
+   ---
 
-	if world.DEBUG then
-		draw_entity_debug_info(e)
-	end
+   if world.DEBUG then
+      draw_entity_debug_info(e)
+   end
 end
 --- ==== ---
 

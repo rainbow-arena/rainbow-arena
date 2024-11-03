@@ -4,21 +4,21 @@ local file = {}
 
 --- Module functions ---
 function file.diriter(dir, func)
-	local items = {}
+   local items = {}
 
-	for _, item in ipairs(love.filesystem.getDirectoryItems(dir)) do
-		items[#items + 1] = item
-	end
+   for _, item in ipairs(love.filesystem.getDirectoryItems(dir)) do
+      items[#items + 1] = item
+   end
 
-	table.sort(items)
+   table.sort(items)
 
-	for _, item in ipairs(items) do
-		if love.filesystem.getInfo(dir .. "/" .. item, "directory") then
-			file.diriter(dir .. "/" .. item, func, mask)
-		else
-			func(dir, item)
-		end
-	end
+   for _, item in ipairs(items) do
+      if love.filesystem.getInfo(dir .. "/" .. item, "directory") then
+         file.diriter(dir .. "/" .. item, func, mask)
+      else
+         func(dir, item)
+      end
+   end
 end
 --- ==== ---
 

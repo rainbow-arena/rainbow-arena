@@ -17,44 +17,44 @@ sys_Weapon.filter = tiny.requireAll("Weapon", "AimAngle")
 
 --- System functions ---
 function sys_Weapon:process(e, dt)
-	local world = self.world.world
+   local world = self.world.world
 
-	local weapon = e.Weapon
+   local weapon = e.Weapon
 
-	if e.Firing then
-		if not e.is_firing then
-			e.is_firing = true
-			weapon.isFiring = true
-			weapon:fire_begin(world, e)
-		else
-			weapon:firing(world, e, dt)
-		end
-	else -- if not e.Firing then
-		if e.is_firing then
-			e.is_firing = false
-			weapon.isFiring = false
-			weapon:fire_end(world, e)
-		end
-	end
+   if e.Firing then
+      if not e.is_firing then
+         e.is_firing = true
+         weapon.isFiring = true
+         weapon:fire_begin(world, e)
+      else
+         weapon:firing(world, e, dt)
+      end
+   else -- if not e.Firing then
+      if e.is_firing then
+         e.is_firing = false
+         weapon.isFiring = false
+         weapon:fire_end(world, e)
+      end
+   end
 
-	weapon:update(world, e, dt)
+   weapon:update(world, e, dt)
 
-	---
+   ---
 
-	if e.Player then
-		-- Temporarily disable the camera so we can draw directly on the screen.
-		world.camera:detach()
+   if e.Player then
+      -- Temporarily disable the camera so we can draw directly on the screen.
+      world.camera:detach()
 
-		-- Draw reticle.
-		local mx, my = love.mouse.getPosition()
-		love.graphics.push()
-		love.graphics.setColor(1, 1, 1)
-		love.graphics.translate(mx, my)
-		weapon:draw_reticle()
-		love.graphics.pop()
+      -- Draw reticle.
+      local mx, my = love.mouse.getPosition()
+      love.graphics.push()
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.translate(mx, my)
+      weapon:draw_reticle()
+      love.graphics.pop()
 
-		world.camera:attach()
-	end
+      world.camera:attach()
+   end
 end
 --- ==== ---
 
