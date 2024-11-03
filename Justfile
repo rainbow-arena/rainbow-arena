@@ -1,6 +1,5 @@
 build:
-    for moonfile in *.moon; do moonc "$moonfile"; done
-    for moonfile in **/*.moon; do moonc "$moonfile"; done
+    find -name '*.moon' -print0 | xargs -0 moonc
 
 run: build
     love .
